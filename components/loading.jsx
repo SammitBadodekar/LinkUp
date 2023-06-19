@@ -1,8 +1,11 @@
 import { HashLoader } from "react-spinners";
+import "./loading.css";
 
 const loading = () => {
   return (
-    <div className=" dark:bg-darkTheme flex justify-center items-center w-screen h-screen"></div>
+    <div className="bg-white dark:bg-darkTheme w-screen h-screen flex justify-center items-center">
+      <span className="loader"></span>
+    </div>
   );
 };
 export default loading;
