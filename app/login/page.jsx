@@ -2,7 +2,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const session = useSession();
   if (session.data?.user) redirect("/");
   return (
@@ -25,4 +25,4 @@ const page = () => {
     </div>
   );
 };
-export default page;
+export default Page;
