@@ -12,8 +12,6 @@ export default function Home() {
     setuser(session.data?.user);
   }, [session.data?.user]);
 
-  console.log(session.status);
-  console.log(session.data?.user);
   if (session.status === "unauthenticated") {
     redirect("/login");
   }
