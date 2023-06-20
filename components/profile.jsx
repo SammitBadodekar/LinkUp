@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { signOut } from "next-auth/react";
 
-const profile = (props) => {
+const Profile = (props) => {
   const [user, setuser] = useContext(UserContext);
   const { open, setOpen } = props;
   console.log(user);
@@ -40,4 +40,4 @@ const profile = (props) => {
     </div>
   );
 };
-export default profile;
+export default Profile;
