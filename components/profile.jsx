@@ -7,7 +7,6 @@ import { signOut } from "next-auth/react";
 const Profile = (props) => {
   const [user, setuser] = useContext(UserContext);
   const { open, setOpen } = props;
-  console.log(user);
   return (
     <div
       className={`profile fixed rounded-2xl p-4 dark:text-white flex flex-col items-center dark:bg-gray-600 gap-4 transition-opacity duration-300 ${
