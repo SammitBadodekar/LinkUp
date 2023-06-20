@@ -20,3 +20,17 @@
   background: url("../public/5c34ad169532125.Y3JvcCwyOTQ0LDIzMDMsNjE5LDIyMzc.webp");
   height: 100dvh;
 }
+
+.profile {
+  flex-direction: column;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  transition: transform 0.3s ease;
+  transform: scale(0);
+}
+.profile.open {
+  transform: scale(1);
+}
