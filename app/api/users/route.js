@@ -1,0 +1,14 @@
+import { NextResponse } from "next/server";
+import { connect } from "@/utils/db";
+import User from "@/models/UserModel";
+
+export const GET = async (req) => {
+  try {
+    await connect();
+    const users = await User.find();
+    console.log(users);
+    return new NextResponse(users);
+  } catch (error) {
+    return new NextResponse(error);
+  }
+};
