@@ -12,7 +12,7 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
-    "mongoose": "6.11.1",
+    "mongoose": "^7.3.1",
     "next": "13.4.6",
     "next-auth": "^4.22.1",
     "postcss": "8.4.24",

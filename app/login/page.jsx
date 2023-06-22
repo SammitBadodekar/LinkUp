@@ -2,11 +2,26 @@
 import Loading from "@/components/loading";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 const Page = () => {
   const session = useSession();
-  if (session.data?.user) redirect("/");
+  useEffect(() => {
+    if (session.data?.user) {
+      fetch("/api/users/create", {
+        method: "PUT",
+        body: JSON.stringify({
+          name: session.data?.user.name,
+          email: session.data?.user.email,
+          image: session.data?.user.image,
+        }),
+      });
+      console.log("req sent");
+      redirect("/");
+    }
+  }, [session.data]);
+
   if (session.status === "loading") return <Loading />;
   return (
     <div className="loginPage w-screen h-screen flex justify-center items-center bg-cover">
