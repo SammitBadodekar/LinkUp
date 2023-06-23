@@ -16,7 +16,7 @@ const Page = () => {
           email: session.data?.user.email,
           image: session.data?.user.image,
         }),
-      });
+      }).then((response) => console.log(response));
       console.log("req sent");
       redirect("/");
     }

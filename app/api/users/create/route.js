@@ -3,12 +3,11 @@ import { connect } from "@/utils/db";
 import User from "@/models/UserModel";
 
 export const PUT = async (req) => {
-  const user = await req?.json();
   await connect();
   const exsistingUser = await User.find({ email: user.email });
-
   try {
-    if (user && exsistingUser.length === 0) {
+    if (req.body && exsistingUser.length === 0) {
+      const user = await req?.json();
       const createUser = new User({
         name: user.name,
         email: user.email,
@@ -20,6 +19,6 @@ export const PUT = async (req) => {
     }
   } catch (error) {
     console.log(error);
-    return new NextResponse(user);
+    return new NextResponse(error);
   }
 };
