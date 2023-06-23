@@ -3,7 +3,7 @@ import { connect } from "@/utils/db";
 import User from "@/models/UserModel";
 
 export const PUT = async (req) => {
-  const user = await req.json();
+  const user = await req?.json();
   await connect();
   const exsistingUser = await User.find({ email: user.email });
 
