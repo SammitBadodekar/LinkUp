@@ -9,7 +9,7 @@ const Profile = (props) => {
   const { open, setOpen } = props;
   return (
     <div
-      className={`profile fixed rounded-2xl p-4 dark:text-white flex flex-col items-center dark:bg-gray-600 gap-4 transition-opacity duration-300 ${
+      className={`profile fixed right-0 top-0 bottom-0 p-4 dark:text-white flex flex-col items-center dark:bg-gray-700 gap-4 ${
         open ? "open" : ""
       }`}
     >
@@ -21,9 +21,9 @@ const Profile = (props) => {
         className="rounded-full mt-10"
       />
       <p>{user?.name}</p>
-      <p>{user?.email}</p>
+      <p className=" text-xs -mt-2 text-slate-300">{user?.email}</p>
       <button
-        className=" p-2 rounded-md dark:bg-white dark:text-darkTheme"
+        className=" p-2 rounded-md bg-slate-600 text-white dark:bg-white dark:text-darkTheme"
         onClick={() => signOut()}
       >
         Logout

@@ -15,7 +15,8 @@ module.exports = {
           'url("../public/5c34ad169532125.Y3JvcCwyOTQ0LDIzMDMsNjE5LDIyMzc.webp")',
       },
       colors: {
-        darkTheme: "#36393F",
+        darkTheme: "#2C2F33",
+        DarkButNotBlack: "#36393F",
       },
     },
   },

@@ -12,11 +12,13 @@ export const PUT = async (req) => {
       name: user.name,
       email: user.email,
       image: user.image,
-      friends: ["sam", "shree", "sim"],
+      friends: [],
+      requestSent: [],
+      requestReceived: [],
     });
     await createUser.save();
     return new NextResponse("created");
   } else {
-    return new NextResponse("DB connection error");
+    return new NextResponse(user);
   }
 };

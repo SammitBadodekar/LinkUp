@@ -20,6 +20,14 @@ const userSchema = new Schema(
       type: Array,
       required: true,
     },
+    requestSent: {
+      type: Array,
+      required: true,
+    },
+    requestReceived: {
+      type: Array,
+      required: true,
+    },
   },
   { timestamps: true }
 );

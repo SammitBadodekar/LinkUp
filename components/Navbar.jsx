@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`shadow-lg p-2 flex justify-between px-4  ${
+      className={`shadow-lg p-2 flex justify-between px-4 bg-DarkButNotBlack  ${
         !user ? " hidden" : ""
       }`}
     >
@@ -42,10 +42,10 @@ const Navbar = () => {
         width={50}
         height={50}
         alt="profile"
-        className=" rounded-full object-cover"
+        className=" rounded-full object-cover cursor-pointer"
         onClick={() => setIsClicked(!isClicked)}
       />
-      <div ref={modalRef} className=" fixed">
+      <div ref={modalRef} className=" fixed flex justify-center ">
         <Profile open={isClicked} setOpen={setIsClicked} />
       </div>
     </div>

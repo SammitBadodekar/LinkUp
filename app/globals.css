@@ -16,20 +16,48 @@
   }
 }
 
+.chatList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chatList::-webkit-scrollbar-track {
+  background: #4b4b4b;
+}
+.chatList::-webkit-scrollbar-thumb {
+  background: #a2a2a2;
+  border-radius: 4px;
+}
+
 .loginPage {
   background: url("../public/5c34ad169532125.Y3JvcCwyOTQ0LDIzMDMsNjE5LDIyMzc.webp");
   height: 100dvh;
 }
 
 .profile {
-  flex-direction: column;
-  position: fixed;
-  top: 1.75rem;
-  left: 1.75rem;
-  right: 1.75rem;
   transition: transform 0.3s ease;
-  transform: scale(0);
+  transform: translateX(150%);
 }
 .profile.open {
-  transform: scale(1);
+  transform: translateX(0);
+}
+
+.btn-navigation {
+  padding: 0.3rem;
+  font-weight: bolder;
+}
+
+.chat {
+  display: grid;
+  grid-template-columns: 1.5fr 4fr;
+}
+
+.chatList {
+  height: calc(100vh - 5rem);
+}
+
+@media screen and (max-width: 600px) {
+  .chat {
+    display: grid;
+    grid-template-columns: 1.5fr 4fr;
+  }
 }

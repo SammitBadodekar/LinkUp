@@ -6,8 +6,8 @@ export const GET = async (req, { params }) => {
   const { id } = params;
   try {
     await connect();
-    const users = await User.find({ _id: id });
-    return new NextResponse(users);
+    const user = await User.find({ email: id });
+    return new NextResponse(JSON.stringify(user));
   } catch (error) {
     return new NextResponse(error);
   }
