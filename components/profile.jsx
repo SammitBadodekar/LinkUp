@@ -1,41 +1,44 @@
 import Image from "next/image";
-import { UserContext } from "@/context/userContext";
-import { useContext } from "react";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiArrowBack } from "react-icons/bi";
 import { signOut } from "next-auth/react";
 
 const Profile = (props) => {
-  const [user, setuser] = useContext(UserContext);
-  const { open, setOpen } = props;
+  const { user, open, setOpen } = props;
   return (
     <div
-      className={`profile fixed right-0 top-0 bottom-0 p-4 dark:text-white flex flex-col items-center dark:bg-gray-700 gap-4 ${
+      className={`profile fixed left-0 top-0 bottom-0 overflow-y-scroll dark:text-white flex flex-col justify-between dark:bg-darkTheme gap-2 ${
         open ? "open" : ""
       }`}
     >
-      <Image
-        src={user?.image || "/PngItem_307416.png"}
-        alt=""
-        width={100}
-        height={100}
-        className="rounded-full mt-10"
-      />
-      <p>{user?.name}</p>
-      <p className=" text-xs -mt-2 text-slate-300">{user?.email}</p>
+      <section className="flex flex-col gap-2">
+        <h1
+          className=" absolute top-0 p-4 -ml-8 w-full text-xl font-bold flex gap-4 items-center dark:bg-DarkButNotBlack"
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          <BiArrowBack />
+          Profile
+        </h1>
+        <Image
+          src={user?.image || "/PngItem_307416.png"}
+          alt=""
+          width={100}
+          height={100}
+          className="rounded-full self-center mt-20"
+        />
+        <p className=" text-slate-400">Your Name</p>
+        <p>{user?.name}</p>
+        <p className=" text-slate-400">Your Email</p>
+        <p>{user?.email}</p>
+      </section>
+
       <button
-        className=" p-2 rounded-md bg-slate-600 text-white dark:bg-white dark:text-darkTheme"
+        className=" p-2 rounded-md mt-8 bg-slate-600 text-white dark:bg-slate-200 dark:text-darkTheme"
         onClick={() => signOut()}
       >
         Logout
       </button>
-      <div
-        onClick={() => {
-          setOpen(!open);
-        }}
-        className=" absolute top-6 right-6"
-      >
-        <AiOutlineCloseCircle />
-      </div>
     </div>
   );
 };

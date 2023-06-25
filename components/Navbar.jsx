@@ -1,11 +1,13 @@
 "use client";
-import { UserContext } from "@/context/userContext";
-import { useContext, useState, useRef, useEffect } from "react";
+
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsFillChatLeftTextFill } from "react-icons/bs";
 import Profile from "./profile";
 
-const Navbar = () => {
-  const [user, setuser] = useContext(UserContext);
+const Navbar = (props) => {
+  const { user } = props;
   const [isClicked, setIsClicked] = useState(false);
   const modalRef = useRef(null);
 
@@ -32,12 +34,6 @@ const Navbar = () => {
       }`}
     >
       <Image
-        src="/li_nkup-removebg-preview.png"
-        width={50}
-        height={50}
-        alt="LinkUp"
-      />
-      <Image
         src={user?.image || "/PngItem_307416.png"}
         width={50}
         height={50}
@@ -45,8 +41,14 @@ const Navbar = () => {
         className=" rounded-full object-cover cursor-pointer"
         onClick={() => setIsClicked(!isClicked)}
       />
+
+      <div className=" dark:text-slate-200 flex gap-4 items-center">
+        <BsFillChatLeftTextFill />
+        <BsThreeDotsVertical />
+      </div>
+
       <div ref={modalRef} className=" fixed flex justify-center ">
-        <Profile open={isClicked} setOpen={setIsClicked} />
+        <Profile user={user} open={isClicked} setOpen={setIsClicked} />
       </div>
     </div>
   );

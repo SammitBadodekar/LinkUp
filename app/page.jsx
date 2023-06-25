@@ -12,7 +12,6 @@ export default function Home() {
   const [section, setSection] = useState("chat");
   const [user, setUser] = useContext(UserContext);
   const [active, setActive] = useState(null);
-  const [open, setOpen] = useState(true);
   const session = useSession();
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -25,8 +24,6 @@ export default function Home() {
     }
   }, [session.data?.user]);
 
-  console.log("here", user);
-
   if (session.status === "unauthenticated") {
     redirect("/login");
   }
@@ -37,14 +34,14 @@ export default function Home() {
   return (
     <main>
       <div className=" sm:w-1/3">
-        <Navbar />
+        <Navbar user={user} />
       </div>
 
       <div></div>
-      <div className="flex gap-4 ">
+      <div className="flex gap-4">
         <button
           onClick={() => setSection("chat")}
-          className={`btn-navigation dark:text-white text-black ${
+          className={`btn-navigation dark:text-slate-200 text-black ${
             section === "chat" ? " border-b-2 border-white" : ""
           }`}
         >
@@ -52,7 +49,7 @@ export default function Home() {
         </button>
         <button
           onClick={() => setSection("request")}
-          className={`btn-navigation dark:text-white text-black ${
+          className={`btn-navigation dark:text-slate-200 text-black ${
             section === "request" ? " border-b-2 border-white" : ""
           }`}
         >

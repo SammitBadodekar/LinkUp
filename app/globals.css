@@ -16,14 +16,21 @@
   }
 }
 
-.chatList::-webkit-scrollbar {
-  width: 4px;
+.chatList::-webkit-scrollbar,
+.profile::-webkit-scrollbar,
+.newChats::-webkit-scrollbar {
+  width: 2px;
 }
 
-.chatList::-webkit-scrollbar-track {
+.chatList::-webkit-scrollbar-track,
+.profile::-webkit-scrollbar-track,
+.newChats::-webkit-scrollbar-track {
   background: #4b4b4b;
 }
-.chatList::-webkit-scrollbar-thumb {
+
+.chatList::-webkit-scrollbar-thumb,
+.profile::-webkit-scrollbar-thumb,
+.newChats::-webkit-scrollbar-thumb {
   background: #a2a2a2;
   border-radius: 4px;
 }
@@ -33,11 +40,15 @@
   height: 100dvh;
 }
 
-.profile {
+.profile,
+.newChats {
   transition: transform 0.3s ease;
-  transform: translateX(150%);
+  padding: 2rem;
+  width: 34%;
+  transform: translateX(-150%);
 }
-.profile.open {
+.profile.open,
+.newChats.open {
   transform: translateX(0);
 }
 
@@ -48,7 +59,7 @@
 
 .chat {
   display: grid;
-  grid-template-columns: 1.5fr 4fr;
+  grid-template-columns: 1fr 2fr;
 }
 
 .chatList {
@@ -56,8 +67,12 @@
 }
 
 @media screen and (max-width: 600px) {
+  .profile,
+  .newChats {
+    width: 100%;
+  }
   .chat {
     display: grid;
-    grid-template-columns: 1.5fr 4fr;
+    grid-template-columns: 1fr 0fr;
   }
 }

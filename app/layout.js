@@ -14,7 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} dark:bg-darkTheme overflow-hidden`}>
+      <body
+        className={`${inter.className} dark:bg-darkTheme dark:text-white overflow-hidden`}
+      >
         <UserProvider>
           <AuthProvider>{children}</AuthProvider>
         </UserProvider>
