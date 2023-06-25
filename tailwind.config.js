@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         darkTheme: "#2C2F33",
         DarkButNotBlack: "#36393F",
+        Green: "#57F287",
       },
     },
   },

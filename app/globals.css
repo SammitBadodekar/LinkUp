@@ -19,7 +19,7 @@
 .chatList::-webkit-scrollbar,
 .profile::-webkit-scrollbar,
 .newChats::-webkit-scrollbar {
-  width: 2px;
+  width: 4px;
 }
 
 .chatList::-webkit-scrollbar-track,
@@ -43,7 +43,6 @@
 .profile,
 .newChats {
   transition: transform 0.3s ease;
-  padding: 2rem;
   width: 34%;
   transform: translateX(-150%);
 }
@@ -73,6 +72,6 @@
   }
   .chat {
     display: grid;
-    grid-template-columns: 1fr 0fr;
+    grid-template-columns: 1fr 1fr;
   }
 }

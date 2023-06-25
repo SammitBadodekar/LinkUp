@@ -10,9 +10,9 @@ const Profile = (props) => {
         open ? "open" : ""
       }`}
     >
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-2 p-8">
         <h1
-          className=" absolute top-0 p-4 -ml-8 w-full text-xl font-bold flex gap-4 items-center dark:bg-DarkButNotBlack"
+          className="fixed top-0 p-4 -ml-8 w-full text-xl font-bold flex gap-4 items-center dark:bg-DarkButNotBlack"
           onClick={() => {
             setOpen(!open);
           }}
@@ -34,7 +34,7 @@ const Profile = (props) => {
       </section>
 
       <button
-        className=" p-2 rounded-md mt-8 bg-slate-600 text-white dark:bg-slate-200 dark:text-darkTheme"
+        className=" p-2 m-4 rounded-md bg-slate-600 text-white dark:bg-slate-200 dark:text-darkTheme"
         onClick={() => signOut()}
       >
         Logout
