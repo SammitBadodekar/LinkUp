@@ -1,5 +1,4 @@
 "use client";
-import Loading from "@/components/loading";
 import Chatlist from "@/components/chatlist";
 import Navbar from "@/components/Navbar";
 import Chat from "@/components/chat";
@@ -27,10 +26,6 @@ export default function Home() {
   if (session.status === "unauthenticated") {
     redirect("/login");
   }
-  if (session.status === "loading") {
-    return <Loading />;
-  }
-
   return (
     <main>
       <div className=" sm:w-1/3">
@@ -41,7 +36,7 @@ export default function Home() {
       <div className="flex gap-4">
         <button
           onClick={() => setSection("chat")}
-          className={`btn-navigation dark:text-slate-200 text-black ${
+          className={`btn-navigation text-black dark:text-slate-200 ${
             section === "chat" ? " border-b-2 border-white" : ""
           }`}
         >
@@ -49,24 +44,32 @@ export default function Home() {
         </button>
         <button
           onClick={() => setSection("request")}
-          className={`btn-navigation dark:text-slate-200 text-black ${
+          className={`btn-navigation text-black dark:text-slate-200 ${
             section === "request" ? " border-b-2 border-white" : ""
           }`}
         >
           Requests
         </button>
       </div>
-      <div className={`${section === "chat" ? "chat" : " hidden"} `}>
-        <div>
-          <Chatlist
-            friends={user?.friends}
-            active={active}
-            setActive={setActive}
-          />
-        </div>
-        <div>
-          <Chat active={active} />
-        </div>
+      <div
+        className={`${
+          section === "chat"
+            ? "sm:chatList-container w-screen sm:static sm:w-1/3"
+            : "hidden"
+        } `}
+      >
+        <Chatlist
+          friends={user?.friends}
+          active={active}
+          setActive={setActive}
+        />
+      </div>
+      <div
+        className={`chat  fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-scroll text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-2/3 ${
+          active !== null ? "open" : ""
+        }`}
+      >
+        <Chat active={active} setActive={setActive} />
       </div>
     </main>
   );

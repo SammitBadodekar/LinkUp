@@ -16,6 +16,17 @@
   }
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #4b4b4b;
+}
+::-webkit-scrollbar-thumb {
+  background: #a2a2a2;
+  border-radius: 4px;
+}
+
 .chatList::-webkit-scrollbar,
 .profile::-webkit-scrollbar,
 .newChats::-webkit-scrollbar {
@@ -56,9 +67,8 @@
   font-weight: bolder;
 }
 
-.chat {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+.chatList-container {
+  width: 33%;
 }
 
 .chatList {
@@ -71,7 +81,14 @@
     width: 100%;
   }
   .chat {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    transition: transform 0.3s ease-out;
+    width: 34%;
+    transform: scale(0);
+  }
+  .chat.open {
+    transform: scale(1);
+  }
+  .chat {
+    width: 100%;
   }
 }

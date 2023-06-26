@@ -29,25 +29,23 @@ const Navbar = (props) => {
 
   return (
     <div
-      className={`shadow-lg p-2 flex justify-between px-4 bg-DarkButNotBlack  ${
-        !user ? " hidden" : ""
-      }`}
+      className={`z-50 flex justify-between bg-DarkButNotBlack p-2 px-4 shadow-lg`}
     >
       <Image
         src={user?.image || "/PngItem_307416.png"}
         width={50}
         height={50}
         alt="profile"
-        className=" rounded-full object-cover cursor-pointer"
+        className=" cursor-pointer rounded-full object-cover"
         onClick={() => setIsClicked(!isClicked)}
       />
 
-      <div className=" dark:text-slate-200 flex gap-4 items-center">
+      <div className=" flex items-center gap-4 text-xl dark:text-slate-200">
         <BsFillChatLeftTextFill />
         <BsThreeDotsVertical />
       </div>
 
-      <div ref={modalRef} className=" fixed flex justify-center ">
+      <div ref={modalRef} className=" fixed z-50 flex justify-center">
         <Profile user={user} open={isClicked} setOpen={setIsClicked} />
       </div>
     </div>

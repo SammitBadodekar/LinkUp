@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
 
 const NewChats = (props) => {
@@ -16,12 +17,12 @@ const NewChats = (props) => {
   }, []);
   return (
     <div
-      className={`newChats fixed left-0 top-0 bottom-0 overflow-y-scroll dark:text-white flex flex-col justify-between dark:bg-darkTheme gap-2 ${
+      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex flex-col justify-between gap-2 overflow-y-scroll dark:bg-darkTheme dark:text-white ${
         addNewChats ? "open" : ""
       }`}
     >
       <h1
-        className=" fixed lg:sticky z-20 w-full top-0 p-4 text-xl font-bold flex gap-4 items-center dark:bg-DarkButNotBlack"
+        className=" fixed top-0 z-20 flex w-full items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack lg:sticky"
         onClick={() => {
           setAddNewChats(!addNewChats);
         }}
@@ -29,12 +30,12 @@ const NewChats = (props) => {
         <BiArrowBack />
         New Chats
       </h1>
-      <div className=" px-2 mt-0">
+      <div className=" mt-0 px-2">
         {allUsers.map(([key, value]) => {
           return (
             <article
               key={key}
-              className=" flex gap-2 p-4 items-center relative"
+              className=" relative flex items-center gap-2 p-4"
             >
               <Image
                 src={value?.image || "/PngItem_307416.png"}
@@ -44,7 +45,15 @@ const NewChats = (props) => {
                 className=" rounded-full object-cover"
               />
               <p>{value?.name}</p>
-              <button className=" absolute top-6 right-4 rounded-xl p-2 dark:bg-slate-600 text-xs">
+              <button
+                className=" absolute right-4 top-6 rounded-xl p-2 text-xs dark:bg-slate-600"
+                onClick={() => {
+                  toast(`Request sent to ${value.name}`);
+                  toast(
+                    `You will to chat once ${value.name} accepts your Friend request`
+                  );
+                }}
+              >
                 Add
               </button>
             </article>
