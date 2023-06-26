@@ -1,6 +1,6 @@
-# this project is currently in development
+# This project is currently in development
 
-## upcoming features
+## Upcoming Features
 - Real time chat
 - create groups
 - Anonymous group
