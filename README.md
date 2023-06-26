@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# This project is currently in development
+
+## Upcoming Features
+- Real time chat
+- create groups
+- Anonymous group
+- more
 
 ## Getting Started
 
