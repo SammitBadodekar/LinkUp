@@ -1,7 +1,7 @@
 const ProfileLoading = () => {
   return (
     <div>
-      <span class="profile-loader"></span>
+      <span className="profile-loader"></span>
     </div>
   );
 };

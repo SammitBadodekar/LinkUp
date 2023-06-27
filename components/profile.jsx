@@ -34,7 +34,7 @@ const Profile = (props) => {
       </section>
 
       <button
-        className=" m-4 rounded-md bg-slate-600 p-2 text-white dark:bg-slate-200 dark:text-darkTheme"
+        className=" m-8 rounded-md bg-slate-600 p-2 text-white dark:bg-slate-200 dark:text-darkTheme"
         onClick={() => signOut()}
       >
         Logout

@@ -29,19 +29,22 @@
 
 .chatList::-webkit-scrollbar,
 .profile::-webkit-scrollbar,
-.newChats::-webkit-scrollbar {
+.newChats::-webkit-scrollbar,
+.requests::-webkit-scrollbar {
   width: 4px;
 }
 
 .chatList::-webkit-scrollbar-track,
 .profile::-webkit-scrollbar-track,
-.newChats::-webkit-scrollbar-track {
+.newChats::-webkit-scrollbar-track,
+.requests::-webkit-scrollbar-track {
   background: #4b4b4b;
 }
 
 .chatList::-webkit-scrollbar-thumb,
 .profile::-webkit-scrollbar-thumb,
-.newChats::-webkit-scrollbar-thumb {
+.newChats::-webkit-scrollbar-thumb,
+.requests::-webkit-scrollbar-thumb {
   background: #a2a2a2;
   border-radius: 4px;
 }
@@ -72,6 +75,9 @@
 }
 
 .chatList {
+  height: calc(100vh - 5rem);
+}
+.request {
   height: calc(100vh - 5rem);
 }
 

@@ -2,6 +2,7 @@
 import Chatlist from "@/components/chatlist";
 import Navbar from "@/components/Navbar";
 import Chat from "@/components/chat";
+import Requests from "@/components/requests";
 import { UserContext } from "@/context/userContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -21,7 +22,7 @@ export default function Home() {
     if (session.data?.user) {
       fetchUserInfo();
     }
-  }, [session.data?.user]);
+  }, [session.data?.user, user?.requestSent, user?.requestReceived]);
 
   if (session.status === "unauthenticated") {
     redirect("/login");
@@ -63,6 +64,13 @@ export default function Home() {
           active={active}
           setActive={setActive}
         />
+      </div>
+      <div
+        className={`${
+          section === "request" ? "request overflow-y-scroll" : "hidden"
+        }`}
+      >
+        <Requests user={user} />
       </div>
       <div
         className={`chat  fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-scroll text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-2/3 ${
