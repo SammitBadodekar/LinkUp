@@ -22,7 +22,7 @@ export default function Home() {
     if (session.data?.user) {
       fetchUserInfo();
     }
-  }, [session.data?.user, user?.requestSent, user?.requestReceived]);
+  }, [session.data?.user]);
 
   if (session.status === "unauthenticated") {
     redirect("/login");
@@ -34,10 +34,10 @@ export default function Home() {
       </div>
 
       <div></div>
-      <div className="flex gap-4">
+      <div className="flex">
         <button
           onClick={() => setSection("chat")}
-          className={`btn-navigation text-black dark:text-slate-200 ${
+          className={`btn-navigation p-2 text-black dark:text-slate-200 ${
             section === "chat" ? " border-b-2 border-white" : ""
           }`}
         >
@@ -45,11 +45,11 @@ export default function Home() {
         </button>
         <button
           onClick={() => setSection("request")}
-          className={`btn-navigation text-black dark:text-slate-200 ${
+          className={`btn-navigation p-2 text-black dark:text-slate-200 ${
             section === "request" ? " border-b-2 border-white" : ""
           }`}
         >
-          Requests
+          Requests &#40;{user?.requests.length || "0"}&#41;
         </button>
       </div>
       <div

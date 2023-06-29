@@ -1,6 +1,7 @@
 import NewChats from "./newChats";
 import { useState } from "react";
 import ProfileLoading from "./profileLoading";
+import Image from "next/image";
 
 const Chatlist = (props) => {
   const { friends, active, setActive } = props;
@@ -14,17 +15,24 @@ const Chatlist = (props) => {
       </div>
     );
   return (
-    <div className="chatList overflow-y-scroll">
+    <div className="chatList mt-2 overflow-y-scroll">
       {friends?.map((friend) => {
         return (
           <article
-            key={friend}
-            className={`w-full max-w-xs p-2 text-black dark:text-white hover:dark:bg-DarkButNotBlack  ${
+            key={friend.email}
+            className={`flex w-full max-w-xs items-center gap-4 p-2 text-black dark:text-white hover:dark:bg-DarkButNotBlack  ${
               active === friend ? " bg-slate-200 dark:bg-DarkButNotBlack" : ""
             }`}
-            onClick={() => setActive(`${friend}`)}
+            onClick={() => setActive(friend)}
           >
-            {friend}
+            <Image
+              src={friend.image}
+              alt=""
+              width={50}
+              height={50}
+              className=" rounded-full"
+            ></Image>
+            {friend.name}
           </article>
         );
       })}{" "}

@@ -3,26 +3,23 @@ import { connect } from "@/utils/db";
 import User from "@/models/UserModel";
 
 export const PUT = async (req) => {
-  const users = await req.json();
+  const body = await req.json();
   try {
     await connect();
-    const newRequest = {
-      name: users.receiver.name,
-      email: users.receiver.name,
-      image: users.receiver.image,
-    };
-
-    const sender = { email: users.sender.email };
+    const sender = { email: body.sender.email };
+    const requestSent = { type: "sent", receiver: body.receiver };
     const senderUpdate = {
-      $set: { requestSent: [users.receiver, ...users.sender.requestSent] },
-    };
-    const receiver = { email: users.receiver.email };
-    const receiverUpdate = {
-      $set: {
-        requestReceived: [users.sender, ...users.receiver.requestReceived],
-      },
+      $set: { requests: [requestSent, ...body.sender.requests] },
     };
     await User.updateOne(sender, senderUpdate);
+    const receiver = { email: body.receiver.email };
+    const updatedSender = await User.find({ email: body.sender.email });
+    const requestReceived = { type: "received", sender: updatedSender[0] };
+    const receiverUpdate = {
+      $set: {
+        requests: [requestReceived, ...body.receiver.requests],
+      },
+    };
     await User.updateOne(receiver, receiverUpdate);
 
     return new NextResponse(JSON.stringify("request sent"));

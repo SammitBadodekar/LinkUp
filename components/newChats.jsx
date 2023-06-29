@@ -10,11 +10,16 @@ const NewChats = (props) => {
   const [allUsers, setAllUsers] = useState([]);
 
   const addFriend = (receiver) => {
-    const isDuplicate = user.requestSent?.some(
-      (item) => item?.email === receiver?.email
+    const isDuplicate = user.requests?.some(
+      (item) => item?.receiver?.email === receiver?.email
+    );
+    const alreadyReceived = user.requests?.some(
+      (item) => item?.sender?.email === receiver?.email
     );
     try {
       if (isDuplicate) toast(`Already requested ${receiver.name}`);
+      else if (alreadyReceived)
+        toast(`${receiver.name} has already sent you request`);
       else {
         fetch("/api/sendRequest", {
           method: "PUT",
@@ -23,7 +28,8 @@ const NewChats = (props) => {
               name: user.name,
               email: user.email,
               image: user.image,
-              requestSent: user.requestSent,
+              requests: user.requests,
+              friends: user.friends,
             },
             receiver,
           }),
@@ -59,7 +65,10 @@ const NewChats = (props) => {
       </h1>
       <div className=" mt-0 px-2">
         {allUsers.map(([key, value]) => {
-          if (value.email === user.email) return;
+          const isFriend = user.friends?.some(
+            (item) => item?.email === value?.email
+          );
+          if (value.email === user.email || isFriend) return;
 
           return (
             <article
@@ -78,7 +87,7 @@ const NewChats = (props) => {
                 className=" absolute right-4 top-6 rounded-xl p-2 text-xs dark:bg-slate-600"
                 onClick={() => addFriend(value)}
               >
-                {user?.requestSent.includes(value) ? "Requested" : "Add"}
+                Add
               </button>
             </article>
           );

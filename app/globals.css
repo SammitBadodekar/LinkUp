@@ -70,7 +70,8 @@
   font-weight: bolder;
 }
 
-.chatList-container {
+.chatList-container,
+.request {
   width: 33%;
 }
 
@@ -94,7 +95,8 @@
   .chat.open {
     transform: scale(1);
   }
-  .chat {
+  .chat,
+  .request {
     width: 100%;
   }
 }

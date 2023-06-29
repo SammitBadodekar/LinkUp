@@ -5,16 +5,14 @@ import User from "@/models/UserModel";
 export const PUT = async (req) => {
   await connect();
   const user = await req.json();
-  const exsistingUser = await User.find({ email: user.email });
-
-  if (user && exsistingUser.length === 0) {
+  const existingUser = await User.find({ email: user.email });
+  if (user && existingUser.length === 0) {
     const createUser = new User({
       name: user.name,
       email: user.email,
       image: user.image,
       friends: [],
-      requestSent: [],
-      requestReceived: [],
+      requests: [],
     });
     await createUser.save();
     return new NextResponse("created");

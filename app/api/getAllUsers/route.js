@@ -7,7 +7,13 @@ export const GET = async (req) => {
     await connect();
     const users = await User.find(
       {},
-      { email: 1, name: 1, image: 1, requestReceived: 1 }
+      {
+        email: 1,
+        name: 1,
+        image: 1,
+        requests: 1,
+        friends: 1,
+      }
     );
 
     return new NextResponse(JSON.stringify(users));
