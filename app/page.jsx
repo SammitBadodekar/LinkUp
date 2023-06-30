@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-const socket = io.connect("https://linkup-backend.vercel.app");
+const socket = io.connect("https://linkup-backend-2uhh.onrender.com");
 
 export default function Home() {
   const [section, setSection] = useState("chat");
