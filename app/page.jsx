@@ -7,12 +7,19 @@ import { UserContext } from "@/context/userContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
+const socket = io.connect("https://linkup-backend.vercel.app");
 
 export default function Home() {
   const [section, setSection] = useState("chat");
   const [user, setUser] = useContext(UserContext);
   const [active, setActive] = useState(null);
   const session = useSession();
+  useEffect(() => {
+    socket.on("broadcast", (data) => {
+      alert(data.message);
+    });
+  }, [socket]);
   useEffect(() => {
     const fetchUserInfo = async () => {
       const userInfo = await fetch(`/api/users/${session.data.user.email}`);
@@ -36,7 +43,10 @@ export default function Home() {
       <div></div>
       <div className="flex">
         <button
-          onClick={() => setSection("chat")}
+          onClick={() => {
+            setSection("chat");
+            socket.emit("send_message", { message: "hello mf" });
+          }}
           className={`btn-navigation p-2 text-black dark:text-slate-200 ${
             section === "chat" ? " border-b-2 border-white" : ""
           }`}
