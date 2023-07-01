@@ -2,6 +2,7 @@ import { BsChatDots } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
+import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -12,14 +13,14 @@ const Chat = (props) => {
 
   useEffect(() => {
     socket.on("broadcast", (data) => {
-      setMessages([data, ...messages]);
+      setMessages((prevMessages) => [...prevMessages, data]);
     });
   }, [socket]);
 
   const sendMessage = (e) => {
     e.preventDefault();
     setInput("");
-    socket.emit("send_message", { message: input, sender: user?.name });
+    socket.emit("send_message", { message: input, sender: user });
   };
   if (!active) {
     return (
@@ -42,7 +43,7 @@ const Chat = (props) => {
     );
   }
   return (
-    <div className=" h-full w-full ">
+    <div className=" h-screen w-full ">
       <div className="sticky top-0 flex items-center gap-2 border-l-2 border-gray-600 p-2 py-2 text-white dark:bg-DarkButNotBlack">
         <div onClick={() => setActive(null)} className=" text-lg sm:hidden">
           <BiArrowBack />
@@ -58,18 +59,30 @@ const Chat = (props) => {
         ></Image>
         <p className=" p-2">{active?.name}</p>
       </div>
-      <div>
+
+      <div className=" h-full">
         {messages.map((message) => {
           return (
-            <div className=" bg-DarkButNotBlack">
-              <p>{message.sender}</p>
+            <div
+              className=" m-4 w-40 rounded-3xl bg-DarkButNotBlack"
+              key={uuidv4()}
+            >
+              <Image
+                src={message?.sender?.image || "/PngItem_307416.png"}
+                alt=""
+                width={20}
+                height={20}
+                className={`rounded-full ${
+                  active?.name === "Chat Lounge" ? "hidden" : ""
+                }`}
+              ></Image>
               <p>{message.message}</p>
             </div>
           );
         })}
       </div>
       <form
-        className=" absolute bottom-4 left-4 right-4 flex h-10 justify-between gap-2 bg-darkTheme"
+        className=" sticky bottom-0 flex h-14 justify-between gap-2 bg-darkTheme p-2"
         onSubmit={(e) => sendMessage(e)}
       >
         <input
