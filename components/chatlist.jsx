@@ -8,7 +8,7 @@ const Chatlist = (props) => {
   const [addNewChats, setAddNewChats] = useState(false);
   if (friends === undefined)
     return (
-      <div>
+      <div className=" flex flex-col gap-4 px-4">
         <ProfileLoading />
         <ProfileLoading />
         <ProfileLoading />
@@ -16,6 +16,12 @@ const Chatlist = (props) => {
     );
   return (
     <div className="chatList mt-2 overflow-y-scroll">
+      <div
+        className=" p-4 dark:bg-DarkButNotBlack"
+        onClick={() => setActive({ name: "Chat Lounge" })}
+      >
+        Chat Lounge
+      </div>
       {friends?.map((friend) => {
         return (
           <article

@@ -9,16 +9,14 @@ import { redirect } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io.connect("https://linkup-backend-2uhh.onrender.com");
-
+/* ("http://localhost:3001"); */
 export default function Home() {
   const [section, setSection] = useState("chat");
   const [user, setUser] = useContext(UserContext);
   const [active, setActive] = useState(null);
   const session = useSession();
   useEffect(() => {
-    socket.on("broadcast", (data) => {
-      alert(data.message);
-    });
+    socket.on("broadcast", (data) => {});
   }, [socket]);
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -43,10 +41,7 @@ export default function Home() {
       <div></div>
       <div className="flex">
         <button
-          onClick={() => {
-            setSection("chat");
-            socket.emit("send_message", { message: "hello mf" });
-          }}
+          onClick={() => setSection("chat")}
           className={`btn-navigation p-2 text-black dark:text-slate-200 ${
             section === "chat" ? " border-b-2 border-white" : ""
           }`}
@@ -87,7 +82,12 @@ export default function Home() {
           active !== null ? "open" : ""
         }`}
       >
-        <Chat active={active} setActive={setActive} />
+        <Chat
+          active={active}
+          setActive={setActive}
+          socket={socket}
+          user={user}
+        />
       </div>
     </main>
   );
