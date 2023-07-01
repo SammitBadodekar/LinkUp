@@ -12,7 +12,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     socket.on("broadcast", (data) => {
-      alert(data.message);
+      setMessages([data, ...messages]);
     });
   }, [socket]);
 
