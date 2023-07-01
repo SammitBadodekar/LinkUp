@@ -19,6 +19,10 @@ const Chat = (props) => {
 
   const sendMessage = (e) => {
     e.preventDefault();
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { message: input, sender: user },
+    ]);
     setInput("");
     socket.emit("send_message", { message: input, sender: user });
   };
@@ -60,21 +64,29 @@ const Chat = (props) => {
         <p className=" p-2">{active?.name}</p>
       </div>
 
-      <div className=" h-full">
+      <div className="flex h-screen flex-col">
         {messages.map((message) => {
+          if (message.sender.email === user.email) {
+            return (
+              <div
+                className="m-4 flex w-fit items-center justify-center gap-4 self-end rounded-3xl bg-green-600 p-2 px-4"
+                key={uuidv4()}
+              >
+                <p>{message.message}</p>
+              </div>
+            );
+          }
           return (
             <div
-              className=" m-4 w-40 rounded-3xl bg-DarkButNotBlack"
+              className="m-4 flex w-fit items-center justify-center gap-4 rounded-3xl bg-DarkButNotBlack p-2 pr-4"
               key={uuidv4()}
             >
               <Image
                 src={message?.sender?.image || "/PngItem_307416.png"}
                 alt=""
-                width={20}
-                height={20}
-                className={`rounded-full ${
-                  active?.name === "Chat Lounge" ? "hidden" : ""
-                }`}
+                width={30}
+                height={30}
+                className={`rounded-full`}
               ></Image>
               <p>{message.message}</p>
             </div>
