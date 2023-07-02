@@ -4,16 +4,32 @@ import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Chat = (props) => {
   const { active, setActive, socket, user } = props;
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
 
+  const chatMessagesRef = useRef(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      if (chatMessagesRef.current) {
+        chatMessagesRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
+      }
+    }, 200);
+  };
+  scrollToBottom();
+
   useEffect(() => {
     socket.on("broadcast", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
+      scrollToBottom();
     });
   }, [socket]);
 
@@ -26,6 +42,7 @@ const Chat = (props) => {
       ]);
       setInput("");
       socket.emit("send_message", { message: input, sender: user });
+      scrollToBottom();
     }
   };
   if (!active) {
@@ -49,7 +66,7 @@ const Chat = (props) => {
     );
   }
   return (
-    <div className=" h-screen w-full ">
+    <div className=" h-full w-full ">
       <div className="sticky top-0 flex items-center gap-2 border-l-2 border-gray-600 p-2 py-2 text-white dark:bg-DarkButNotBlack">
         <div onClick={() => setActive(null)} className=" text-lg sm:hidden">
           <BiArrowBack />
@@ -59,19 +76,19 @@ const Chat = (props) => {
           alt=""
           width={50}
           height={50}
-          className={`rounded-full ${
+          className={`self-start rounded-full ${
             active?.name === "Chat Lounge" ? "hidden" : ""
           }`}
         ></Image>
         <p className=" p-2">{active?.name}</p>
       </div>
 
-      <div className="flex h-screen flex-col overflow-y-scroll">
+      <div className="chat-messages flex w-screen  flex-col overflow-x-hidden overflow-y-scroll text-left">
         {messages.map((message) => {
           if (message.sender.email === user.email) {
             return (
               <div
-                className="m-2 flex w-fit items-center justify-center gap-4 self-end rounded-3xl bg-green-600 p-2 px-4"
+                className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-green-600 p-2 px-4"
                 key={uuidv4()}
               >
                 <p>{message.message}</p>
@@ -80,7 +97,7 @@ const Chat = (props) => {
           }
           return (
             <div
-              className="m-2 flex w-fit items-center justify-center gap-4 rounded-3xl bg-DarkButNotBlack p-2 pr-4"
+              className="m-1 mx-2 flex w-fit items-start justify-center gap-2 "
               key={uuidv4()}
             >
               <Image
@@ -90,10 +107,16 @@ const Chat = (props) => {
                 height={30}
                 className={`rounded-full`}
               ></Image>
-              <p>{message.message}</p>
+              <div className=" flex flex-col gap-4 rounded-3xl rounded-tl-sm bg-DarkButNotBlack p-2 px-4">
+                <p className=" text-xs font-extralight">
+                  ~ {message?.sender?.name}
+                </p>
+                <p>{message.message}</p>
+              </div>
             </div>
           );
         })}
+        <div ref={chatMessagesRef} />
       </div>
       <form
         className=" sticky bottom-0 flex h-14 justify-between gap-2 bg-darkTheme p-2"

@@ -75,11 +75,16 @@
   width: 33%;
 }
 
-.chatList {
-  height: calc(100vh - 5rem);
-}
+.chatList,
 .request {
   height: calc(100vh - 5rem);
+}
+.chat {
+  width: 34%;
+}
+.chat-messages {
+  height: calc(100vh - 7rem);
+  width: 100%;
 }
 
 @media screen and (max-width: 600px) {

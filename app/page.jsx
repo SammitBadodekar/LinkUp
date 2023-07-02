@@ -78,7 +78,7 @@ export default function Home() {
         <Requests user={user} />
       </div>
       <div
-        className={`chat  fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-scroll text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-2/3 ${
+        className={`chat fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-hidden text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-4/6 ${
           active !== null ? "open" : ""
         }`}
       >
