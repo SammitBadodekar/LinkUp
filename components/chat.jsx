@@ -19,12 +19,14 @@ const Chat = (props) => {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { message: input, sender: user },
-    ]);
-    setInput("");
-    socket.emit("send_message", { message: input, sender: user });
+    if (input !== "") {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { message: input, sender: user },
+      ]);
+      setInput("");
+      socket.emit("send_message", { message: input, sender: user });
+    }
   };
   if (!active) {
     return (
@@ -64,12 +66,12 @@ const Chat = (props) => {
         <p className=" p-2">{active?.name}</p>
       </div>
 
-      <div className="flex h-screen flex-col">
+      <div className="flex h-screen flex-col overflow-y-scroll">
         {messages.map((message) => {
           if (message.sender.email === user.email) {
             return (
               <div
-                className="m-4 flex w-fit items-center justify-center gap-4 self-end rounded-3xl bg-green-600 p-2 px-4"
+                className="m-2 flex w-fit items-center justify-center gap-4 self-end rounded-3xl bg-green-600 p-2 px-4"
                 key={uuidv4()}
               >
                 <p>{message.message}</p>
@@ -78,7 +80,7 @@ const Chat = (props) => {
           }
           return (
             <div
-              className="m-4 flex w-fit items-center justify-center gap-4 rounded-3xl bg-DarkButNotBlack p-2 pr-4"
+              className="m-2 flex w-fit items-center justify-center gap-4 rounded-3xl bg-DarkButNotBlack p-2 pr-4"
               key={uuidv4()}
             >
               <Image
