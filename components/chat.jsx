@@ -3,6 +3,7 @@ import { IconContext } from "react-icons";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
+import scrollToBottom from "./scrollToBottom";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
@@ -13,23 +14,10 @@ const Chat = (props) => {
 
   const chatMessagesRef = useRef(null);
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      if (chatMessagesRef.current) {
-        chatMessagesRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
-        });
-      }
-    }, 200);
-  };
-  scrollToBottom();
-
   useEffect(() => {
     socket.on("broadcast", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
-      scrollToBottom();
+      scrollToBottom(chatMessagesRef);
     });
   }, [socket]);
 
@@ -42,7 +30,7 @@ const Chat = (props) => {
       ]);
       setInput("");
       socket.emit("send_message", { message: input, sender: user });
-      scrollToBottom();
+      scrollToBottom(chatMessagesRef);
     }
   };
   if (!active) {
