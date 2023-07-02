@@ -107,8 +107,8 @@ const Chat = (props) => {
                 height={30}
                 className={`rounded-full`}
               ></Image>
-              <div className=" flex flex-col gap-4 rounded-3xl rounded-tl-sm bg-DarkButNotBlack p-2 px-4">
-                <p className=" text-xs font-extralight">
+              <div className=" flex flex-col gap-2 rounded-3xl rounded-tl-sm bg-DarkButNotBlack p-2 px-4">
+                <p className=" -ml-2 text-xs font-extralight">
                   ~ {message?.sender?.name}
                 </p>
                 <p>{message.message}</p>
