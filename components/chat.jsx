@@ -15,6 +15,10 @@ const Chat = (props) => {
   const chatMessagesRef = useRef(null);
 
   useEffect(() => {
+    scrollToBottom(chatMessagesRef);
+  }, [active]);
+
+  useEffect(() => {
     socket.on("broadcast", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
       scrollToBottom(chatMessagesRef);
