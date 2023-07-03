@@ -5,6 +5,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 import scrollToBottom from "./scrollToBottom";
 import Image from "next/image";
+import toast from "react-hot-toast";
 import { useState, useEffect, useRef } from "react";
 
 const Chat = (props) => {
@@ -15,20 +16,36 @@ const Chat = (props) => {
   const chatMessagesRef = useRef(null);
 
   useEffect(() => {
+    fetch(`/api/messages/${active?.name}`)
+      .then((resp) => resp.json())
+      .then((data) =>
+        data ? setMessages(Object.values(data?.messages)[0]) : ""
+      );
     scrollToBottom(chatMessagesRef);
     setMessages([]);
   }, [active]);
 
   useEffect(() => {
     socket.on("broadcast", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      scrollToBottom(chatMessagesRef);
+      if (active === "Chat Lounge") {
+        setMessages((prevMessages) => [...prevMessages, data]);
+        scrollToBottom(chatMessagesRef);
+      } else {
+        toast(`${data.sender.name} sent message in chat lounge`);
+      }
     });
   }, [socket]);
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
-    if (input !== "") {
+    if (input !== "" && messages.length !== 0) {
+      fetch("/api/sendMessage", {
+        method: "PUT",
+        body: JSON.stringify({
+          roomName: active.name,
+          messages: [...messages, { message: input, sender: user }],
+        }),
+      });
       setMessages((prevMessages) => [
         ...prevMessages,
         { message: input, sender: user },
@@ -77,38 +94,40 @@ const Chat = (props) => {
       </div>
 
       <div className="chat-messages flex w-screen  flex-col overflow-x-hidden overflow-y-scroll text-left">
-        {messages.map((message) => {
-          if (message.sender.email === user.email) {
-            return (
-              <div
-                className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-green-600 p-2 px-4"
-                key={uuidv4()}
-              >
-                <p>{message.message}</p>
-              </div>
-            );
-          }
-          return (
-            <div
-              className="m-1 mx-2 flex w-fit items-start justify-center gap-2 "
-              key={uuidv4()}
-            >
-              <Image
-                src={message?.sender?.image || "/PngItem_307416.png"}
-                alt=""
-                width={30}
-                height={30}
-                className={`rounded-full`}
-              ></Image>
-              <div className=" flex flex-col gap-2 rounded-3xl rounded-tl-sm bg-DarkButNotBlack p-2 px-4">
-                <p className=" -ml-2 text-xs font-extralight">
-                  ~ {message?.sender?.name}
-                </p>
-                <p>{message.message}</p>
-              </div>
-            </div>
-          );
-        })}
+        {messages
+          ? messages.map((message) => {
+              if (message.sender?.email === user?.email) {
+                return (
+                  <div
+                    className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-green-600 p-2 px-4"
+                    key={uuidv4()}
+                  >
+                    <p>{message?.message}</p>
+                  </div>
+                );
+              }
+              return (
+                <div
+                  className="m-1 mx-2 flex w-fit items-start justify-center gap-2 "
+                  key={uuidv4()}
+                >
+                  <Image
+                    src={message?.sender?.image || "/PngItem_307416.png"}
+                    alt=""
+                    width={30}
+                    height={30}
+                    className={`rounded-full`}
+                  ></Image>
+                  <div className=" flex flex-col gap-2 rounded-3xl rounded-tl-sm bg-DarkButNotBlack p-2 px-4">
+                    <p className=" -ml-2 text-xs font-extralight">
+                      ~ {message?.sender?.name}
+                    </p>
+                    <p>{message?.message}</p>
+                  </div>
+                </div>
+              );
+            })
+          : ""}
         <div ref={chatMessagesRef} />
       </div>
       <form
