@@ -7,12 +7,22 @@ export const PUT = async (req) => {
   try {
     await connect();
     const filter = { email: body.user.email };
+    const senderFilter = { email: body.sender.email };
     const receiverUpdate = {
       $set: {
-        requestReceived: body.updatedRequests,
+        requests: body.updatedRequests,
+      },
+    };
+    const sender = await User.find(senderFilter);
+    const updatedSenderInbox = {
+      $set: {
+        requests: sender[0].requests.filter(
+          (req) => req?.receiver?.email !== body.user.email
+        ),
       },
     };
     await User.updateOne(filter, receiverUpdate);
+    await User.updateOne(senderFilter, updatedSenderInbox);
 
     return new NextResponse(JSON.stringify("request removed"));
   } catch (error) {

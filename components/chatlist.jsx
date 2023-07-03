@@ -2,6 +2,7 @@ import NewChats from "./newChats";
 import { useState } from "react";
 import ProfileLoading from "./profileLoading";
 import Image from "next/image";
+import { GiSofa } from "react-icons/gi";
 
 const Chatlist = (props) => {
   const { friends, active, setActive } = props;
@@ -17,10 +18,10 @@ const Chatlist = (props) => {
   return (
     <div className="chatList mt-2 overflow-y-scroll">
       <div
-        className=" p-4 dark:bg-DarkButNotBlack"
+        className="flex items-center gap-2 p-4 font-serif dark:bg-DarkButNotBlack dark:text-slate-200"
         onClick={() => setActive({ name: "Chat Lounge" })}
       >
-        Chat Lounge
+        <GiSofa /> Chat Lounge
       </div>
       {friends?.map((friend) => {
         return (

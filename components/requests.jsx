@@ -5,28 +5,31 @@ const Requests = (props) => {
   const { user } = props;
   const addFriend = (sender) => {
     const updatedFriends = [sender, ...user?.friends];
-    const updatedSenderRequestSent = sender.requestSent.filter(
-      (item) => item.email !== user.email
+    const updatedRequests = user?.requests.filter(
+      (request) => request.sender?.email !== sender?.email
     );
+    console.log(updatedFriends);
     fetch("/api/addFriend", {
       method: "PUT",
       body: JSON.stringify({
         user,
         updatedFriends,
+        updatedRequests,
         sender,
-        updatedSenderRequestSent,
       }),
     }).then(toast(`Removed ${sender.name}`));
   };
-  const removeRequest = (sender) => {
-    const updatedRequests = user?.requestReceived.filter(
-      (item) => item.email !== sender.email
+  const removeRequest = async (sender) => {
+    const updatedRequests = await user?.requests.filter(
+      (request) => request.sender?.email !== sender?.email
     );
+
     fetch("/api/removeRequest", {
       method: "PUT",
       body: JSON.stringify({
         user,
         updatedRequests,
+        sender,
       }),
     }).then(toast(`Removed ${sender.name}`));
   };
