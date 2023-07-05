@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import Profile from "./profile";
 
-const Navbar = (props) => {
-  const { user } = props;
+const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
+  const [user, setUser] = useContext(UserContext);
   const modalRef = useRef(null);
 
   useEffect(() => {

@@ -4,7 +4,6 @@ import Message from "@/models/MessageModel";
 
 export const PUT = async (req) => {
   const body = await req.json();
-  console.log(body.roomName);
   try {
     await connect();
     const newMessages = {

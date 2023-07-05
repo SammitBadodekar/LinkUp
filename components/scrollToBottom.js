@@ -1,4 +1,4 @@
-const scrollToBottom = (ref) => {
+const scrollToBottom = (ref, delay) => {
   setTimeout(() => {
     if (ref.current) {
       ref.current.scrollIntoView({
@@ -7,6 +7,6 @@ const scrollToBottom = (ref) => {
         inline: "nearest",
       });
     }
-  }, 200);
+  }, delay);
 };
 export default scrollToBottom;

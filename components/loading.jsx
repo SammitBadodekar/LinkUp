@@ -3,9 +3,7 @@ import "./loading.css";
 
 const loading = () => {
   return (
-    <div className="bg-white dark:bg-darkTheme w-screen h-screen flex justify-center items-center">
-      <span className="loader"></span>
-    </div>
+    <div className=" flex h-10 w-11/12 animate-bounce bg-DarkButNotBlack"></div>
   );
 };
 export default loading;

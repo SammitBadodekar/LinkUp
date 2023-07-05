@@ -11,28 +11,27 @@ import { useState, useEffect, useRef } from "react";
 const Chat = (props) => {
   const { active, setActive, socket, user } = props;
   const [input, setInput] = useState("");
+  const [isChatLoading, setIsChatLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
   const chatMessagesRef = useRef(null);
 
   useEffect(() => {
+    setIsChatLoading(true);
     fetch(`/api/messages/${active?.name}`)
       .then((resp) => resp.json())
       .then((data) =>
         data ? setMessages(Object.values(data?.messages)[0]) : ""
-      );
-    scrollToBottom(chatMessagesRef);
+      )
+      .then(setIsChatLoading(false))
+      .then(scrollToBottom(chatMessagesRef, 700));
     setMessages([]);
   }, [active]);
 
   useEffect(() => {
     socket.on("broadcast", (data) => {
-      if (active === "Chat Lounge") {
-        setMessages((prevMessages) => [...prevMessages, data]);
-        scrollToBottom(chatMessagesRef);
-      } else {
-        toast(`${data.sender.name} sent message in chat lounge`);
-      }
+      setMessages((prevMessages) => [...prevMessages, data]);
+      scrollToBottom(chatMessagesRef, 200);
     });
   }, [socket]);
 
@@ -52,12 +51,12 @@ const Chat = (props) => {
       ]);
       setInput("");
       socket.emit("send_message", { message: input, sender: user });
-      scrollToBottom(chatMessagesRef);
+      scrollToBottom(chatMessagesRef, 200);
     }
   };
-  if (!active) {
+  if (!active || isChatLoading) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 opacity-0 sm:opacity-100">
+      <div className="flex h-screen flex-col items-center justify-center gap-4 ">
         <IconContext.Provider
           value={{
             color: "white",

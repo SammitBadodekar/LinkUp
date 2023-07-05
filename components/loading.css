@@ -1,74 +1,61 @@
-.loader {
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  content: "";
   display: block;
-  position: relative;
-  height: 32px;
-  width: 140px;
-  border: 3px solid #000000;
-  border-radius: 20px;
-  box-sizing: border-box;
-  animation: balancing 2s linear infinite alternate;
-  transform-origin: center center;
+  height: 20px;
+  width: 20px;
 }
 .loader:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 52px;
-  height: 26px;
-  border-radius: 20px;
-  background: #eaff00;
-  animation: ballbns 2s linear infinite alternate;
+  animation: ball1 1s infinite;
+  background-color: #ffc5c5;
+  box-shadow: 30px 0 0 #fffb00;
+  margin-bottom: 10px;
 }
-@keyframes ballbns {
-  0% {
-    left: 0;
-    transform: translateX(0%);
-  }
-  100% {
-    left: 100%;
-    transform: translateX(-100%);
-  }
+.loader:after {
+  animation: ball2 1s infinite;
+  background-color: #fffb00;
+  box-shadow: 30px 0 0 #ffc5c5;
 }
-@keyframes balancing {
+
+@keyframes rotate {
   0% {
-    transform: rotate(-25deg);
+    transform: rotate(0deg) scale(0.8);
   }
   50% {
-    transform: rotate(0deg);
+    transform: rotate(360deg) scale(1.2);
   }
   100% {
-    transform: rotate(25deg);
+    transform: rotate(720deg) scale(0.8);
   }
 }
 
-.profile-loader {
-  width: 36 0px;
-  height: 100px;
-  display: block;
-  background-image: linear-gradient(
-      100deg,
-      transparent,
-      rgba(38, 50, 56, 0.5) 50%,
-      transparent 80%
-    ),
-    radial-gradient(circle 50px at 50px 50px, #43474f 99%, transparent 0),
-    linear-gradient(#43474f 20px, transparent 0),
-    linear-gradient(#43474f 20px, transparent 0),
-    linear-gradient(#43474f 20px, transparent 0);
-  background-repeat: no-repeat;
-  background-size: 75px 100px, 100px 100px, 125px 20px, 260px 20px, 260px 20px;
-  background-position: -50% 0, 0 0, 120px 0, 120px 40px, 120px 80px, 120px 120px;
-  box-sizing: border-box;
-  animation: profile-animloader 1s linear infinite;
-}
-
-@keyframes profile-animloader {
+@keyframes ball1 {
   0% {
-    background-position: 0% 0, 0 0, 120px 0, 120px 40px, 120px 80px, 120px 120px;
+    box-shadow: 30px 0 0 #ff3d00;
+  }
+  50% {
+    box-shadow: 0 0 0 #ff3d00;
+    margin-bottom: 0;
+    transform: translate(15px, 15px);
   }
   100% {
-    background-position: 100% 0, 0 0, 120px 0, 120px 40px, 120px 80px,
-      120px 120px;
+    box-shadow: 30px 0 0 #ff3d00;
+    margin-bottom: 10px;
+  }
+}
+
+@keyframes ball2 {
+  0% {
+    box-shadow: 30px 0 0 #fff;
+  }
+  50% {
+    box-shadow: 0 0 0 #fff;
+    margin-top: -20px;
+    transform: translate(15px, 15px);
+  }
+  100% {
+    box-shadow: 30px 0 0 #fff;
+    margin-top: 0;
   }
 }

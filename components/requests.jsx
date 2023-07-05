@@ -8,7 +8,6 @@ const Requests = (props) => {
     const updatedRequests = user?.requests.filter(
       (request) => request.sender?.email !== sender?.email
     );
-    console.log(updatedFriends);
     fetch("/api/addFriend", {
       method: "PUT",
       body: JSON.stringify({
@@ -17,7 +16,7 @@ const Requests = (props) => {
         updatedRequests,
         sender,
       }),
-    }).then(toast(`Removed ${sender.name}`));
+    }).then(toast(`Added ${sender.name}`));
   };
   const removeRequest = async (sender) => {
     const updatedRequests = await user?.requests.filter(
@@ -35,7 +34,7 @@ const Requests = (props) => {
   };
   if (user?.requests) {
     return (
-      <div className=" mt-4 h-full p-2">
+      <div className="request mt-4 h-full overflow-y-scroll p-2">
         <div className="">
           <h1 className=" text-xl">Received:</h1>
           <div className=" relative  mt-2">
