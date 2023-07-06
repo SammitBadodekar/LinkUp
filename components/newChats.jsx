@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const NewChats = (props) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setRequests } = useContext(UserContext);
   const { addNewChats, setAddNewChats, socket } = props;
   const [allUsers, setAllUsers] = useState([]);
 
@@ -24,9 +24,10 @@ const NewChats = (props) => {
         socket.emit("send_request", {
           type: "received",
           sender: user,
-          receiver: receiver,
+          receiver,
         });
-        /* fetch("/api/sendRequest", {
+        setRequests((prev) => [{ type: "sent", receiver }, ...prev]);
+        fetch("/api/sendRequest", {
           method: "PUT",
           body: JSON.stringify({
             sender: {
@@ -38,7 +39,7 @@ const NewChats = (props) => {
             },
             receiver,
           }),
-        }).then(toast(`Request sent to ${receiver.name}`)); */
+        }).then(toast(`Request sent to ${receiver.name}`));
       }
     } catch (error) {
       toast(`Error: request not sent`);

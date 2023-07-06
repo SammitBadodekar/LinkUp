@@ -30,7 +30,8 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 
 export default function Home() {
   const [section, setSection] = useState("chat");
-  const { user, setUser, requests, setRequests } = useContext(UserContext);
+  const { user, setUser, requests, setRequests, setFriends } =
+    useContext(UserContext);
   const [active, setActive] = useState(null);
   const session = useSession();
 
@@ -41,6 +42,7 @@ export default function Home() {
       const result = await userInfo.json();
       setUser(result[0]);
       setRequests(result[0].requests);
+      setFriends(result[0].friends);
     };
     if (session.data?.user) {
       fetchUserInfo();
@@ -88,12 +90,7 @@ export default function Home() {
               : "hidden"
           } `}
         >
-          <Chatlist
-            friends={user?.friends}
-            socket={socket}
-            active={active}
-            setActive={setActive}
-          />
+          <Chatlist socket={socket} active={active} setActive={setActive} />
         </div>
       )}
 

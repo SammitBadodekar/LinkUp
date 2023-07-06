@@ -4,13 +4,15 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
 const Requests = () => {
-  const { requests } = useContext(UserContext);
-  console.log(requests);
+  const { requests, setRequests, setFriends, friends } =
+    useContext(UserContext);
   const addFriend = (sender) => {
-    const updatedFriends = [sender, ...user?.friends];
-    const updatedRequests = user?.requests.filter(
+    const updatedFriends = [sender, ...friends];
+    const updatedRequests = requests.filter(
       (request) => request.sender?.email !== sender?.email
     );
+    setRequests(updatedRequests);
+    setFriends(updatedFriends);
     fetch("/api/addFriend", {
       method: "PUT",
       body: JSON.stringify({
@@ -22,10 +24,10 @@ const Requests = () => {
     }).then(toast(`Added ${sender.name}`));
   };
   const removeRequest = async (sender) => {
-    const updatedRequests = await user?.requests.filter(
+    const updatedRequests = await requests.filter(
       (request) => request.sender?.email !== sender?.email
     );
-
+    setRequests(updatedRequests);
     fetch("/api/removeRequest", {
       method: "PUT",
       body: JSON.stringify({

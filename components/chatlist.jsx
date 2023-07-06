@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { GiSofa } from "react-icons/gi";
 import dynamic from "next/dynamic";
@@ -8,7 +9,8 @@ const NewChats = dynamic(() => import("./newChats"), {
 });
 
 const Chatlist = (props) => {
-  const { friends, socket, active, setActive } = props;
+  const { socket, active, setActive } = props;
+  const { friends } = useContext(UserContext);
   const [addNewChats, setAddNewChats] = useState(false);
   return (
     <div className="chatList mt-2 overflow-y-scroll">
