@@ -30,7 +30,7 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 
 export default function Home() {
   const [section, setSection] = useState("chat");
-  const [user, setUser] = useContext(UserContext);
+  const { user, setUser, requests, setRequests } = useContext(UserContext);
   const [active, setActive] = useState(null);
   const session = useSession();
 
@@ -40,11 +40,18 @@ export default function Home() {
       const userInfo = await fetch(`/api/users/${session.data.user.email}`);
       const result = await userInfo.json();
       setUser(result[0]);
+      setRequests(result[0].requests);
     };
     if (session.data?.user) {
       fetchUserInfo();
     }
   }, [session.data?.user]);
+
+  useEffect(() => {
+    socket.on("receive_request", (data) => {
+      setRequests((prev) => [data, ...prev]);
+    });
+  }, [socket]);
 
   if (session.status === "unauthenticated") {
     redirect("/login");
@@ -70,7 +77,7 @@ export default function Home() {
             section === "request" ? " border-b-2 border-white" : ""
           }`}
         >
-          Requests &#40;{user?.requests.length || "0"}&#41;
+          Requests &#40;{requests?.length || 0}&#41;
         </button>
       </div>
       {session.data?.user && (
@@ -90,7 +97,7 @@ export default function Home() {
         </div>
       )}
 
-      {section === "request" && <Requests user={user} />}
+      {section === "request" && <Requests />}
       <div
         className={`chat fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-hidden text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-4/6 ${
           active !== null ? "open" : ""

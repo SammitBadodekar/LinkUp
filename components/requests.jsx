@@ -1,8 +1,11 @@
 import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
-const Requests = (props) => {
-  const { user } = props;
+const Requests = () => {
+  const { requests } = useContext(UserContext);
+  console.log(requests);
   const addFriend = (sender) => {
     const updatedFriends = [sender, ...user?.friends];
     const updatedRequests = user?.requests.filter(
@@ -32,72 +35,70 @@ const Requests = (props) => {
       }),
     }).then(toast(`Removed ${sender.name}`));
   };
-  if (user?.requests) {
-    return (
-      <div className="request mt-4 h-full overflow-y-scroll p-2">
-        <div className="">
-          <h1 className=" text-xl">Received:</h1>
-          <div className=" relative  mt-2">
-            {user?.requests.map((request) => {
-              if (request.type !== "received") return;
-              return (
-                <article
-                  key={request.sender.email}
-                  className=" flex items-center gap-4 p-1"
-                >
-                  <Image
-                    src={request.sender.image || "/PngItem_307416.png"}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className=" rounded-full"
-                  ></Image>
-                  <p>{request.sender.name}</p>
-                  <div className="flex gap-2">
-                    <button
-                      className=" rounded-full px-2 dark:bg-DarkButNotBlack"
-                      onClick={() => addFriend(request.sender)}
-                    >
-                      ✓
-                    </button>
-                    <button
-                      className=" rounded-full px-2 dark:bg-DarkButNotBlack"
-                      onClick={() => removeRequest(request.sender)}
-                    >
-                      ✖
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-        <div className=" my-8">
-          <h1 className=" text-xl">Sent:</h1>
-          <div className=" mt-2">
-            {user?.requests.map((request) => {
-              if (request.type !== "sent") return;
-              return (
-                <article
-                  key={request.receiver._id}
-                  className=" flex items-center gap-4 p-1"
-                >
-                  <Image
-                    src={request.receiver.image || "/PngItem_307416.png"}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className=" rounded-full"
-                  ></Image>
-                  <p>{request.receiver.name}</p>
-                </article>
-              );
-            })}
-          </div>
+
+  return (
+    <div className="request mt-4 h-full overflow-y-scroll p-2">
+      <div className="">
+        <h1 className=" text-xl">Received:</h1>
+        <div className=" relative  mt-2">
+          {requests.map((request) => {
+            if (request.type !== "received") return;
+            return (
+              <article
+                key={request.sender.email}
+                className=" flex items-center gap-4 p-1"
+              >
+                <Image
+                  src={request.sender.image || "/PngItem_307416.png"}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className=" rounded-full"
+                ></Image>
+                <p>{request.sender.name}</p>
+                <div className="flex gap-2">
+                  <button
+                    className=" rounded-full px-2 dark:bg-DarkButNotBlack"
+                    onClick={() => addFriend(request.sender)}
+                  >
+                    ✓
+                  </button>
+                  <button
+                    className=" rounded-full px-2 dark:bg-DarkButNotBlack"
+                    onClick={() => removeRequest(request.sender)}
+                  >
+                    ✖
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
-    );
-  }
-  return;
+      <div className=" my-8">
+        <h1 className=" text-xl">Sent:</h1>
+        <div className=" mt-2">
+          {requests.map((request) => {
+            if (request.type !== "sent") return;
+            return (
+              <article
+                key={request.receiver._id}
+                className=" flex items-center gap-4 p-1"
+              >
+                <Image
+                  src={request.receiver.image || "/PngItem_307416.png"}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className=" rounded-full"
+                ></Image>
+                <p>{request.receiver.name}</p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 };
 export default Requests;

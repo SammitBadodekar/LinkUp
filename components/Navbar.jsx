@@ -9,7 +9,7 @@ import Profile from "./profile";
 
 const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const [user, setUser] = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const modalRef = useRef(null);
 
   useEffect(() => {

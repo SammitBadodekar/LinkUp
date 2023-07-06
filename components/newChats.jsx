@@ -5,15 +5,9 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const NewChats = (props) => {
-  const [user, setUser] = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { addNewChats, setAddNewChats, socket } = props;
   const [allUsers, setAllUsers] = useState([]);
-
-  useEffect(() => {
-    socket.on("receive_request", (data) => {
-      console.log(data);
-    });
-  });
 
   const addFriend = (receiver) => {
     const isDuplicate = user.requests?.some(
@@ -27,7 +21,11 @@ const NewChats = (props) => {
       else if (alreadyReceived)
         toast(`${receiver.name} has already sent you request`);
       else {
-        socket.emit("send_request", { sender: user, receiver: receiver });
+        socket.emit("send_request", {
+          type: "received",
+          sender: user,
+          receiver: receiver,
+        });
         /* fetch("/api/sendRequest", {
           method: "PUT",
           body: JSON.stringify({
