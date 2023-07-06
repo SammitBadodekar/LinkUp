@@ -6,8 +6,8 @@ import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
-/* ("https://linkup-backend-2uhh.onrender.com"); */
+const socket = io.connect("https://linkup-backend-2uhh.onrender.com");
+/* ("http://localhost:3001"); */
 
 const Chatlist = dynamic(() => import("@/components/chatlist"), {
   loading: () => (
