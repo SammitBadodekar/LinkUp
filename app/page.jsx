@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
 const socket = io.connect("https://linkup-backend-2uhh.onrender.com");
@@ -52,6 +53,7 @@ export default function Home() {
   useEffect(() => {
     socket.on("receive_request", (data) => {
       setRequests((prev) => [data, ...prev]);
+      toast(`${data.sender.name} sent you friend request`);
     });
   }, [socket]);
 
