@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
 const Requests = () => {
-  const { requests, setRequests, setFriends, friends } =
+  const { user, requests, setRequests, setFriends, friends } =
     useContext(UserContext);
   const addFriend = (sender) => {
     const updatedFriends = [sender, ...friends];

@@ -5,15 +5,15 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const NewChats = (props) => {
-  const { user, setRequests } = useContext(UserContext);
+  const { user, setRequests, requests, friends } = useContext(UserContext);
   const { addNewChats, setAddNewChats, socket } = props;
   const [allUsers, setAllUsers] = useState([]);
 
   const addFriend = (receiver) => {
-    const isDuplicate = user.requests?.some(
+    const isDuplicate = requests?.some(
       (item) => item?.receiver?.email === receiver?.email
     );
-    const alreadyReceived = user.requests?.some(
+    const alreadyReceived = requests?.some(
       (item) => item?.sender?.email === receiver?.email
     );
     try {
@@ -34,8 +34,8 @@ const NewChats = (props) => {
               name: user.name,
               email: user.email,
               image: user.image,
-              requests: user.requests,
-              friends: user.friends,
+              requests: requests,
+              friends: friends,
             },
             receiver,
           }),
@@ -71,7 +71,7 @@ const NewChats = (props) => {
       </h1>
       <div className=" mt-0 px-2">
         {allUsers.map(([key, value]) => {
-          const isFriend = user.friends?.some(
+          const isFriend = friends?.some(
             (item) => item?.email === value?.email
           );
           if (value.email === user.email || isFriend) return;
