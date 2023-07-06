@@ -41,7 +41,7 @@ const Navbar = () => {
         onClick={() => setIsClicked(!isClicked)}
       />
 
-      <div className=" flex items-center gap-4 text-xl dark:text-slate-200">
+      <div className=" flex items-center gap-6 text-xl dark:text-slate-200">
         <BsFillChatLeftTextFill />
         <BsThreeDotsVertical />
       </div>

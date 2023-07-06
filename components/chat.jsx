@@ -56,7 +56,7 @@ const Chat = (props) => {
   };
   if (!active || isChatLoading) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 ">
+      <div className="flex h-screen flex-col items-center justify-center gap-4 opacity-0 sm:opacity-100">
         <IconContext.Provider
           value={{
             color: "white",

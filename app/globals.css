@@ -20,7 +20,7 @@
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #4b4b4b;
+  background: #2c2f33;
 }
 ::-webkit-scrollbar-thumb {
   background: #a2a2a2;
@@ -38,7 +38,7 @@
 .profile::-webkit-scrollbar-track,
 .newChats::-webkit-scrollbar-track,
 .requests::-webkit-scrollbar-track {
-  background: #4b4b4b;
+  background: #2c2f33;
 }
 
 .chatList::-webkit-scrollbar-thumb,

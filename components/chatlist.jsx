@@ -8,7 +8,7 @@ const NewChats = dynamic(() => import("./newChats"), {
 });
 
 const Chatlist = (props) => {
-  const { friends, active, setActive } = props;
+  const { friends, socket, active, setActive } = props;
   const [addNewChats, setAddNewChats] = useState(false);
   return (
     <div className="chatList mt-2 overflow-y-scroll">
@@ -22,7 +22,7 @@ const Chatlist = (props) => {
         return (
           <article
             key={friend.email}
-            className={`flex w-full max-w-xs items-center gap-4 p-2 text-black visited:bg-DarkButNotBlack dark:text-white hover:dark:bg-DarkButNotBlack ${
+            className={`flex w-full items-center gap-4 p-2 text-black visited:bg-DarkButNotBlack dark:text-white hover:dark:bg-DarkButNotBlack ${
               active === friend ? " bg-slate-200 dark:bg-DarkButNotBlack" : ""
             }`}
             onClick={() => setActive(friend)}
@@ -45,7 +45,11 @@ const Chatlist = (props) => {
         + Add New Chats
       </div>
       {addNewChats && (
-        <NewChats addNewChats={addNewChats} setAddNewChats={setAddNewChats} />
+        <NewChats
+          addNewChats={addNewChats}
+          setAddNewChats={setAddNewChats}
+          socket={socket}
+        />
       )}
     </div>
   );

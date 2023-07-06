@@ -11,9 +11,7 @@ const socket = io.connect("http://localhost:3001");
 
 const Chatlist = dynamic(() => import("@/components/chatlist"), {
   loading: () => (
-    <div className=" mt-8 flex w-screen flex-col items-center justify-center gap-2 p-4">
-      <Loading />
-      <Loading />
+    <div className=" mt-10 flex h-screen justify-center">
       <Loading />
     </div>
   ),
@@ -85,6 +83,7 @@ export default function Home() {
         >
           <Chatlist
             friends={user?.friends}
+            socket={socket}
             active={active}
             setActive={setActive}
           />

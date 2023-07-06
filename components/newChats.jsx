@@ -6,8 +6,14 @@ import Image from "next/image";
 
 const NewChats = (props) => {
   const [user, setUser] = useContext(UserContext);
-  const { addNewChats, setAddNewChats } = props;
+  const { addNewChats, setAddNewChats, socket } = props;
   const [allUsers, setAllUsers] = useState([]);
+
+  useEffect(() => {
+    socket.on("receive_request", (data) => {
+      console.log(data);
+    });
+  });
 
   const addFriend = (receiver) => {
     const isDuplicate = user.requests?.some(
@@ -21,7 +27,8 @@ const NewChats = (props) => {
       else if (alreadyReceived)
         toast(`${receiver.name} has already sent you request`);
       else {
-        fetch("/api/sendRequest", {
+        socket.emit("send_request", { sender: user, receiver: receiver });
+        /* fetch("/api/sendRequest", {
           method: "PUT",
           body: JSON.stringify({
             sender: {
@@ -33,7 +40,7 @@ const NewChats = (props) => {
             },
             receiver,
           }),
-        }).then(toast(`Request sent to ${receiver.name}`));
+        }).then(toast(`Request sent to ${receiver.name}`)); */
       }
     } catch (error) {
       toast(`Error: request not sent`);
