@@ -56,7 +56,7 @@ const NewChats = (props) => {
   }, []);
   return (
     <div
-      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex flex-col justify-between gap-2 overflow-y-scroll pt-20 dark:bg-darkTheme dark:text-white  ${
+      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex flex-col justify-between gap-2 overflow-y-scroll pt-20 dark:bg-darkTheme dark:text-white + ${
         addNewChats ? "open" : ""
       }`}
     >
