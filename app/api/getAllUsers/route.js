@@ -6,7 +6,14 @@ import Message from "@/models/MessageModel";
 export const GET = async (req) => {
   try {
     await connect();
-    const users = await User.find();
+    const users = await User.find(
+      {},
+      {
+        email: 1,
+        name: 1,
+        image: 1,
+      }
+    );
     return new NextResponse(JSON.stringify(users));
   } catch (error) {
     console.log(error);
