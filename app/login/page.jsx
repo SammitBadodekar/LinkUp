@@ -11,9 +11,9 @@ const Page = () => {
       fetch("/api/users/create", {
         method: "PUT",
         body: JSON.stringify({
-          name: session.data?.user.name,
-          email: session.data?.user.email,
-          image: session.data?.user.image,
+          name: session.data?.user?.name,
+          email: session.data?.user?.email,
+          image: session.data?.user?.image,
         }),
       });
       redirect("/");

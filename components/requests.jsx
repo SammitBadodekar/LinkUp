@@ -47,7 +47,7 @@ const Requests = () => {
             if (request.type !== "received") return;
             return (
               <article
-                key={request.sender.email}
+                key={request.sender?.email}
                 className=" flex items-center gap-4 p-1"
               >
                 <Image

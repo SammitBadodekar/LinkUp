@@ -59,7 +59,7 @@ const Chatlist = (props) => {
       {friends?.map((friend) => {
         return (
           <article
-            key={friend.email}
+            key={friend?.email}
             className={` relative flex w-full items-center justify-between p-2 text-black visited:bg-DarkButNotBlack dark:text-white hover:dark:bg-DarkButNotBlack ${
               active === friend ? " bg-slate-200 dark:bg-DarkButNotBlack" : ""
             }`}

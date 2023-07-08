@@ -38,8 +38,8 @@ export default function Home() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      socket.emit("join_self", { email: session.data.user.email });
-      const userInfo = await fetch(`/api/users/${session.data.user.email}`);
+      socket.emit("join_self", { email: session.data.user?.email });
+      const userInfo = await fetch(`/api/users/${session.data.user?.email}`);
       const result = await userInfo.json();
       setUser(result[0]);
       setRequests(result[0].requests);
