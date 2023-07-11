@@ -13,10 +13,8 @@ export const GET = async (req) => {
         image: 1,
       }
     );
+    console.log(users);
     return new NextResponse(JSON.stringify(users));
-    /* const users = await User.findOne({ _id: "64ad009445613725d39e7d73" });
-    const allUsers = users.friends;
-    return new NextResponse(JSON.stringify(allUsers)); */
   } catch (error) {
     console.log(error);
     return new NextResponse(error);
