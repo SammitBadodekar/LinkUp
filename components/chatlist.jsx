@@ -52,12 +52,13 @@ const Chatlist = (props) => {
     <div className="chatList mt-2 overflow-y-scroll">
       <div
         className={`flex items-center gap-2 p-4 font-serif visited:bg-DarkButNotBlack dark:text-slate-200 hover:dark:bg-DarkButNotBlack ${
-          active.name === "Chat Lounge"
+          active?.name === "Chat Lounge"
             ? " bg-slate-200 dark:bg-DarkButNotBlack"
             : ""
         }`}
         onClick={() => {
-          if (active.name !== "Chat Lounge") setActive({ name: "Chat Lounge" });
+          if (active?.name !== "Chat Lounge")
+            setActive({ name: "Chat Lounge" });
         }}
       >
         <GiSofa /> Chat Lounge
