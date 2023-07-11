@@ -74,7 +74,12 @@ const NewChats = (props) => {
           const isFriend = friends?.some(
             (item) => item?.email === value?.email
           );
-          if (value?.email === user?.email || isFriend) return;
+          if (
+            value?.email === user?.email ||
+            isFriend ||
+            value?._id === "64ad009445613725d39e7d73"
+          )
+            return;
 
           return (
             <article
