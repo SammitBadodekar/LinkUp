@@ -7,7 +7,7 @@ import Image from "next/image";
 const NewChats = (props) => {
   const { user, setRequests, requests, friends } = useContext(UserContext);
   const { addNewChats, setAddNewChats, socket, backendURL } = props;
-  const [allUsers, setAllUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState(null);
 
   const addFriend = (receiver) => {
     const isDuplicate = requests?.some(
@@ -54,6 +54,13 @@ const NewChats = (props) => {
     };
     fetchAllUsers();
   }, []);
+  if (!allUsers) {
+    return (
+      <div className=" mt-10 flex h-screen justify-center">
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div
       className={`newChats + fixed bottom-0 left-0 top-0 z-20 flex flex-col justify-between gap-2 overflow-y-scroll pt-20 dark:bg-darkTheme dark:text-white ${
