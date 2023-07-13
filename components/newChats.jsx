@@ -3,6 +3,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { UserContext } from "@/context/userContext";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import Loading from "./loading";
 
 const NewChats = (props) => {
   const { user, setRequests, requests, friends } = useContext(UserContext);
