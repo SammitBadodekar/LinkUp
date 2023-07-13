@@ -37,6 +37,20 @@ const Requests = () => {
       }),
     }).then(toast(`Removed ${sender.name}`));
   };
+  const withdrawRequest = async (receiver) => {
+    const updatedRequests = await requests.filter(
+      (request) => request.receiver?.email !== receiver?.email
+    );
+    setRequests(updatedRequests);
+    fetch("/api/removeRequest", {
+      method: "PUT",
+      body: JSON.stringify({
+        user,
+        updatedRequests,
+        sender: receiver,
+      }),
+    }).then(toast(`Withdrawn request of ${receiver.name}`));
+  };
 
   return (
     <div className="request mt-4 h-full overflow-y-scroll p-2">
@@ -95,6 +109,12 @@ const Requests = () => {
                   className=" rounded-full"
                 ></Image>
                 <p>{request.receiver.name}</p>
+                <button
+                  className=" rounded-full px-2 dark:bg-DarkButNotBlack"
+                  onClick={() => withdrawRequest(request.receiver)}
+                >
+                  withdraw
+                </button>
               </article>
             );
           })}
