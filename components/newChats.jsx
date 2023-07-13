@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const NewChats = (props) => {
   const { user, setRequests, requests, friends } = useContext(UserContext);
-  const { addNewChats, setAddNewChats, socket } = props;
+  const { addNewChats, setAddNewChats, socket, backendURL } = props;
   const [allUsers, setAllUsers] = useState([]);
 
   const addFriend = (receiver) => {
@@ -48,7 +48,7 @@ const NewChats = (props) => {
 
   useEffect(() => {
     const fetchAllUsers = async () => {
-      const userInfo = await fetch(`/api/getAllUsers`);
+      const userInfo = await fetch(`${backendURL}/getAllUsers`);
       const result = await userInfo.json();
       setAllUsers(Object.entries(result));
     };

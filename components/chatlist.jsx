@@ -11,7 +11,7 @@ const NewChats = dynamic(() => import("./newChats"), {
 });
 
 const Chatlist = (props) => {
-  const { socket, active, setActive } = props;
+  const { socket, active, setActive, backendURL } = props;
   const { friends, user, setFriends } = useContext(UserContext);
   const [addNewChats, setAddNewChats] = useState(false);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
@@ -113,6 +113,7 @@ const Chatlist = (props) => {
           addNewChats={addNewChats}
           setAddNewChats={setAddNewChats}
           socket={socket}
+          backendURL={backendURL}
         />
       )}
     </div>

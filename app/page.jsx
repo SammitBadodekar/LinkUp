@@ -7,8 +7,11 @@ import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
-const socket = io.connect("https://linkup-backend-2uhh.onrender.com");
-/* ("http://localhost:3001"); */
+
+const backendURL =
+  "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
+
+const socket = io.connect(backendURL);
 
 const Chatlist = dynamic(() => import("@/components/chatlist"), {
   loading: () => (
@@ -92,7 +95,12 @@ export default function Home() {
               : "hidden"
           } `}
         >
-          <Chatlist socket={socket} active={active} setActive={setActive} />
+          <Chatlist
+            socket={socket}
+            active={active}
+            setActive={setActive}
+            backendURL={backendURL}
+          />
         </div>
       )}
 
