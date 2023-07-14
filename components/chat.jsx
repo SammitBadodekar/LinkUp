@@ -5,27 +5,30 @@ import { AiOutlineSend } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 import scrollToBottom from "./scrollToBottom";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import Loading from "../components/loading";
 import { useState, useEffect, useRef } from "react";
 
 const Chat = (props) => {
   const { active, setActive, socket, user } = props;
   const [input, setInput] = useState("");
-  const [isChatLoading, setIsChatLoading] = useState(true);
   const [messages, setMessages] = useState([]);
-
+  const [previousChat, setPreviousChat] = useState(null);
   const chatMessagesRef = useRef(null);
 
   useEffect(() => {
-    setIsChatLoading(true);
-    fetch(`/api/messages/${active?.name}`)
-      .then((resp) => resp.json())
-      .then((data) =>
-        data ? setMessages(Object.values(data?.messages)[0]) : ""
-      )
-      .then(setIsChatLoading(false))
-      .then(scrollToBottom(chatMessagesRef, 700));
-    setMessages([]);
+    if (previousChat?.name === active?.name || !active) {
+      scrollToBottom(chatMessagesRef, 300);
+    } else {
+      setMessages([]);
+      fetch(`/api/messages/${active?.name}`)
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (data) {
+            setMessages(Object.values(data?.messages)[0]);
+          }
+        })
+        .then(() => scrollToBottom(chatMessagesRef, 1000));
+    }
   }, [active]);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ const Chat = (props) => {
       scrollToBottom(chatMessagesRef, 200);
     }
   };
-  if (!active || isChatLoading) {
+  if (!active) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4 opacity-0 sm:opacity-100">
         <IconContext.Provider
@@ -77,7 +80,13 @@ const Chat = (props) => {
   return (
     <div className=" h-full w-full ">
       <div className="sticky top-0 flex items-center gap-2 border-l-2 border-gray-600 p-2 py-2 text-white dark:bg-DarkButNotBlack">
-        <div onClick={() => setActive(null)} className=" text-lg sm:hidden">
+        <div
+          onClick={() => {
+            setPreviousChat(active);
+            setActive(null);
+          }}
+          className=" text-lg sm:hidden"
+        >
           <BiArrowBack />
         </div>
         <Image
@@ -93,6 +102,16 @@ const Chat = (props) => {
       </div>
 
       <div className="chat-messages flex w-screen  flex-col overflow-x-hidden overflow-y-scroll text-left">
+        <div
+          className={`${
+            messages?.length == 0
+              ? "mt-10 flex h-screen justify-center"
+              : "hidden"
+          } `}
+        >
+          <Loading />
+        </div>
+
         {messages
           ? messages.map((message) => {
               if (message.sender?.email === user?.email) {

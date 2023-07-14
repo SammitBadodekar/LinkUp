@@ -3,12 +3,8 @@ import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GiSofa } from "react-icons/gi";
-import dynamic from "next/dynamic";
 import toast, { Toaster } from "react-hot-toast";
-
-const NewChats = dynamic(() => import("./newChats"), {
-  loading: () => <div>loading...</div>,
-});
+import NewChats from "./newChats";
 
 const Chatlist = (props) => {
   const { socket, active, setActive, backendURL } = props;
@@ -104,18 +100,16 @@ const Chatlist = (props) => {
       })}{" "}
       <div
         className=" p-4 text-slate-300 hover:bg-DarkButNotBlack"
-        onClick={() => setAddNewChats(!addNewChats)}
+        onClick={() => setAddNewChats(true)}
       >
         + Add New Chats
       </div>
-      {addNewChats && (
-        <NewChats
-          addNewChats={addNewChats}
-          setAddNewChats={setAddNewChats}
-          socket={socket}
-          backendURL={backendURL}
-        />
-      )}
+      <NewChats
+        addNewChats={addNewChats}
+        setAddNewChats={setAddNewChats}
+        socket={socket}
+        backendURL={backendURL}
+      />
     </div>
   );
 };

@@ -49,19 +49,21 @@ const NewChats = (props) => {
 
   useEffect(() => {
     const fetchAllUsers = async () => {
-      const userInfo = await fetch(`${backendURL}/getAllUsers`);
+      const userInfo = await fetch(
+        `https://linkup-backend-2uhh.onrender.com/getAllUsers`
+      );
       const result = await userInfo.json();
       setAllUsers(Object.entries(result));
     };
     fetchAllUsers();
   }, []);
-  if (!allUsers) {
+  if (!allUsers && addNewChats) {
     return (
       <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-darkTheme sm:right-2/3">
         <h1
           className=" fixed left-0 right-0 top-0 z-20 flex items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack sm:right-2/3"
           onClick={() => {
-            setAddNewChats(!addNewChats);
+            setAddNewChats(false);
           }}
         >
           <BiArrowBack />
@@ -80,14 +82,14 @@ const NewChats = (props) => {
       <h1
         className=" fixed top-0 z-20 flex w-full items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack"
         onClick={() => {
-          setAddNewChats(!addNewChats);
+          setAddNewChats(false);
         }}
       >
         <BiArrowBack />
         New Chats
       </h1>
       <div className=" mt-0 px-2">
-        {allUsers.map(([key, value]) => {
+        {allUsers?.map(([key, value]) => {
           const isFriend = friends?.some(
             (item) => item?.email === value?.email
           );

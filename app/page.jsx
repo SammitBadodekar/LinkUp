@@ -34,7 +34,7 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 
 export default function Home() {
   const [section, setSection] = useState("chat");
-  const { user, setUser, requests, setRequests, setFriends } =
+  const { user, setUser, requests, setRequests, setFriends, friends } =
     useContext(UserContext);
   const [active, setActive] = useState(null);
   const session = useSession();
@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <main>
       <div className=" sm:w-1/3">
-        <Navbar user={user} />
+        <Navbar />
       </div>
       <div></div>
       <div className="flex">
@@ -95,12 +95,14 @@ export default function Home() {
               : "hidden"
           } `}
         >
-          <Chatlist
-            socket={socket}
-            active={active}
-            setActive={setActive}
-            backendURL={backendURL}
-          />
+          {friends && (
+            <Chatlist
+              socket={socket}
+              active={active}
+              setActive={setActive}
+              backendURL={backendURL}
+            />
+          )}
         </div>
       )}
 
@@ -110,12 +112,14 @@ export default function Home() {
           active !== null ? "open" : ""
         }`}
       >
-        <Chat
-          active={active}
-          setActive={setActive}
-          socket={socket}
-          user={user}
-        />
+        {user && (
+          <Chat
+            active={active}
+            setActive={setActive}
+            socket={socket}
+            user={user}
+          />
+        )}
       </div>
     </main>
   );
