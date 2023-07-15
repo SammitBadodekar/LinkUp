@@ -81,7 +81,7 @@ export default function Home() {
   if (!user) {
     setInterval(() => {
       setInitialLoadingPhrase((prev) => [prev[1], prev[2], prev[0]]);
-    }, 500);
+    }, 1500);
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4 p-10">
         <p>{initialLoadingPhrase[0]}</p>
