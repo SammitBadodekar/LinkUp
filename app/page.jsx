@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
+import Navbar from "@/components/Navbar";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -15,8 +16,19 @@ const socket = io.connect(backendURL);
 
 const Chatlist = dynamic(() => import("@/components/chatlist"), {
   loading: () => (
-    <div className=" mt-10 flex h-screen justify-center">
-      <Loading />
+    <div className="flex h-screen w-screen flex-col items-center p-4">
+      <div className="flex h-20 w-full animate-pulse items-center gap-2">
+        <div className=" aspect-square h-14 w-14 rounded-full bg-DarkButNotBlack"></div>
+        <div className=" h-5 w-11/12 bg-DarkButNotBlack"></div>
+      </div>
+      <div className="flex h-20 w-full animate-pulse items-center gap-2">
+        <div className=" aspect-square h-14 w-14 rounded-full bg-DarkButNotBlack"></div>
+        <div className=" h-5 w-11/12 bg-DarkButNotBlack"></div>
+      </div>
+      <div className="flex h-20 w-full animate-pulse items-center gap-2">
+        <div className=" aspect-square h-14 w-14 rounded-full bg-DarkButNotBlack"></div>
+        <div className=" h-5 w-11/12 bg-DarkButNotBlack"></div>
+      </div>
     </div>
   ),
 });
@@ -24,11 +36,10 @@ const Chat = dynamic(() => import("@/components/chat"), {
   loading: () => <div>loading...</div>,
 });
 const Requests = dynamic(() => import("@/components/requests"), {
-  loading: () => <div>loading...</div>,
-});
-const Navbar = dynamic(() => import("@/components/Navbar"), {
   loading: () => (
-    <div className="z-50 flex h-14 justify-between bg-DarkButNotBlack p-2 px-4 shadow-lg"></div>
+    <div className=" mt-20 flex h-screen justify-center ">
+      <Loading />
+    </div>
   ),
 });
 
@@ -37,8 +48,12 @@ export default function Home() {
   const { user, setUser, requests, setRequests, setFriends, friends } =
     useContext(UserContext);
   const [active, setActive] = useState(null);
+  const [initialLoadingPhrase, setInitialLoadingPhrase] = useState([
+    "setting up your account...",
+    "loading your profile...",
+    "finishing your setup...",
+  ]);
   const session = useSession();
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       socket.emit("join_self", { email: session.data.user?.email });
@@ -62,6 +77,17 @@ export default function Home() {
 
   if (session.status === "unauthenticated") {
     redirect("/login");
+  }
+  if (!user) {
+    setInterval(() => {
+      setInitialLoadingPhrase((prev) => [prev[1], prev[2], prev[0]]);
+    }, 500);
+    return (
+      <div className="flex h-screen flex-col items-center justify-center gap-4 p-10">
+        <p>{initialLoadingPhrase[0]}</p>
+        <span className="initialLoader "></span>
+      </div>
+    );
   }
   return (
     <main>
