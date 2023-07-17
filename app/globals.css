@@ -101,15 +101,14 @@
     width: 100%;
   }
   .chat {
-    transition: opacity 0.3s ease-out;
+    transition: transform 0.3s ease-in;
+    transform: translateY(100%);
     width: 34%;
-    opacity: 0;
-    z-index: -10;
   }
   .chat.open {
-    opacity: 100;
-    z-index: 10;
+    transform: translateY(0);
   }
+
   .chat,
   .request {
     width: 100%;

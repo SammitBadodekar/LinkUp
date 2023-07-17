@@ -55,7 +55,7 @@ const Requests = (props) => {
 
   return (
     <div
-      className={`request absolute top-28 overflow-y-scroll p-2 duration-200 ease-in ${
+      className={`request absolute top-28 overflow-y-scroll p-2 duration-300 ease-in ${
         section === "request" ? "translate-x-0 " : " -translate-x-full"
       }`}
     >

@@ -112,7 +112,7 @@ export default function Home() {
       </div>
       {session.data?.user && (
         <div
-          className={` duration-200 ease-in ${
+          className={` duration-300 ease-in ${
             section === "chat"
               ? " sm:chatList-container w-screen translate-x-0 sm:static sm:w-1/3"
               : " -translate-x-full opacity-0"
@@ -133,17 +133,15 @@ export default function Home() {
       <Requests section={section} />
       <div
         className={`chat fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-hidden text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-4/6 ${
-          active !== null ? "open" : ""
+          active !== null ? "open" : "close"
         }`}
       >
-        {user && (
-          <Chat
-            active={active}
-            setActive={setActive}
-            socket={socket}
-            user={user}
-          />
-        )}
+        <Chat
+          active={active}
+          setActive={setActive}
+          socket={socket}
+          user={user}
+        />
       </div>
       <NewChats
         addNewChats={addNewChats}
