@@ -36,7 +36,7 @@ const Requests = (props) => {
         updatedRequests,
         sender,
       }),
-    }).then(toast(`Removed ${sender.name}`));
+    }).then(toast(`Ignored request from ${sender.name}`));
   };
   const withdrawRequest = async (receiver) => {
     const updatedRequests = await requests.filter(
@@ -67,7 +67,7 @@ const Requests = (props) => {
             return (
               <article
                 key={request.sender?.email}
-                className=" flex items-center gap-4 p-1"
+                className=" flex items-center gap-2 rounded-xl bg-DarkButNotBlack p-1 px-2 py-4"
               >
                 <Image
                   src={request.sender.image || "/PngItem_307416.png"}
@@ -77,15 +77,15 @@ const Requests = (props) => {
                   className=" rounded-full"
                 ></Image>
                 <p>{request.sender.name}</p>
-                <div className="flex gap-2">
+                <div className="absolute right-2  top-5 flex gap-2">
                   <button
-                    className=" rounded-full px-2 dark:bg-DarkButNotBlack"
+                    className="rounded-full bg-slate-400 px-2 text-sm font-bold text-darkTheme"
                     onClick={() => addFriend(request.sender)}
                   >
                     ✓
                   </button>
                   <button
-                    className=" rounded-full px-2 dark:bg-DarkButNotBlack"
+                    className="rounded-full bg-slate-400 px-2 text-darkTheme"
                     onClick={() => removeRequest(request.sender)}
                   >
                     ✖
@@ -104,18 +104,21 @@ const Requests = (props) => {
             return (
               <article
                 key={request.receiver._id}
-                className=" flex items-center gap-4 p-1"
+                className=" relative m-1 my-2 flex rounded-xl bg-DarkButNotBlack px-2 py-4"
               >
-                <Image
-                  src={request.receiver.image || "/PngItem_307416.png"}
-                  alt=""
-                  width={40}
-                  height={40}
-                  className=" rounded-full"
-                ></Image>
-                <p>{request.receiver.name}</p>
+                <div className=" mr-20 flex items-center gap-2 text-sm">
+                  <Image
+                    src={request.receiver.image || "/PngItem_307416.png"}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className=" rounded-full "
+                  ></Image>
+                  <p>{request.receiver.name}</p>
+                </div>
+
                 <button
-                  className=" rounded-full px-2 dark:bg-DarkButNotBlack"
+                  className=" absolute right-1 top-3 mx-1 my-2 rounded-2xl bg-slate-400 p-1 text-sm font-bold text-darkTheme"
                   onClick={() => withdrawRequest(request.receiver)}
                 >
                   withdraw

@@ -66,12 +66,12 @@ const NewChats = (props) => {
   }
   return (
     <div
-      className={`newChats fixed -top-28 bottom-6 left-0 z-20 flex w-screen flex-col justify-between gap-2 overflow-y-scroll dark:bg-darkTheme dark:text-white sm:right-2/3 ${
+      className={`newChats fixed bottom-0 left-0  top-0 z-20 flex w-screen flex-col justify-between gap-2 overflow-y-scroll dark:bg-darkTheme dark:text-white  ${
         addNewChats ? "newChats open" : ""
       }`}
     >
       <h1
-        className="z-20 flex w-full items-center gap-4 p-4 pt-8 text-xl font-bold dark:bg-DarkButNotBlack"
+        className="z-20 flex w-full items-center gap-4 p-4  text-xl font-bold dark:bg-DarkButNotBlack"
         onClick={() => {
           setAddNewChats(false);
         }}

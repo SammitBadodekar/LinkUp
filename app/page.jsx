@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
 import Navbar from "@/components/Navbar";
+import NewChats from "@/components/newChats";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -45,6 +46,7 @@ const Requests = dynamic(() => import("@/components/requests"), {
 
 export default function Home() {
   const [section, setSection] = useState("chat");
+  const [addNewChats, setAddNewChats] = useState(false);
   const { user, setUser, requests, setRequests, setFriends, friends } =
     useContext(UserContext);
   const [active, setActive] = useState(null);
@@ -113,7 +115,7 @@ export default function Home() {
           className={` duration-200 ease-in ${
             section === "chat"
               ? " sm:chatList-container w-screen translate-x-0 sm:static sm:w-1/3"
-              : "-translate-x-full opacity-0"
+              : " -translate-x-full opacity-0"
           } `}
         >
           {friends && (
@@ -122,6 +124,8 @@ export default function Home() {
               active={active}
               setActive={setActive}
               backendURL={backendURL}
+              addNewChats={addNewChats}
+              setAddNewChats={setAddNewChats}
             />
           )}
         </div>
@@ -141,6 +145,12 @@ export default function Home() {
           />
         )}
       </div>
+      <NewChats
+        addNewChats={addNewChats}
+        setAddNewChats={setAddNewChats}
+        socket={socket}
+        backendURL={backendURL}
+      />
       <div
         className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-darkTheme p-10 duration-700 ease-out ${
           !user ? "z-50 opacity-100 " : " -z-50 opacity-0"

@@ -60,7 +60,7 @@ const Chat = (props) => {
   };
   if (!active) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 opacity-0 sm:opacity-100">
+      <div className="flex h-screen flex-col items-center justify-center gap-4 border-l-2 border-slate-600  opacity-0 sm:opacity-100">
         <IconContext.Provider
           value={{
             color: "white",
