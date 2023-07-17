@@ -82,32 +82,27 @@ export default function Home() {
     setInterval(() => {
       setInitialLoadingPhrase((prev) => [prev[1], prev[2], prev[0]]);
     }, 1500);
-    return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 p-10">
-        <p>{initialLoadingPhrase[0]}</p>
-        <span className="initialLoader "></span>
-      </div>
-    );
   }
+
   return (
     <main>
-      <div className=" sm:w-1/3">
+      <div className=" overflow-hidden sm:w-1/3">
         <Navbar />
       </div>
       <div></div>
-      <div className="flex">
+      <div className="flex w-full gap-2 px-2">
         <button
           onClick={() => setSection("chat")}
-          className={`btn-navigation p-2 text-black dark:text-slate-200 ${
-            section === "chat" ? " border-b-2 border-white" : ""
+          className={`btn-navigation my-2 rounded-lg bg-DarkButNotBlack p-4  ${
+            section === "chat" ? " bg-slate-400 text-darkTheme" : ""
           }`}
         >
           Chats
         </button>
         <button
           onClick={() => setSection("request")}
-          className={`btn-navigation p-2 text-black dark:text-slate-200 ${
-            section === "request" ? " border-b-2 border-white" : ""
+          className={`btn-navigation my-2 rounded-lg bg-DarkButNotBlack p-4  ${
+            section === "request" ? "bg-slate-400 text-darkTheme" : ""
           }`}
         >
           Requests &#40;{requests?.length || 0}&#41;
@@ -115,10 +110,10 @@ export default function Home() {
       </div>
       {session.data?.user && (
         <div
-          className={`${
+          className={` duration-200 ease-in ${
             section === "chat"
-              ? "sm:chatList-container w-screen sm:static sm:w-1/3"
-              : "hidden"
+              ? " sm:chatList-container w-screen translate-x-0 sm:static sm:w-1/3"
+              : "-translate-x-full opacity-0"
           } `}
         >
           {friends && (
@@ -131,8 +126,7 @@ export default function Home() {
           )}
         </div>
       )}
-
-      {section === "request" && <Requests />}
+      <Requests section={section} />
       <div
         className={`chat fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-hidden text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-4/6 ${
           active !== null ? "open" : ""
@@ -146,6 +140,14 @@ export default function Home() {
             user={user}
           />
         )}
+      </div>
+      <div
+        className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-darkTheme p-10 duration-700 ease-out ${
+          !user ? "z-50 opacity-100 " : " -z-50 opacity-0"
+        }`}
+      >
+        <p>{initialLoadingPhrase[0]}</p>
+        <span className="initialLoader "></span>
       </div>
     </main>
   );

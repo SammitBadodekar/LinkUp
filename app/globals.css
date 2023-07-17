@@ -54,8 +54,14 @@
   height: 100dvh;
 }
 
-.profile,
 .newChats {
+  transition: transform 0.3s ease;
+  width: 100%;
+  z-index: 100;
+  transform: translateX(-150%);
+}
+
+.profile {
   transition: transform 0.3s ease;
   width: 34%;
   transform: translateX(-150%);
@@ -70,14 +76,16 @@
   font-weight: bolder;
 }
 
-.chatList-container,
-.request {
+.chatList-container {
   width: 33%;
 }
 
 .chatList,
 .request {
   height: calc(100vh - 5rem);
+}
+.request {
+  width: 33%;
 }
 .chat {
   width: 34%;
@@ -93,12 +101,14 @@
     width: 100%;
   }
   .chat {
-    transition: transform 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
     width: 34%;
-    transform: scale(0);
+    opacity: 0;
+    z-index: -10;
   }
   .chat.open {
-    transform: scale(1);
+    opacity: 100;
+    z-index: 10;
   }
   .chat,
   .request {

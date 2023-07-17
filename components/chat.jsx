@@ -7,6 +7,7 @@ import scrollToBottom from "./scrollToBottom";
 import Image from "next/image";
 import Loading from "../components/loading";
 import { useState, useEffect, useRef } from "react";
+import { IoIosPeople } from "react-icons/io";
 
 const Chat = (props) => {
   const { active, setActive, socket, user } = props;
@@ -27,7 +28,7 @@ const Chat = (props) => {
             setMessages(Object.values(data?.messages)[0]);
           }
         })
-        .then(() => scrollToBottom(chatMessagesRef, 1000));
+        .then(() => scrollToBottom(chatMessagesRef, 400));
     }
   }, [active]);
 
@@ -78,8 +79,8 @@ const Chat = (props) => {
     );
   }
   return (
-    <div className=" h-full w-full ">
-      <div className="sticky top-0 flex items-center gap-2 border-l-2 border-gray-600 p-2 py-2 text-white dark:bg-DarkButNotBlack">
+    <div className=" h-full w-full border-l-2 border-slate-600">
+      <div className="sticky top-0 flex items-center gap-2  bg-DarkButNotBlack p-2 py-2 text-white">
         <div
           onClick={() => {
             setPreviousChat(active);
@@ -98,6 +99,13 @@ const Chat = (props) => {
             active?.name === "Chat Lounge" ? "hidden" : ""
           }`}
         ></Image>
+        <span
+          className={`-mr-2 rounded-full bg-slate-300 p-2 text-2xl text-darkTheme ${
+            active?.name !== "Chat Lounge" ? "hidden" : ""
+          }`}
+        >
+          <IoIosPeople />
+        </span>
         <p className=" p-2">{active?.name}</p>
       </div>
 

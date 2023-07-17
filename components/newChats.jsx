@@ -59,24 +59,15 @@ const NewChats = (props) => {
   }, []);
   if (!allUsers && addNewChats) {
     return (
-      <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-darkTheme sm:right-2/3">
-        <h1
-          className=" fixed left-0 right-0 top-0 z-20 flex items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack sm:right-2/3"
-          onClick={() => {
-            setAddNewChats(false);
-          }}
-        >
-          <BiArrowBack />
-          New Chats
-        </h1>
+      <div className=" absolute -top-28 left-0 right-0 flex h-screen items-center justify-center bg-darkTheme ">
         <Loading />
       </div>
     );
   }
   return (
     <div
-      className={`newChats + fixed bottom-0 left-0 top-0 z-20 flex flex-col justify-between gap-2 overflow-y-scroll pt-20 dark:bg-darkTheme dark:text-white ${
-        addNewChats ? "open" : ""
+      className={`newChats fixed -top-28 bottom-6 left-0 z-20 flex w-screen flex-col justify-between gap-2 overflow-y-scroll pt-20 dark:bg-darkTheme dark:text-white sm:right-2/3 ${
+        addNewChats ? "newChats open" : ""
       }`}
     >
       <h1
@@ -103,7 +94,7 @@ const NewChats = (props) => {
           return (
             <article
               key={key}
-              className=" relative flex items-center gap-2 p-4"
+              className=" relative flex w-full items-center gap-2 p-4"
             >
               <Image
                 src={value?.image || "/PngItem_307416.png"}
@@ -114,7 +105,7 @@ const NewChats = (props) => {
               />
               <p>{value?.name}</p>
               <button
-                className=" absolute right-4 top-6 rounded-xl p-2 text-xs dark:bg-slate-600"
+                className=" absolute right-4 top-6 rounded-xl bg-slate-400 p-1 text-sm font-bold text-darkTheme"
                 onClick={() => addFriend(value)}
               >
                 Add

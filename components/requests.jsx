@@ -3,7 +3,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
-const Requests = () => {
+const Requests = (props) => {
+  const { section } = props;
   const { user, requests, setRequests, setFriends, friends } =
     useContext(UserContext);
   const addFriend = (sender) => {
@@ -53,9 +54,13 @@ const Requests = () => {
   };
 
   return (
-    <div className="request mt-4 h-full overflow-y-scroll p-2">
+    <div
+      className={`request absolute top-28 overflow-y-scroll p-2 duration-200 ease-in ${
+        section === "request" ? "translate-x-0 " : " -translate-x-full"
+      }`}
+    >
       <div className="">
-        <h1 className=" text-xl">Received:</h1>
+        <h1 className=" text-xl font-extrabold">Received :</h1>
         <div className=" relative  mt-2">
           {requests.map((request) => {
             if (request.type !== "received") return;
@@ -92,7 +97,7 @@ const Requests = () => {
         </div>
       </div>
       <div className=" my-8">
-        <h1 className=" text-xl">Sent:</h1>
+        <h1 className=" text-xl font-extrabold">Sent :</h1>
         <div className=" mt-2">
           {requests.map((request) => {
             if (request.type !== "sent") return;
