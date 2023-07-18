@@ -67,7 +67,7 @@ const Requests = (props) => {
             return (
               <article
                 key={request.sender?.email}
-                className=" flex items-center gap-2 rounded-xl bg-slate-200 p-1 px-2 py-4 dark:bg-DarkButNotBlack"
+                className=" flex items-center gap-2 rounded-xl bg-slate-200 p-2  dark:bg-DarkButNotBlack"
               >
                 <Image
                   src={request.sender.image || "/PngItem_307416.png"}
@@ -77,7 +77,7 @@ const Requests = (props) => {
                   className=" rounded-full"
                 ></Image>
                 <p>{request.sender.name}</p>
-                <div className="absolute right-2  top-5 flex gap-2">
+                <div className="absolute right-2   flex gap-2">
                   <button
                     className="rounded-full bg-slate-400 px-2 text-sm font-bold text-darkTheme"
                     onClick={() => addFriend(request.sender)}

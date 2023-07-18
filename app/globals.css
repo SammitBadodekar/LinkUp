@@ -63,7 +63,7 @@
 
 .profile {
   transition: transform 0.3s ease;
-  width: 34%;
+  width: 33.33%;
   transform: translateX(-150%);
 }
 .profile.open,
@@ -135,7 +135,7 @@
   content: "";
   width: 10px;
   height: 1px;
-  background: #696969;
+  background: #ffffff;
   position: absolute;
   top: 9px;
   right: -2px;

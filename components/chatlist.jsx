@@ -50,7 +50,7 @@ const Chatlist = (props) => {
         <div
           className={`m-2 flex items-center  gap-4 rounded-xl bg-slate-200 px-4 py-2 hover:bg-blue-500  dark:bg-DarkButNotBlack  dark:text-slate-50 ${
             active?.name === "Chat Lounge"
-              ? " bg-blue-300 dark:bg-blue-500"
+              ? " bg-blue-500 dark:bg-blue-500"
               : ""
           }`}
           onClick={() => {
@@ -69,7 +69,7 @@ const Chatlist = (props) => {
             <article
               key={friend?.email}
               className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200  px-4 py-2 hover:bg-blue-500  dark:bg-DarkButNotBlack dark:text-white ${
-                active === friend ? " bg-blue-300 dark:bg-blue-500" : ""
+                active === friend ? " bg-blue-500 dark:bg-blue-500" : ""
               }`}
               onClick={() => setCurrent(friend)}
             >

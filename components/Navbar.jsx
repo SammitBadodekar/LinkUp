@@ -14,7 +14,7 @@ import { useTheme } from "next-themes";
 
 const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { theme, setTheme } = useTheme();
   const modalRef = useRef(null);
 
@@ -57,12 +57,19 @@ const Navbar = () => {
         onClick={() => setIsClicked(!isClicked)}
       />
 
-      <div className=" flex items-center gap-6 text-xl  text-slate-500 dark:text-slate-200">
+      <div
+        className=" flex items-center gap-6 text-xl  text-slate-500 dark:text-slate-200"
+        onClick={() => {
+          if (theme === "dark") {
+            setTheme("light");
+          } else setTheme("dark");
+        }}
+      >
         <div className="relative  flex gap-4 rounded-full bg-slate-300 p-2 text-sm text-darkTheme dark:bg-slate-600 dark:text-slate-300">
-          <button onClick={() => setTheme("light")}>
+          <button>
             <BsFillSunFill />
           </button>
-          <button onClick={() => setTheme("dark")}>
+          <button>
             <BsFillMoonStarsFill />
           </button>
           <div

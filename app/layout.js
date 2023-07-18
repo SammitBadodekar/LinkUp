@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import toast, { Toaster } from "react-hot-toast";
 import AuthProvider from "@/components/authProvider";
 import { UserProvider } from "@/context/userContext";
 import ThemeProvider from "./themeProvider";
@@ -21,34 +20,7 @@ export default function RootLayout({ children }) {
       >
         <UserProvider>
           <AuthProvider>
-            <ThemeProvider>
-              {children}
-              <Toaster
-                position="top-center"
-                reverseOrder={true}
-                gutter={8}
-                containerClassName=""
-                containerStyle={{}}
-                toastOptions={{
-                  // Define default options
-                  className: "",
-                  duration: 3000,
-                  style: {
-                    background: "#fff",
-                    color: "#363636",
-                  },
-
-                  // Default options for specific types
-                  success: {
-                    duration: 3000,
-                    theme: {
-                      primary: "white",
-                      secondary: "black",
-                    },
-                  },
-                }}
-              />
-            </ThemeProvider>
+            <ThemeProvider>{children}</ThemeProvider>
           </AuthProvider>
         </UserProvider>
       </body>
