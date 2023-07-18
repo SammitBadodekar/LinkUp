@@ -19,16 +19,16 @@ const Chatlist = dynamic(() => import("@/components/chatlist"), {
   loading: () => (
     <div className="flex h-screen w-screen flex-col items-center p-4">
       <div className="flex h-20 w-full animate-pulse items-center gap-2">
-        <div className=" aspect-square h-14 w-14 rounded-full bg-DarkButNotBlack"></div>
-        <div className=" h-5 w-11/12 bg-DarkButNotBlack"></div>
+        <div className=" aspect-square h-14 w-14 rounded-full bg-slate-200 dark:bg-DarkButNotBlack"></div>
+        <div className=" h-5 w-11/12 bg-slate-200 dark:bg-DarkButNotBlack"></div>
       </div>
       <div className="flex h-20 w-full animate-pulse items-center gap-2">
-        <div className=" aspect-square h-14 w-14 rounded-full bg-DarkButNotBlack"></div>
-        <div className=" h-5 w-11/12 bg-DarkButNotBlack"></div>
+        <div className=" aspect-square h-14 w-14 rounded-full bg-slate-200 dark:bg-DarkButNotBlack"></div>
+        <div className=" h-5 w-11/12 bg-slate-200 dark:bg-DarkButNotBlack"></div>
       </div>
       <div className="flex h-20 w-full animate-pulse items-center gap-2">
-        <div className=" aspect-square h-14 w-14 rounded-full bg-DarkButNotBlack"></div>
-        <div className=" h-5 w-11/12 bg-DarkButNotBlack"></div>
+        <div className=" aspect-square h-14 w-14 rounded-full bg-slate-200 dark:bg-DarkButNotBlack"></div>
+        <div className=" h-5 w-11/12 bg-slate-200 dark:bg-DarkButNotBlack"></div>
       </div>
     </div>
   ),
@@ -154,7 +154,7 @@ export default function Home() {
         backendURL={backendURL}
       />
       <div
-        className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-darkTheme p-10 duration-700 ease-out ${
+        className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-slate-200 p-10 duration-700 ease-out dark:bg-darkTheme ${
           !user ? "z-50 opacity-100 " : " -z-50 opacity-0"
         }`}
       >

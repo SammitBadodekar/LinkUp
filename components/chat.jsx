@@ -60,8 +60,8 @@ const Chat = (props) => {
   };
   if (!active) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 border-l-2 border-slate-300 bg-slate-100 opacity-0 dark:border-slate-600  dark:bg-DarkButNotBlack sm:opacity-100">
-        <div className=" rounded-full bg-slate-300 p-4 text-9xl dark:bg-DarkButNotBlack">
+      <div className="flex h-screen flex-col items-center justify-center gap-4 border-l-2 border-slate-300 bg-slate-100 opacity-0 dark:border-slate-600  dark:bg-darkTheme sm:opacity-100">
+        <div className=" rounded-full bg-slate-300 p-4 text-9xl shadow-xl dark:bg-DarkButNotBlack">
           <BsLink45Deg />
         </div>
         <p className=" mx-4 dark:text-white ">
@@ -73,7 +73,7 @@ const Chat = (props) => {
   }
   return (
     <div className=" h-full w-full border-l-2 border-slate-300 dark:border-slate-600">
-      <div className="sticky top-0 flex items-center gap-2 bg-slate-100  p-2 py-2 dark:bg-DarkButNotBlack dark:text-white">
+      <div className="sticky top-0 flex items-center gap-2 bg-slate-100  p-2 py-2 shadow-lg dark:bg-DarkButNotBlack dark:text-white">
         <div
           onClick={() => {
             setPreviousChat(active);
@@ -150,7 +150,7 @@ const Chat = (props) => {
         <div ref={chatMessagesRef} />
       </div>
       <form
-        className=" sticky bottom-0 flex h-14 justify-between gap-2 p-2 dark:bg-darkTheme"
+        className=" sticky bottom-0 flex h-14 justify-between gap-2 bg-white p-2 dark:bg-darkTheme"
         onSubmit={(e) => sendMessage(e)}
       >
         <input

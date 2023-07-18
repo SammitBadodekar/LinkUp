@@ -48,8 +48,10 @@ const Chatlist = (props) => {
       <div className="chatList mt-2 overflow-y-scroll">
         <p className=" p-2 text-xl font-extrabold">Chat Rooms</p>
         <div
-          className={`m-2 flex items-center  gap-4 rounded-xl bg-slate-200 p-4 hover:bg-blue-500  dark:bg-DarkButNotBlack  dark:text-slate-50 ${
-            active?.name === "Chat Lounge" ? " bg-blue-500" : ""
+          className={`m-2 flex items-center  gap-4 rounded-xl bg-slate-200 px-4 py-2 hover:bg-blue-500  dark:bg-DarkButNotBlack  dark:text-slate-50 ${
+            active?.name === "Chat Lounge"
+              ? " bg-blue-300 dark:bg-blue-500"
+              : ""
           }`}
           onClick={() => {
             if (active?.name !== "Chat Lounge")
@@ -66,8 +68,8 @@ const Chatlist = (props) => {
           return (
             <article
               key={friend?.email}
-              className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200  px-4 py-4 hover:bg-blue-500  dark:bg-DarkButNotBlack dark:text-white ${
-                active === friend ? " bg-blue-500" : ""
+              className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200  px-4 py-2 hover:bg-blue-500  dark:bg-DarkButNotBlack dark:text-white ${
+                active === friend ? " bg-blue-300 dark:bg-blue-500" : ""
               }`}
               onClick={() => setCurrent(friend)}
             >

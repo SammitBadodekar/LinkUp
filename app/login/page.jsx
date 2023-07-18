@@ -29,7 +29,7 @@ const Page = () => {
           <span className=" text-xl font-extrabold">LinkUp!</span>
         </p>
         <button
-          className=" flex items-center gap-2 rounded-md bg-darkTheme p-2 font-bold text-darkTheme dark:bg-white"
+          className=" flex items-center gap-2 rounded-md bg-slate-200 p-2 font-bold shadow-xl dark:bg-white dark:text-darkTheme"
           onClick={() => signIn("google")}
         >
           <FcGoogle />
