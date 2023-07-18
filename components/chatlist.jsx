@@ -48,7 +48,7 @@ const Chatlist = (props) => {
       <div className="chatList mt-2 overflow-y-scroll">
         <p className=" p-2 text-xl font-extrabold">Chat Rooms</p>
         <div
-          className={`m-2 flex items-center  gap-4 rounded-xl bg-DarkButNotBlack p-4  text-slate-50  hover:bg-blue-500 ${
+          className={`m-2 flex items-center  gap-4 rounded-xl bg-slate-200 p-4 hover:bg-blue-500  dark:bg-DarkButNotBlack  dark:text-slate-50 ${
             active?.name === "Chat Lounge" ? " bg-blue-500" : ""
           }`}
           onClick={() => {
@@ -66,7 +66,7 @@ const Chatlist = (props) => {
           return (
             <article
               key={friend?.email}
-              className={` relative m-2 flex items-center justify-between rounded-xl bg-DarkButNotBlack px-4 py-4  text-white hover:bg-blue-500 ${
+              className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200  px-4 py-4 hover:bg-blue-500  dark:bg-DarkButNotBlack dark:text-white ${
                 active === friend ? " bg-blue-500" : ""
               }`}
               onClick={() => setCurrent(friend)}
@@ -91,7 +91,7 @@ const Chatlist = (props) => {
               >
                 <BsThreeDotsVertical />
                 {removeFriendBTN && current === friend && (
-                  <div className=" absolute -bottom-6 right-2 z-30  rounded-lg p-2 dark:bg-gray-600">
+                  <div className=" absolute -bottom-6 right-2 z-30  rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
                     <button onClick={() => removeFriend(friend)}>
                       Remove Friend
                     </button>

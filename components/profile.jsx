@@ -6,13 +6,13 @@ const Profile = (props) => {
   const { user, open, setOpen } = props;
   return (
     <div
-      className={`profile fixed bottom-0 left-0 top-0 flex flex-col justify-between gap-2 overflow-y-scroll dark:bg-darkTheme dark:text-white ${
+      className={`profile fixed bottom-0 left-0 top-0 flex flex-col justify-between gap-2 overflow-y-scroll bg-white dark:bg-darkTheme dark:text-white ${
         open ? "open" : ""
       }`}
     >
       <section className="flex flex-col gap-2 p-8">
         <h1
-          className="fixed top-0 z-50 -ml-8 flex w-full items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack"
+          className="fixed top-0 z-50 -ml-8 flex w-full items-center gap-4 bg-slate-100 p-4 text-xl font-bold shadow-lg dark:bg-DarkButNotBlack"
           onClick={() => {
             setOpen(!open);
           }}
@@ -34,7 +34,7 @@ const Profile = (props) => {
       </section>
 
       <button
-        className=" m-4 rounded-md  bg-slate-200 p-2 text-darkTheme"
+        className=" m-4 rounded-md  bg-slate-400 p-2 text-darkTheme"
         onClick={() => signOut()}
       >
         Logout

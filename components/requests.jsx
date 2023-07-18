@@ -67,7 +67,7 @@ const Requests = (props) => {
             return (
               <article
                 key={request.sender?.email}
-                className=" flex items-center gap-2 rounded-xl bg-DarkButNotBlack p-1 px-2 py-4"
+                className=" flex items-center gap-2 rounded-xl bg-slate-200 p-1 px-2 py-4 dark:bg-DarkButNotBlack"
               >
                 <Image
                   src={request.sender.image || "/PngItem_307416.png"}
@@ -104,7 +104,7 @@ const Requests = (props) => {
             return (
               <article
                 key={request.receiver._id}
-                className=" relative m-1 my-2 flex rounded-xl bg-DarkButNotBlack px-2 py-4"
+                className=" relative m-1 my-2 flex rounded-xl  bg-slate-200 px-2 py-4 dark:bg-DarkButNotBlack"
               >
                 <div className=" mr-20 flex items-center gap-2 text-sm">
                   <Image

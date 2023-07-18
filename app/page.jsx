@@ -88,23 +88,27 @@ export default function Home() {
 
   return (
     <main>
-      <div className=" overflow-hidden sm:w-1/3">
+      <div className=" overflow-hidden shadow-lg sm:w-1/3">
         <Navbar />
       </div>
       <div></div>
       <div className="flex w-full gap-2 px-2">
         <button
           onClick={() => setSection("chat")}
-          className={`btn-navigation my-2 rounded-lg bg-DarkButNotBlack p-4  ${
-            section === "chat" ? " bg-slate-400 text-darkTheme" : ""
+          className={`btn-navigation my-2 rounded-lg bg-slate-200 p-4 dark:bg-DarkButNotBlack  ${
+            section === "chat"
+              ? " bg-slate-400 text-darkTheme dark:bg-slate-400"
+              : ""
           }`}
         >
           Chats
         </button>
         <button
           onClick={() => setSection("request")}
-          className={`btn-navigation my-2 rounded-lg bg-DarkButNotBlack p-4  ${
-            section === "request" ? "bg-slate-400 text-darkTheme" : ""
+          className={`btn-navigation my-2 rounded-lg bg-slate-200 p-4   dark:bg-DarkButNotBlack  ${
+            section === "request"
+              ? "bg-slate-400 text-darkTheme dark:bg-slate-400"
+              : ""
           }`}
         >
           Requests &#40;{requests?.length || 0}&#41;

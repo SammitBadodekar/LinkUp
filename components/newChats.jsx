@@ -59,19 +59,19 @@ const NewChats = (props) => {
   }, []);
   if (!allUsers && addNewChats) {
     return (
-      <div className=" absolute -top-28 left-0 right-0 flex h-screen items-center justify-center bg-darkTheme ">
+      <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-darkTheme ">
         <Loading />
       </div>
     );
   }
   return (
     <div
-      className={`newChats fixed bottom-0 left-0  top-0 z-20 flex w-screen flex-col justify-between gap-2 overflow-y-scroll dark:bg-darkTheme dark:text-white  ${
+      className={`newChats fixed bottom-0 left-0  top-0 z-20 flex w-screen flex-col justify-between gap-2 overflow-y-scroll bg-white  dark:bg-darkTheme dark:text-white  ${
         addNewChats ? "newChats open" : ""
       }`}
     >
       <h1
-        className="z-20 flex w-full items-center gap-4 p-4  text-xl font-bold dark:bg-DarkButNotBlack"
+        className="z-20 flex w-full items-center gap-4 bg-slate-100  p-4 text-xl font-bold shadow-lg dark:bg-DarkButNotBlack"
         onClick={() => {
           setAddNewChats(false);
         }}

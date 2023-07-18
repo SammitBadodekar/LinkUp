@@ -1,4 +1,4 @@
-import { BsChatDots } from "react-icons/bs";
+import { BsLink45Deg } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
@@ -60,17 +60,10 @@ const Chat = (props) => {
   };
   if (!active) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 border-l-2 border-slate-600  opacity-0 sm:opacity-100">
-        <IconContext.Provider
-          value={{
-            color: "white",
-            className: " w-52 h-52 ",
-          }}
-        >
-          <div>
-            <BsChatDots />
-          </div>
-        </IconContext.Provider>
+      <div className="flex h-screen flex-col items-center justify-center gap-4 border-l-2 border-slate-300 bg-slate-100 opacity-0 dark:border-slate-600  dark:bg-DarkButNotBlack sm:opacity-100">
+        <div className=" rounded-full bg-slate-300 p-4 text-9xl dark:bg-DarkButNotBlack">
+          <BsLink45Deg />
+        </div>
         <p className=" mx-4 dark:text-white ">
           Connect, Chat, and Collaborate in Real Time with{" "}
           <span className=" text-xl font-extrabold">LinkUp!</span>
@@ -79,8 +72,8 @@ const Chat = (props) => {
     );
   }
   return (
-    <div className=" h-full w-full border-l-2 border-slate-600">
-      <div className="sticky top-0 flex items-center gap-2  bg-DarkButNotBlack p-2 py-2 text-white">
+    <div className=" h-full w-full border-l-2 border-slate-300 dark:border-slate-600">
+      <div className="sticky top-0 flex items-center gap-2 bg-slate-100  p-2 py-2 dark:bg-DarkButNotBlack dark:text-white">
         <div
           onClick={() => {
             setPreviousChat(active);
@@ -109,7 +102,7 @@ const Chat = (props) => {
         <p className=" p-2">{active?.name}</p>
       </div>
 
-      <div className="chat-messages flex w-screen  flex-col overflow-x-hidden overflow-y-scroll text-left">
+      <div className="chat-messages flex w-screen flex-col  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
         <div
           className={`${
             messages?.length == 0
@@ -125,7 +118,7 @@ const Chat = (props) => {
               if (message.sender?.email === user?.email) {
                 return (
                   <div
-                    className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-green-600 p-2 px-4"
+                    className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-blue-400 p-2 px-4 dark:bg-green-600"
                     key={uuidv4()}
                   >
                     <p>{message?.message}</p>
@@ -144,7 +137,7 @@ const Chat = (props) => {
                     height={30}
                     className={`rounded-full`}
                   ></Image>
-                  <div className=" flex flex-col gap-2 rounded-3xl rounded-tl-sm bg-DarkButNotBlack p-2 px-4">
+                  <div className=" flex flex-col gap-2 rounded-3xl rounded-tl-sm bg-slate-200 p-2 px-4 dark:bg-DarkButNotBlack">
                     <p className=" -ml-2 text-xs font-extralight">
                       ~ {message?.sender?.name}
                     </p>
@@ -157,19 +150,19 @@ const Chat = (props) => {
         <div ref={chatMessagesRef} />
       </div>
       <form
-        className=" sticky bottom-0 flex h-14 justify-between gap-2 bg-darkTheme p-2"
+        className=" sticky bottom-0 flex h-14 justify-between gap-2 p-2 dark:bg-darkTheme"
         onSubmit={(e) => sendMessage(e)}
       >
         <input
           type="text"
           placeholder="Message"
-          className=" w-full rounded-3xl bg-slate-600 p-2"
+          className=" w-full rounded-3xl bg-slate-300 p-2 dark:bg-slate-600"
           onChange={(e) => setInput(e.target.value)}
           value={input}
         />
         <button
           type="submit"
-          className=" flex w-12 items-center justify-center rounded-3xl bg-DarkButNotBlack text-white"
+          className=" flex w-12 items-center justify-center rounded-3xl bg-slate-300  dark:bg-DarkButNotBlack dark:text-white"
         >
           <AiOutlineSend />
         </button>
