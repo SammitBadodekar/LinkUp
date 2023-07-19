@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import {
-  BsFillChatLeftTextFill,
+  BsThreeDotsVertical,
   BsFillMoonStarsFill,
   BsFillSunFill,
 } from "react-icons/bs";
@@ -57,15 +57,15 @@ const Navbar = () => {
         onClick={() => setIsClicked(!isClicked)}
       />
 
-      <div
-        className=" flex items-center gap-6 text-xl  text-slate-500 dark:text-slate-200"
-        onClick={() => {
-          if (theme === "dark") {
-            setTheme("light");
-          } else setTheme("dark");
-        }}
-      >
-        <div className="relative  flex gap-4 rounded-full bg-slate-300 p-2 text-sm text-darkTheme dark:bg-slate-600 dark:text-slate-300">
+      <div className=" flex items-center gap-2 text-xl  text-slate-500 dark:text-slate-200">
+        <div
+          className="relative  flex gap-4 rounded-full bg-slate-300 p-2 text-sm text-darkTheme dark:bg-slate-600 dark:text-slate-300"
+          onClick={() => {
+            if (theme === "dark") {
+              setTheme("light");
+            } else setTheme("dark");
+          }}
+        >
           <button>
             <BsFillSunFill />
           </button>
@@ -78,8 +78,6 @@ const Navbar = () => {
             }`}
           ></div>
         </div>
-
-        <BsFillChatLeftTextFill />
       </div>
 
       <div ref={modalRef} className=" fixed z-50 flex justify-center">
