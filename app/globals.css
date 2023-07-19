@@ -125,7 +125,6 @@
   display: inline-block;
   position: relative;
   background: #6f6f6f;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   box-sizing: border-box;
   animation: animFw 8s linear infinite;
 }

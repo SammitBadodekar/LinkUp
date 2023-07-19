@@ -11,7 +11,7 @@ import Navbar from "@/components/Navbar";
 import NewChats from "@/components/newChats";
 
 const backendURL =
-  "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
+  "http://localhost:3001"; /* ("https://linkup-backend-2uhh.onrender.com"); */
 
 const socket = io.connect(backendURL);
 

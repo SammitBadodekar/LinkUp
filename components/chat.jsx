@@ -1,5 +1,4 @@
 import { BsLink45Deg } from "react-icons/bs";
-import { IconContext } from "react-icons";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
@@ -34,27 +33,40 @@ const Chat = (props) => {
 
   useEffect(() => {
     socket.on("broadcast", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      scrollToBottom(chatMessagesRef, 200);
+      if (active?.name === "Chat Lounge") {
+        setMessages((prevMessages) => [...prevMessages, data]);
+        scrollToBottom(chatMessagesRef, 200);
+      }
+    });
+    socket.on("receive_message", (data) => {
+      console.log(data);
+      if (active?.name === data.to) {
+        setMessages((prevMessages) => [...prevMessages, data]);
+        scrollToBottom(chatMessagesRef, 200);
+      }
     });
   }, [socket]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    if (input !== "" && messages.length !== 0) {
-      fetch("/api/sendMessage", {
+    if (input !== "") {
+      /*  fetch("/api/sendMessage", {
         method: "PUT",
         body: JSON.stringify({
           roomName: active.name,
           messages: [...messages, { message: input, sender: user }],
         }),
-      });
+      }); */
       setMessages((prevMessages) => [
         ...prevMessages,
         { message: input, sender: user },
       ]);
       setInput("");
-      socket.emit("send_message", { message: input, sender: user });
+      socket.emit("send_message", {
+        message: input,
+        sender: { name: user.name, image: user.image },
+        to: active?.email,
+      });
       scrollToBottom(chatMessagesRef, 200);
     }
   };
@@ -103,7 +115,7 @@ const Chat = (props) => {
       </div>
 
       <div className="chat-messages flex w-screen flex-col  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
-        <div
+        {/*  <div
           className={`${
             messages?.length == 0
               ? "mt-10 flex h-screen justify-center"
@@ -111,7 +123,7 @@ const Chat = (props) => {
           } `}
         >
           <Loading />
-        </div>
+        </div> */}
 
         {messages
           ? messages.map((message) => {
