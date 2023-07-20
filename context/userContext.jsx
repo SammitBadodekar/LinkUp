@@ -7,9 +7,19 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [requests, setRequests] = useState([]);
   const [friends, setFriends] = useState(null);
+  const [active, setActive] = useState(null);
   return (
     <UserContext.Provider
-      value={{ user, setUser, requests, setRequests, friends, setFriends }}
+      value={{
+        user,
+        setUser,
+        requests,
+        setRequests,
+        friends,
+        setFriends,
+        active,
+        setActive,
+      }}
     >
       {children}
     </UserContext.Provider>

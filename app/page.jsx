@@ -47,9 +47,16 @@ const Requests = dynamic(() => import("@/components/requests"), {
 export default function Home() {
   const [section, setSection] = useState("chat");
   const [addNewChats, setAddNewChats] = useState(false);
-  const { user, setUser, requests, setRequests, setFriends, friends } =
-    useContext(UserContext);
-  const [active, setActive] = useState(null);
+  const {
+    user,
+    setUser,
+    requests,
+    setRequests,
+    setFriends,
+    friends,
+    active,
+    setActive,
+  } = useContext(UserContext);
   const [initialLoadingPhrase, setInitialLoadingPhrase] = useState([
     "setting up your account...",
     "loading your profile...",
@@ -125,8 +132,6 @@ export default function Home() {
           {friends && (
             <Chatlist
               socket={socket}
-              active={active}
-              setActive={setActive}
               backendURL={backendURL}
               addNewChats={addNewChats}
               setAddNewChats={setAddNewChats}
@@ -140,12 +145,7 @@ export default function Home() {
           active !== null ? "open" : "close"
         }`}
       >
-        <Chat
-          active={active}
-          setActive={setActive}
-          socket={socket}
-          user={user}
-        />
+        <Chat socket={socket} user={user} />
       </div>
       <NewChats
         addNewChats={addNewChats}

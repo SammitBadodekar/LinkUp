@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useRef, useEffect, useCallback } from "react";
 import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -6,9 +6,9 @@ import { IoIosPeople } from "react-icons/io";
 import toast, { Toaster } from "react-hot-toast";
 
 const Chatlist = (props) => {
-  const { socket, active, setActive, backendURL, addNewChats, setAddNewChats } =
-    props;
-  const { friends, user, setFriends } = useContext(UserContext);
+  const { socket, backendURL, addNewChats, setAddNewChats } = props;
+  const { friends, user, setFriends, active, setActive } =
+    useContext(UserContext);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
   const [current, setCurrent] = useState(null);
   const modalRef = useRef(null);
@@ -43,6 +43,10 @@ const Chatlist = (props) => {
     }).then(toast(`Removed ${friend.name}`));
   };
 
+  const setActiveFriend = useCallback((friend) => {
+    setActive(friend);
+  }, []);
+
   return (
     <div>
       <div className="chatList mt-2 overflow-y-scroll">
@@ -73,7 +77,9 @@ const Chatlist = (props) => {
             >
               <div
                 className="flex items-center gap-4"
-                onClick={() => setActive(friend)}
+                onClick={() => {
+                  setActiveFriend(friend);
+                }}
               >
                 <Image
                   src={friend.image}
