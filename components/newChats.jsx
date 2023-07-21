@@ -59,9 +59,9 @@ const NewChats = (props) => {
   }, []);
   if (!allUsers && addNewChats) {
     return (
-      <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-darkTheme sm:right-1/3">
+      <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-white  dark:bg-darkTheme sm:right-2/3">
         <h1
-          className=" fixed left-0 right-0 top-0 z-20 flex items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack sm:right-2/3"
+          className=" fixed left-0 right-0 top-0 z-20 flex items-center gap-4 bg-white p-4 text-xl font-bold shadow-lg dark:bg-DarkButNotBlack sm:right-2/3"
           onClick={() => {
             setAddNewChats(false);
           }}
