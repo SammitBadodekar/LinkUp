@@ -13,6 +13,7 @@ import { UserContext } from "@/context/userContext";
 const Chat = (props) => {
   const { socket, user } = props;
   const [messages, setMessages] = useState([]);
+  const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
   const [previousChat, setPreviousChat] = useState(null);
   const chatMessagesRef = useRef(null);
@@ -21,15 +22,22 @@ const Chat = (props) => {
 
   useEffect(() => {
     activeRef.current = active;
-    if (previousChat?.name === active?.name || !active) {
+    if (previousChat?.email === active?.email || !active) {
       scrollToBottom(chatMessagesRef, 300);
     } else {
       setMessages([]);
-      fetch(`/api/messages/${active?.name}`)
+      fetch(
+        `/api/messages/${
+          active.name === "Chat Lounge"
+            ? active.name
+            : `${user.email}-${active.email}`
+        }`
+      )
         .then((resp) => resp.json())
         .then((data) => {
           if (data) {
-            setMessages(Object.values(data?.messages)[0]);
+            setRoomName(data?.roomName);
+            setMessages(data?.messages);
           }
         })
         .then(() => scrollToBottom(chatMessagesRef, 400));
@@ -39,13 +47,34 @@ const Chat = (props) => {
   const sendMessage = async (e) => {
     e.preventDefault();
     if (input !== "") {
-      /*  fetch("/api/sendMessage", {
+      fetch("/api/sendMessage", {
         method: "PUT",
         body: JSON.stringify({
-          roomName: active.name,
-          messages: [...messages, { message: input, sender: { name: user.name, image: user.image , email:user.email } }],
+          roomName,
+          messages: [
+            ...messages,
+            {
+              message: input,
+              sender: {
+                name: user.name,
+                image: user.image,
+                email: user.email,
+              },
+            },
+          ],
         }),
-      }); */
+      });
+      console.log([
+        ...messages,
+        {
+          message: input,
+          sender: {
+            name: user.name,
+            image: user.image,
+            email: user.email,
+          },
+        },
+      ]);
       setMessages((prevMessages) => [
         ...prevMessages,
         {
@@ -70,11 +99,11 @@ const Chat = (props) => {
       }
     });
     socket.on("receive_message", (data) => {
-      if (activeRef.current?.name === data.sender?.name) {
+      if (activeRef.current?.email === data.sender?.email) {
         setMessages((prevMessages) => [...prevMessages, data]);
         scrollToBottom(chatMessagesRef, 200);
       }
-      if (activeRef.current?.name !== data.sender?.name) {
+      if (activeRef.current?.email !== data.sender?.email) {
         toast.custom((t) => (
           <div
             className={`${

@@ -4,11 +4,13 @@ import Message from "@/models/MessageModel";
 
 export const PUT = async (req) => {
   const body = await req.json();
+  const messages = body.messages;
+  console.log(body);
   try {
     await connect();
     const newMessages = {
       $set: {
-        messages: [body.messages],
+        messages: [...messages],
       },
     };
     await Message.updateOne({ roomName: body.roomName }, newMessages);

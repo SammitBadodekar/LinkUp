@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
 import Navbar from "@/components/Navbar";
-import NewChats from "@/components/newChats";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -37,6 +36,13 @@ const Chat = dynamic(() => import("@/components/chat"), {
   loading: () => <div>loading...</div>,
 });
 const Requests = dynamic(() => import("@/components/requests"), {
+  loading: () => (
+    <div className=" mt-20 flex h-screen justify-center ">
+      <Loading />
+    </div>
+  ),
+});
+const NewChats = dynamic(() => import("@/components/newChats"), {
   loading: () => (
     <div className=" mt-20 flex h-screen justify-center ">
       <Loading />
@@ -99,7 +105,7 @@ export default function Home() {
         <Navbar />
       </div>
       <div></div>
-      <div className="flex w-full gap-2 px-2">
+      <div className="grid w-full grid-cols-2 gap-2 px-2 sm:w-1/3">
         <button
           onClick={() => setSection("chat")}
           className={`btn-navigation my-2 rounded-lg bg-slate-200 p-4 dark:bg-DarkButNotBlack  ${

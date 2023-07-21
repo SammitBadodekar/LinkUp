@@ -23,6 +23,13 @@ const Requests = (props) => {
         sender,
       }),
     }).then(toast(`Added ${sender.name}`));
+    fetch("/api/chatRooms/create", {
+      method: "PUT",
+      body: JSON.stringify({
+        user: { name: user.name, email: user.email, image: user.image },
+        friend: { name: sender.name, email: sender.email, image: sender.image },
+      }),
+    });
   };
   const removeRequest = async (sender) => {
     const updatedRequests = await requests.filter(

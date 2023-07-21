@@ -15,25 +15,6 @@ export const PUT = async (req) => {
       requests: [],
     });
     await createUser.save();
-    const users = await User.findOne({ _id: "64ad009445613725d39e7d73" });
-    const allUsers = users.friends;
-    await User.updateOne(
-      { _id: "64ad009445613725d39e7d73" },
-      {
-        $set: {
-          friends: [
-            ...allUsers,
-            {
-              name: user.name,
-              email: user.email,
-              image: user.image,
-              friends: [],
-              requests: [],
-            },
-          ],
-        },
-      }
-    );
     return new NextResponse("created");
   } else {
     return new NextResponse(user);

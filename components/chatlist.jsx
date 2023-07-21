@@ -57,7 +57,7 @@ const Chatlist = (props) => {
           }`}
           onClick={() => {
             if (active?.name !== "Chat Lounge")
-              setActive({ name: "Chat Lounge" });
+              setActive({ name: "Chat Lounge", email: "Chat Lounge" });
           }}
         >
           <span className=" rounded-full bg-slate-300 p-2 text-2xl text-darkTheme">

@@ -59,7 +59,16 @@ const NewChats = (props) => {
   }, []);
   if (!allUsers && addNewChats) {
     return (
-      <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-darkTheme ">
+      <div className=" absolute left-0 right-0 top-0 flex h-screen items-center justify-center bg-darkTheme sm:right-1/3">
+        <h1
+          className=" fixed left-0 right-0 top-0 z-20 flex items-center gap-4 p-4 text-xl font-bold dark:bg-DarkButNotBlack sm:right-2/3"
+          onClick={() => {
+            setAddNewChats(false);
+          }}
+        >
+          <BiArrowBack />
+          New Chats
+        </h1>
         <Loading />
       </div>
     );
