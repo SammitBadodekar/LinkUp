@@ -1,4 +1,4 @@
-import { BsLink45Deg } from "react-icons/bs";
+import { BsLink45Deg, BsThreeDotsVertical } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
@@ -192,10 +192,13 @@ const Chat = (props) => {
           <IoIosPeople />
         </span>
         <p className=" p-2">{active?.name}</p>
+        {/* <div className=" ml-auto px-4">
+          <BsThreeDotsVertical />
+        </div> */}
       </div>
 
       <div className="chat-messages flex w-screen flex-col  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
-        {/*  <div
+        <div
           className={`${
             messages?.length == 0
               ? "mt-10 flex h-screen justify-center"
@@ -203,10 +206,20 @@ const Chat = (props) => {
           } `}
         >
           <Loading />
-        </div> */}
+        </div>
 
         {messages
           ? messages.map((message) => {
+              if (message.sender === "linkup-info") {
+                return (
+                  <div
+                    className="max-w-4/5 m-2 flex h-fit w-fit items-start justify-center self-center rounded-lg bg-slate-400 p-2 px-4 text-xs text-white dark:text-darkTheme"
+                    key={uuidv4()}
+                  >
+                    <p>{message?.message}</p>
+                  </div>
+                );
+              }
               if (message.sender?.email === user?.email) {
                 return (
                   <div

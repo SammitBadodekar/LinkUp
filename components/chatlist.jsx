@@ -70,13 +70,13 @@ const Chatlist = (props) => {
           return (
             <article
               key={friend?.email}
-              className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200  px-4 py-2 hover:bg-blue-500  dark:bg-DarkButNotBlack dark:text-white dark:hover:bg-blue-500 ${
+              className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200  px-4 py-2  dark:bg-DarkButNotBlack dark:text-white dark:hover:bg-blue-500 ${
                 active === friend ? " bg-blue-500" : ""
               }`}
               onClick={() => setCurrent(friend)}
             >
               <div
-                className="flex items-center gap-4"
+                className="flex items-center gap-4 hover:bg-blue-500"
                 onClick={() => {
                   setActiveFriend(friend);
                 }}
@@ -88,7 +88,7 @@ const Chatlist = (props) => {
                   height={50}
                   className=" rounded-full"
                 ></Image>
-                {friend.name}
+                <p className=" py-2">{friend.name}</p>
               </div>
               <div
                 className=""
