@@ -213,7 +213,7 @@ const Chat = (props) => {
               if (message.sender === "linkup-info") {
                 return (
                   <div
-                    className="max-w-4/5 m-2 flex h-fit w-fit items-start justify-center self-center rounded-lg bg-slate-400 p-2 px-4 text-xs text-white dark:text-darkTheme"
+                    className="max-w-4/5 m-2 mx-6 flex h-fit w-fit items-start justify-center self-center rounded-lg bg-slate-400 p-2 text-center text-xs text-white dark:text-darkTheme sm:mx-2"
                     key={uuidv4()}
                   >
                     <p>{message?.message}</p>
