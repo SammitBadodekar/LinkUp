@@ -6,7 +6,7 @@ import { IoIosPeople } from "react-icons/io";
 import toast, { Toaster } from "react-hot-toast";
 
 const Chatlist = (props) => {
-  const { socket, backendURL, addNewChats, setAddNewChats } = props;
+  const { setAddNewChats } = props;
   const { friends, user, setFriends, active, setActive } =
     useContext(UserContext);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);

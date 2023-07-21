@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import Loading from "../components/loading";
 import { io } from "socket.io-client";
 import Navbar from "@/components/Navbar";
+import NewChats from "@/components/newChats";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -16,18 +17,15 @@ const socket = io.connect(backendURL);
 
 const Chatlist = dynamic(() => import("@/components/chatlist"), {
   loading: () => (
-    <div className="flex h-screen w-screen flex-col items-center p-4">
-      <div className="flex h-20 w-full animate-pulse items-center gap-2">
-        <div className=" aspect-square h-14 w-14 rounded-full bg-slate-200 dark:bg-DarkButNotBlack"></div>
-        <div className=" h-5 w-11/12 bg-slate-200 dark:bg-DarkButNotBlack"></div>
+    <div className="flex h-screen w-screen flex-col items-center gap-2 p-4">
+      <div className="h-20 w-full animate-bounce items-center gap-2">
+        <div className=" mx-2 h-10 w-full rounded-3xl bg-slate-200 dark:bg-DarkButNotBlack"></div>
       </div>
-      <div className="flex h-20 w-full animate-pulse items-center gap-2">
-        <div className=" aspect-square h-14 w-14 rounded-full bg-slate-200 dark:bg-DarkButNotBlack"></div>
-        <div className=" h-5 w-11/12 bg-slate-200 dark:bg-DarkButNotBlack"></div>
+      <div className=" h-20 w-full animate-bounce items-center gap-2">
+        <div className=" mx-2 h-10 w-full rounded-3xl bg-slate-200 dark:bg-DarkButNotBlack"></div>
       </div>
-      <div className="flex h-20 w-full animate-pulse items-center gap-2">
-        <div className=" aspect-square h-14 w-14 rounded-full bg-slate-200 dark:bg-DarkButNotBlack"></div>
-        <div className=" h-5 w-11/12 bg-slate-200 dark:bg-DarkButNotBlack"></div>
+      <div className="h-20 w-full animate-bounce items-center gap-2">
+        <div className=" mx-2 h-10 w-full rounded-3xl bg-slate-200 dark:bg-DarkButNotBlack"></div>
       </div>
     </div>
   ),
@@ -42,33 +40,19 @@ const Requests = dynamic(() => import("@/components/requests"), {
     </div>
   ),
 });
-const NewChats = dynamic(() => import("@/components/newChats"), {
-  loading: () => (
-    <div className=" mt-20 flex h-screen justify-center ">
-      <Loading />
-    </div>
-  ),
-});
 
 export default function Home() {
+  const session = useSession();
   const [section, setSection] = useState("chat");
   const [addNewChats, setAddNewChats] = useState(false);
-  const {
-    user,
-    setUser,
-    requests,
-    setRequests,
-    setFriends,
-    friends,
-    active,
-    setActive,
-  } = useContext(UserContext);
+  const { user, setUser, requests, setRequests, setFriends, friends, active } =
+    useContext(UserContext);
   const [initialLoadingPhrase, setInitialLoadingPhrase] = useState([
     "setting up your account...",
     "loading your profile...",
     "finishing your setup...",
   ]);
-  const session = useSession();
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       socket.emit("join_self", { email: session.data.user?.email });
@@ -102,7 +86,7 @@ export default function Home() {
   return (
     <main>
       <div className=" overflow-hidden shadow-lg sm:w-1/3">
-        <Navbar />
+        <Navbar user={session.data?.user} />
       </div>
       <div></div>
       <div className="grid w-full grid-cols-2 gap-2 px-2 sm:w-1/3">
@@ -127,41 +111,39 @@ export default function Home() {
           Requests &#40;{requests?.length || 0}&#41;
         </button>
       </div>
-      {session.data?.user && (
-        <div
-          className={` duration-300 ease-in ${
-            section === "chat"
-              ? " sm:chatList-container w-screen translate-x-0 sm:static sm:w-1/3"
-              : " -translate-x-full opacity-0"
-          } `}
-        >
-          {friends && (
-            <Chatlist
-              socket={socket}
-              backendURL={backendURL}
-              addNewChats={addNewChats}
-              setAddNewChats={setAddNewChats}
-            />
-          )}
-        </div>
-      )}
+
+      <div
+        className={` duration-300 ease-in ${
+          section === "chat"
+            ? " sm:chatList-container w-screen translate-x-0 sm:static sm:w-1/3"
+            : " -translate-x-full opacity-0"
+        } `}
+      >
+        <Chatlist
+          socket={socket}
+          backendURL={backendURL}
+          addNewChats={addNewChats}
+          setAddNewChats={setAddNewChats}
+        />
+      </div>
+
       <Requests section={section} />
       <div
         className={`chat fixed bottom-0 left-0 top-0 flex flex-col gap-2 overflow-y-hidden text-center dark:bg-darkTheme  dark:text-white sm:left-1/3 sm:w-4/6 ${
           active !== null ? "open" : "close"
         }`}
       >
-        <Chat socket={socket} user={user} />
+        <Chat socket={socket} />
       </div>
       <NewChats
         addNewChats={addNewChats}
         setAddNewChats={setAddNewChats}
         socket={socket}
-        backendURL={backendURL}
       />
+
       <div
         className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-slate-200 p-10 duration-700 ease-out dark:bg-darkTheme ${
-          !user ? "z-50 opacity-100 " : " -z-50 opacity-0"
+          !session.data ? "z-50 opacity-100 " : " -z-50 opacity-0"
         }`}
       >
         <p>{initialLoadingPhrase[0]}</p>

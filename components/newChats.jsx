@@ -7,7 +7,7 @@ import Loading from "./loading";
 
 const NewChats = (props) => {
   const { user, setRequests, requests, friends } = useContext(UserContext);
-  const { addNewChats, setAddNewChats, socket, backendURL } = props;
+  const { addNewChats, setAddNewChats, socket } = props;
   const [allUsers, setAllUsers] = useState(null);
 
   const addFriend = (receiver) => {
@@ -48,14 +48,11 @@ const NewChats = (props) => {
   };
 
   useEffect(() => {
-    const fetchAllUsers = async () => {
-      const userInfo = await fetch(
-        `https://linkup-backend-2uhh.onrender.com/getAllUsers`
-      );
-      const result = await userInfo.json();
-      setAllUsers(Object.entries(result));
-    };
-    fetchAllUsers();
+    fetch(
+      ` https://linkup-backend-2uhh.onrender.com/getAllUsers `
+    ) /*http://localhost:3001/getAllUsers*/
+      .then((resp) => resp.json())
+      .then((data) => setAllUsers(Object.values(data)));
   }, []);
   if (!allUsers && addNewChats) {
     return (
@@ -89,33 +86,28 @@ const NewChats = (props) => {
         New Chats
       </h1>
       <div className=" mt-0 px-2">
-        {allUsers?.map(([key, value]) => {
+        {allUsers?.map((singleUser) => {
           const isFriend = friends?.some(
-            (item) => item?.email === value?.email
+            (item) => item?.email === singleUser?.email
           );
-          if (
-            value?.email === user?.email ||
-            isFriend ||
-            value?._id === "64ad009445613725d39e7d73"
-          )
-            return;
+          if (user?.email === singleUser?.email || isFriend) return;
 
           return (
             <article
-              key={key}
+              key={singleUser.email}
               className=" relative flex w-full items-center gap-2 p-4"
             >
               <Image
-                src={value?.image || "/PngItem_307416.png"}
+                src={singleUser?.image || "/PngItem_307416.png"}
                 width={50}
                 height={50}
                 alt="profile"
                 className=" rounded-full object-cover"
               />
-              <p>{value?.name}</p>
+              <p>{singleUser?.name}</p>
               <button
                 className=" absolute right-4 top-6 rounded-xl bg-slate-400 p-1 text-sm font-bold text-darkTheme"
-                onClick={() => addFriend(value)}
+                onClick={() => addFriend(singleUser)}
               >
                 Add
               </button>

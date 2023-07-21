@@ -11,13 +11,13 @@ import { IoIosPeople } from "react-icons/io";
 import { UserContext } from "@/context/userContext";
 
 const Chat = (props) => {
-  const { socket, user } = props;
+  const { socket } = props;
   const [messages, setMessages] = useState([]);
   const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
   const [previousChat, setPreviousChat] = useState(null);
   const chatMessagesRef = useRef(null);
-  const { active, setActive } = useContext(UserContext);
+  const { active, setActive, user } = useContext(UserContext);
   const activeRef = useRef(active);
 
   useEffect(() => {
@@ -115,6 +115,7 @@ const Chat = (props) => {
               onClick={() => {
                 setActive(data.sender);
                 setMessages([]);
+                toast.dismiss(t.id);
               }}
             >
               <div className="flex items-start">
