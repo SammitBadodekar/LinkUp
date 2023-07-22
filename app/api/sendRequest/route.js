@@ -13,11 +13,12 @@ export const PUT = async (req) => {
     };
     await User.updateOne(sender, senderUpdate);
     const receiver = { email: body.receiver.email };
-    const updatedSender = await User.find({ email: body.sender.email });
-    const requestReceived = { type: "received", sender: updatedSender[0] };
+    const updatedReceiver = await User.find({ email: body.receiver.email });
+    console.log(updatedReceiver[0].requests);
+    const requestReceived = { type: "received", sender: body.sender };
     const receiverUpdate = {
       $set: {
-        requests: [requestReceived, ...body.receiver.requests],
+        requests: [requestReceived, ...updatedReceiver[0].requests],
       },
     };
     await User.updateOne(receiver, receiverUpdate);

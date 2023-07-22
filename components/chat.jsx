@@ -17,8 +17,27 @@ const Chat = (props) => {
   const [input, setInput] = useState("");
   const [previousChat, setPreviousChat] = useState(null);
   const chatMessagesRef = useRef(null);
-  const { active, setActive, user } = useContext(UserContext);
+  const { active, setActive, user, friends, setFriends } =
+    useContext(UserContext);
   const activeRef = useRef(active);
+  const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setRemoveFriendBTN(false);
+      }
+    };
+
+    if (removeFriendBTN) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [removeFriendBTN]);
 
   useEffect(() => {
     activeRef.current = active;
@@ -151,6 +170,22 @@ const Chat = (props) => {
       }
     });
   }, [socket]);
+
+  const removeFriend = async (friend) => {
+    const updatedFriends = await friends.filter(
+      (userFriends) => userFriends?.email !== friend?.email
+    );
+    setFriends(updatedFriends);
+    fetch("/api/removeFriend", {
+      method: "PUT",
+      body: JSON.stringify({
+        user,
+        friend,
+      }),
+    }).then(toast(`Removed ${friend.name}`));
+    setActive(null);
+  };
+
   if (!active) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4 border-l-2 border-slate-300 bg-slate-100 opacity-0 dark:border-slate-600  dark:bg-darkTheme sm:opacity-100">
@@ -193,9 +228,20 @@ const Chat = (props) => {
           <IoIosPeople />
         </span>
         <p className=" p-2">{active?.name}</p>
-        {/* <div className=" ml-auto px-4">
+        <div
+          className=" ml-auto px-4"
+          ref={modalRef}
+          onClick={() => setRemoveFriendBTN((prev) => !prev)}
+        >
           <BsThreeDotsVertical />
-        </div> */}
+          {removeFriendBTN && (
+            <div className=" absolute -bottom-6 right-2 z-30  rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
+              <button onClick={() => removeFriend(active)}>
+                Remove Friend
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="chat-messages flex w-screen flex-col  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
