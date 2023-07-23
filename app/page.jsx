@@ -9,6 +9,7 @@ import Loading from "../components/loading";
 import { io } from "socket.io-client";
 import Navbar from "@/components/Navbar";
 import NewChats from "@/components/newChats";
+import Image from "next/image";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -70,7 +71,41 @@ export default function Home() {
   useEffect(() => {
     socket.on("receive_request", (data) => {
       setRequests((prev) => [data, ...prev]);
-      toast(`${data.sender.name} sent you friend request`);
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } pointer-events-auto flex w-full max-w-md rounded-lg bg-slate-300 shadow-lg ring-1 ring-black ring-opacity-5`}
+        >
+          <div
+            className="w-0 flex-1 p-4"
+            onClick={() => {
+              setSection("request");
+              toast.dismiss(t.id);
+            }}
+          >
+            <div className="flex items-start">
+              <div className="flex-shrink-0 pt-0.5">
+                <Image
+                  src={data.sender?.image}
+                  alt="/PngItem_307416.png"
+                  width={50}
+                  height={50}
+                  className=" rounded-full"
+                />
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-gray-900">
+                  {data.sender?.name}
+                </p>
+                <p className="mt-1 text-sm text-gray-500">
+                  sent a friend request
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
     });
   }, [socket]);
 

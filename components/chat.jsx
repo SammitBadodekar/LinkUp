@@ -63,48 +63,47 @@ const Chat = (props) => {
     }
   }, [active]);
 
+  const clearMessages = () => {
+    console.log(user.name);
+    const newMessage = {
+      message: `${user.name} cleared all previous messages`,
+      sender: "linkup-info",
+    };
+    /* fetch("/api/sendMessage", {
+      method: "PUT",
+      body: JSON.stringify({
+        roomName,
+        messages: [newMessage],
+      }),
+    }).then(toast("cleared all messages from both sides")); */
+    setMessages([newMessage]);
+    socket.emit("send_message", {
+      message: `${user.name} cleared all previous messages`,
+      sender: "linkup-info",
+      to: active?.email,
+    });
+  };
+
   const sendMessage = async (e) => {
     e.preventDefault();
+    const newMessage = input;
+    const sender = { name: user.name, image: user.image, email: user.email };
     if (input !== "") {
       fetch("/api/sendMessage", {
         method: "PUT",
         body: JSON.stringify({
           roomName,
-          messages: [
-            ...messages,
-            {
-              message: input,
-              sender: {
-                name: user.name,
-                image: user.image,
-                email: user.email,
-              },
-            },
-          ],
+          messages: [...messages, newMessage],
         }),
       });
-      console.log([
-        ...messages,
-        {
-          message: input,
-          sender: {
-            name: user.name,
-            image: user.image,
-            email: user.email,
-          },
-        },
-      ]);
       setMessages((prevMessages) => [
         ...prevMessages,
-        {
-          message: input,
-          sender: { name: user.name, image: user.image, email: user.email },
-        },
+        { message: newMessage, sender },
       ]);
       setInput("");
       socket.emit("send_message", {
-        message: input,
-        sender: { name: user.name, image: user.image, email: user.email },
+        message: newMessage,
+        sender,
         to: active?.email,
       });
       scrollToBottom(chatMessagesRef, 200);
@@ -229,14 +228,19 @@ const Chat = (props) => {
         </span>
         <p className=" p-2">{active?.name}</p>
         <div
-          className=" ml-auto px-4"
+          className={`ml-auto px-4 ${
+            active?.name === "Chat Lounge" ? "hidden" : ""
+          }`}
           ref={modalRef}
           onClick={() => setRemoveFriendBTN((prev) => !prev)}
         >
           <BsThreeDotsVertical />
           {removeFriendBTN && (
-            <div className=" absolute -bottom-6 right-2 z-30  rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
-              <button onClick={() => removeFriend(active)}>
+            <div className=" absolute right-2 z-30 grid w-40 gap-2 rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
+              <button className=" p-2" onClick={clearMessages}>
+                Clear Chat
+              </button>
+              <button onClick={() => removeFriend(active)} className=" p-2">
                 Remove Friend
               </button>
             </div>

@@ -19,8 +19,8 @@ const themeProvider = ({ children }) => {
           className: "",
           duration: 3000,
           style: {
-            background: "#636363",
-            color: "#fff",
+            background: "#e5e5e5",
+            color: "#000",
           },
 
           // Default options for specific types
