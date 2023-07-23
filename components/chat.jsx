@@ -16,7 +16,6 @@ const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
-  const [previousChat, setPreviousChat] = useState(null);
   const chatMessagesRef = useRef(null);
   const { active, setActive, user, friends, setFriends } =
     useContext(UserContext);
@@ -44,7 +43,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     activeRef.current = active;
-    if (previousChat?.email === active?.email || !active) {
+    if (!active) {
       scrollToBottom(chatMessagesRef, 300);
     } else {
       setMessages([]);
@@ -58,6 +57,7 @@ const Chat = (props) => {
         .then((resp) => resp.json())
         .then((data) => {
           if (data) {
+            console.log(data);
             setRoomName(data?.roomName);
             setMessages(data?.messages);
           }
@@ -100,7 +100,7 @@ const Chat = (props) => {
         method: "PUT",
         body: JSON.stringify({
           roomName,
-          messages: [...messages, newMessage],
+          messages: [...messages, { message: newMessage, sender }],
         }),
       });
       setMessages((prevMessages) => [
@@ -147,7 +147,6 @@ const Chat = (props) => {
                 className="w-0 flex-1 p-4"
                 onClick={() => {
                   setActive(data.sender);
-                  setMessages([]);
                   toast.dismiss(t.id);
                 }}
               >
@@ -219,7 +218,6 @@ const Chat = (props) => {
         <div
           className=" text-lg sm:hidden"
           onClick={() => {
-            setPreviousChat(active);
             setActive(null);
           }}
         >
