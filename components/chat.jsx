@@ -79,7 +79,12 @@ const Chat = (props) => {
     setMessages([newMessage]);
     socket.emit("send_message", {
       message: `${user.name} cleared all previous messages`,
-      sender: "linkup-info",
+      sender: {
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        behalf: "linkup-info",
+      },
       to: active?.email,
     });
   };
@@ -117,9 +122,14 @@ const Chat = (props) => {
       }
     });
     socket.on("receive_message", (data) => {
+      console.log(data);
       if (activeRef.current?.email === data.sender?.email) {
-        setMessages((prevMessages) => [...prevMessages, data]);
-        scrollToBottom(chatMessagesRef, 200);
+        if (data.sender?.behalf === "linkup-info") {
+          setMessages([data.message]);
+        } else {
+          setMessages((prevMessages) => [...prevMessages, data]);
+          scrollToBottom(chatMessagesRef, 200);
+        }
       }
       if (activeRef.current?.email !== data.sender?.email) {
         toast.custom((t) => (
@@ -261,7 +271,10 @@ const Chat = (props) => {
 
         {messages
           ? messages.map((message) => {
-              if (message.sender === "linkup-info") {
+              if (
+                message.sender === "linkup-info" ||
+                message.sender?.behalf === "linkup-info"
+              ) {
                 return (
                   <div
                     className="max-w-4/5 m-2 mx-6 flex h-fit w-fit items-start justify-center self-center rounded-lg bg-slate-400 p-2 text-center text-xs text-white dark:text-darkTheme sm:mx-2"
