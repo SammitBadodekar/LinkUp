@@ -70,6 +70,7 @@ export default function Home() {
 
   useEffect(() => {
     socket.on("receive_request", (data) => {
+      console.log(data);
       setRequests((prev) => [data, ...prev]);
       toast.custom((t) => (
         <div
