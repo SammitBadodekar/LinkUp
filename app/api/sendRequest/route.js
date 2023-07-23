@@ -14,7 +14,6 @@ export const PUT = async (req) => {
     await User.updateOne(sender, senderUpdate);
     const receiver = { email: body.receiver.email };
     const updatedReceiver = await User.find({ email: body.receiver.email });
-    console.log(updatedReceiver[0].requests);
     const requestReceived = { type: "received", sender: body.sender };
     const receiverUpdate = {
       $set: {

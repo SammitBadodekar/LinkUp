@@ -6,9 +6,10 @@ import scrollToBottom from "./scrollToBottom";
 import Image from "next/image";
 import Loading from "../components/loading";
 import toast from "react-hot-toast";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext, Fragment } from "react";
 import { IoIosPeople } from "react-icons/io";
 import { UserContext } from "@/context/userContext";
+import { Dialog, Transition } from "@headlessui/react";
 
 const Chat = (props) => {
   const { socket } = props;
@@ -22,6 +23,8 @@ const Chat = (props) => {
   const activeRef = useRef(active);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
   const modalRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalText, setModalText] = useState([]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -64,18 +67,17 @@ const Chat = (props) => {
   }, [active]);
 
   const clearMessages = () => {
-    console.log(user.name);
     const newMessage = {
-      message: `${user.name} cleared all previous messages`,
+      message: `${user.name} cleared all chats`,
       sender: "linkup-info",
     };
-    /* fetch("/api/sendMessage", {
+    fetch("/api/sendMessage", {
       method: "PUT",
       body: JSON.stringify({
         roomName,
         messages: [newMessage],
       }),
-    }).then(toast("cleared all messages from both sides")); */
+    }).then(toast("cleared all messages from both sides"));
     setMessages([newMessage]);
     socket.emit("send_message", {
       message: `${user.name} cleared all previous messages`,
@@ -122,60 +124,63 @@ const Chat = (props) => {
       }
     });
     socket.on("receive_message", (data) => {
-      console.log(data);
       if (activeRef.current?.email === data.sender?.email) {
         if (data.sender?.behalf === "linkup-info") {
-          setMessages([data.message]);
+          setMessages([data]);
+          toast(data.message);
         } else {
           setMessages((prevMessages) => [...prevMessages, data]);
           scrollToBottom(chatMessagesRef, 200);
         }
       }
       if (activeRef.current?.email !== data.sender?.email) {
-        toast.custom((t) => (
-          <div
-            className={`${
-              t.visible ? "animate-enter" : "animate-leave"
-            } pointer-events-auto flex w-full max-w-md rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
-          >
+        if (data.sender?.behalf === "linkup-info") {
+          toast(data.message);
+        } else
+          toast.custom((t) => (
             <div
-              className="w-0 flex-1 p-4"
-              onClick={() => {
-                setActive(data.sender);
-                setMessages([]);
-                toast.dismiss(t.id);
-              }}
+              className={`${
+                t.visible ? "animate-enter" : "animate-leave"
+              } pointer-events-auto flex w-full max-w-md rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
             >
-              <div className="flex items-start">
-                <div className="flex-shrink-0 pt-0.5">
-                  <Image
-                    src={data.sender?.image}
-                    alt="/PngItem_307416.png"
-                    width={50}
-                    height={50}
-                    className=" rounded-full"
-                  />
-                </div>
-                <div className="ml-3 flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    {data.sender?.name}
-                  </p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    {data.message.slice(0, 15)}...
-                  </p>
+              <div
+                className="w-0 flex-1 p-4"
+                onClick={() => {
+                  setActive(data.sender);
+                  setMessages([]);
+                  toast.dismiss(t.id);
+                }}
+              >
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <Image
+                      src={data.sender?.image}
+                      alt="/PngItem_307416.png"
+                      width={50}
+                      height={50}
+                      className=" rounded-full"
+                    />
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      {data.sender?.name}
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      {data.message.slice(0, 15)}...
+                    </p>
+                  </div>
                 </div>
               </div>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="flex w-full items-center justify-center rounded-none rounded-r-lg border border-transparent p-4 text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-            <div className="flex border-l border-gray-200">
-              <button
-                onClick={() => toast.dismiss(t.id)}
-                className="flex w-full items-center justify-center rounded-none rounded-r-lg border border-transparent p-4 text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        ));
+          ));
       }
     });
   }, [socket]);
@@ -246,17 +251,105 @@ const Chat = (props) => {
         >
           <BsThreeDotsVertical />
           {removeFriendBTN && (
-            <div className=" absolute right-2 z-30 grid w-40 gap-2 rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
-              <button className=" p-2" onClick={clearMessages}>
+            <div className=" absolute right-2 z-50 grid w-40 gap-2 rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
+              <button
+                className=" p-2"
+                onClick={() => {
+                  setModalText([
+                    "Are you sure you want to clear all chats ?",
+                    "All chats from both sides will be deleted. Chats will be permanently deleted",
+                    "Delete Chats",
+                    "clear chat",
+                  ]);
+                  setIsOpen((prev) => !prev);
+                }}
+              >
                 Clear Chat
               </button>
-              <button onClick={() => removeFriend(active)} className=" p-2">
+              <button
+                onClick={() => {
+                  setModalText([
+                    `Are you sure you want to remove ${active.name} ?`,
+                    `${active.name} can still send you message until he refreshes his browser`,
+                    `Remove ${active.name}`,
+                    "remove friend",
+                  ]);
+                  setIsOpen((prev) => !prev);
+                }}
+                className=" p-2"
+              >
                 Remove Friend
               </button>
             </div>
           )}
         </div>
       </div>
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsOpen((prev) => !prev)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-300 p-6 text-left align-middle shadow-xl transition-all dark:bg-slate-600">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-extrabold leading-6 text-gray-900 dark:text-slate-300"
+                  >
+                    {modalText[0]}
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500 dark:text-slate-400">
+                      {modalText[1]}
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className=" inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={() => {
+                        setIsOpen((prev) => !prev);
+                        if (modalText[3] === "clear chat") {
+                          clearMessages();
+                        }
+                        if (modalText[3] === "remove friend") {
+                          removeFriend(active);
+                        }
+                      }}
+                    >
+                      {modalText[2]}
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
 
       <div className="chat-messages flex w-screen flex-col  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
         <div

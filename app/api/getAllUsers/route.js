@@ -13,7 +13,6 @@ export const GET = async (req) => {
         image: 1,
       }
     );
-    console.log(users);
     return new NextResponse(JSON.stringify(users));
   } catch (error) {
     console.log(error);

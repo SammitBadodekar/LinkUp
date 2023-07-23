@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export const PUT = async (req) => {
   const body = await req.json();
-  console.log(body);
   try {
     await connect();
     const userFilter = { email: body.user.email };
