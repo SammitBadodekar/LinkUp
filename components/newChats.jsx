@@ -4,11 +4,27 @@ import { UserContext } from "@/context/userContext";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Loading from "./loading";
+import debounce from "lodash.debounce";
 
 const NewChats = (props) => {
   const { setRequests, requests, friends } = useContext(UserContext);
   const { addNewChats, setAddNewChats, socket, user } = props;
   const [allUsers, setAllUsers] = useState(null);
+  const [searchUsers, setSearchUsers] = useState([]);
+
+  const handleSearch = (searchInput) => {
+    const searchResult = [];
+    allUsers.map((input) => {
+      if (input.name.toLowerCase().includes(searchInput)) {
+        searchResult.push(input);
+      }
+    });
+    setSearchUsers(searchResult);
+  };
+
+  const debounceSearch = debounce((searchInput) => {
+    handleSearch(searchInput);
+  }, 500);
 
   const addFriend = (receiver) => {
     const isDuplicate = requests?.some(
@@ -85,7 +101,10 @@ const NewChats = (props) => {
       ` https://linkup-backend-2uhh.onrender.com/getAllUsers `
     ) /*http://localhost:3001/getAllUsers*/
       .then((resp) => resp.json())
-      .then((data) => setAllUsers(Object.values(data)));
+      .then((data) => {
+        setAllUsers(Object.values(data));
+        setSearchUsers(Object.values(data));
+      });
   }, []);
   if (!allUsers && addNewChats) {
     return (
@@ -105,7 +124,7 @@ const NewChats = (props) => {
   }
   return (
     <div
-      className={`newChats fixed bottom-0 left-0  top-0 z-20 flex w-screen flex-col justify-between gap-2 overflow-y-scroll bg-white  dark:bg-darkTheme dark:text-white  ${
+      className={`newChats fixed bottom-0 left-0  top-0 z-20 flex w-screen flex-col gap-4 overflow-y-scroll bg-white  dark:bg-darkTheme dark:text-white  ${
         addNewChats ? "newChats open" : ""
       }`}
     >
@@ -118,8 +137,23 @@ const NewChats = (props) => {
         <BiArrowBack />
         New Chats
       </h1>
+      <form className=" flex items-center justify-center">
+        <input
+          type="text"
+          placeholder="search"
+          className=" w-4/5 rounded-lg bg-slate-600 p-2 placeholder:text-slate-300"
+          onChange={(e) => debounceSearch(e.target.value)}
+        />
+      </form>
+      <p
+        className={`${
+          searchUsers.length !== 0 ? "hidden" : ""
+        } text-center text-xl font-extrabold `}
+      >
+        No User With That Name
+      </p>
       <div className=" mt-0 px-2">
-        {allUsers?.map((singleUser) => {
+        {searchUsers?.map((singleUser) => {
           const isFriend = friends?.some(
             (item) => item?.email === singleUser?.email
           );
@@ -135,7 +169,7 @@ const NewChats = (props) => {
                 width={50}
                 height={50}
                 alt="profile"
-                className=" rounded-full object-cover"
+                className=" aspect-square rounded-full object-cover"
               />
               <p>{singleUser?.name}</p>
               <button
