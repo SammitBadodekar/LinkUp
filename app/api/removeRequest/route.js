@@ -16,7 +16,7 @@ export const PUT = async (req) => {
     const sender = await User.find(senderFilter);
     const updatedSenderInbox = {
       $set: {
-        requests: sender[0].requests.filter((req) =>
+        requests: sender[0]?.requests.filter((req) =>
           req.receiver
             ? req.receiver.email
             : req.sender.email !== body.user.email

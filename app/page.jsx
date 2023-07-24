@@ -62,6 +62,7 @@ export default function Home() {
       setUser(result[0]);
       setRequests(result[0].requests);
       setFriends(result[0].friends);
+      localStorage.setItem("friends", JSON.stringify(result[0].friends));
     };
     if (session.data?.user) {
       fetchUserInfo();

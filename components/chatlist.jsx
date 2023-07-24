@@ -1,15 +1,17 @@
-import { useState, useContext, useRef, useEffect, useCallback } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import { UserContext } from "@/context/userContext";
 import Image from "next/image";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoIosPeople } from "react-icons/io";
-import toast, { Toaster } from "react-hot-toast";
 import Loading from "./loading";
 
 const Chatlist = (props) => {
   const { setAddNewChats } = props;
-  const { friends, user, active, setActive } =
+  const { friends, user, active, setActive, setFriends } =
     useContext(UserContext);
+
+  useEffect(() => {
+    setFriends(JSON.parse(localStorage.getItem("friends")));
+  }, []);
 
   const setActiveFriend = useCallback((friend) => {
     setActive(friend);
@@ -19,8 +21,10 @@ const Chatlist = (props) => {
       <div className="chatList mt-2 overflow-y-scroll">
         <p className=" p-2 text-xl font-extrabold">Chat Rooms</p>
         <div
-          className={`m-2 flex items-center  gap-4 rounded-xl bg-slate-200  px-4 py-2 hover:bg-blue-500 dark:bg-DarkButNotBlack  dark:text-slate-50  dark:hover:bg-blue-500 ${
-            active?.name === "Chat Lounge" ? "bg-blue-500" : ""
+          className={`m-2 flex items-center  gap-4 rounded-xl   px-4 py-2 hover:bg-blue-300   dark:text-slate-50   ${
+            active?.name === "Chat Lounge"
+              ? "bg-blue-300 dark:bg-blue-500"
+              : "bg-slate-200 dark:bg-DarkButNotBlack"
           }`}
           onClick={() => {
             if (active?.name !== "Chat Lounge")
@@ -37,8 +41,10 @@ const Chatlist = (props) => {
           return (
             <article
               key={friend?.email}
-              className={` relative m-2 flex items-center justify-between rounded-xl bg-slate-200 px-4  py-2 hover:bg-blue-500  dark:bg-DarkButNotBlack dark:text-white dark:hover:bg-blue-500 ${
-                active === friend ? " bg-blue-500" : ""
+              className={` relative m-2 flex items-center justify-between rounded-xl  px-4  py-2 hover:bg-blue-300   dark:text-white  ${
+                active === friend
+                  ? " bg-blue-300 dark:bg-blue-500"
+                  : "bg-slate-200 dark:bg-DarkButNotBlack"
               }`}
               onClick={() => setActiveFriend(friend)}
             >

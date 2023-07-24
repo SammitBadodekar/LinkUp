@@ -1,3 +1,4 @@
+"use client";
 import { BsLink45Deg, BsThreeDotsVertical } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineSend } from "react-icons/ai";
@@ -10,6 +11,7 @@ import { useState, useEffect, useRef, useContext, Fragment } from "react";
 import { IoIosPeople } from "react-icons/io";
 import { UserContext } from "@/context/userContext";
 import { Dialog, Transition } from "@headlessui/react";
+import { redirect } from "next/navigation";
 
 const Chat = (props) => {
   const { socket } = props;
@@ -57,7 +59,6 @@ const Chat = (props) => {
         .then((resp) => resp.json())
         .then((data) => {
           if (data) {
-            console.log(data);
             setRoomName(data?.roomName);
             setMessages(data?.messages);
           }
@@ -223,23 +224,25 @@ const Chat = (props) => {
         >
           <BiArrowBack />
         </div>
-        <Image
-          src={active?.image || "/PngItem_307416.png"}
-          alt=""
-          width={50}
-          height={50}
-          className={`self-start rounded-full ${
-            active?.name === "Chat Lounge" ? "hidden" : ""
-          }`}
-        ></Image>
-        <span
-          className={`-mr-2 rounded-full bg-slate-300 p-2 text-2xl text-darkTheme ${
-            active?.name !== "Chat Lounge" ? "hidden" : ""
-          }`}
-        >
-          <IoIosPeople />
-        </span>
-        <p className=" p-2">{active?.name}</p>
+        <div className=" flex gap-2">
+          <Image
+            src={active?.image || "/PngItem_307416.png"}
+            alt=""
+            width={50}
+            height={50}
+            className={`self-start rounded-full ${
+              active?.name === "Chat Lounge" ? "hidden" : ""
+            }`}
+          ></Image>
+          <span
+            className={`-mr-2 rounded-full bg-slate-300 p-2 text-2xl text-darkTheme ${
+              active?.name !== "Chat Lounge" ? "hidden" : ""
+            }`}
+          >
+            <IoIosPeople />
+          </span>
+          <p className=" p-2">{active?.name}</p>
+        </div>
         <div
           className={`ml-auto px-4 ${
             active?.name === "Chat Lounge" ? "hidden" : ""
@@ -249,9 +252,12 @@ const Chat = (props) => {
         >
           <BsThreeDotsVertical />
           {removeFriendBTN && (
-            <div className=" absolute right-2 z-50 grid w-40 gap-2 rounded-lg bg-slate-100 p-2 dark:bg-gray-600">
+            <div
+              className=" absolute right-2 top-10 z-50 grid w-40 rounded-lg
+             bg-slate-100 p-2 dark:bg-gray-600"
+            >
               <button
-                className=" p-2"
+                className=" p-2 text-left"
                 onClick={() => {
                   setModalText([
                     "Are you sure you want to clear all chats ?",
@@ -274,7 +280,7 @@ const Chat = (props) => {
                   ]);
                   setIsOpen((prev) => !prev);
                 }}
-                className=" p-2"
+                className=" p-2 text-left"
               >
                 Remove Friend
               </button>
@@ -378,7 +384,7 @@ const Chat = (props) => {
               if (message.sender?.email === user?.email) {
                 return (
                   <div
-                    className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-blue-400 p-2 px-4 dark:bg-green-600"
+                    className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-blue-300 p-2 px-4 dark:bg-green-600"
                     key={uuidv4()}
                   >
                     <p>{message?.message}</p>
