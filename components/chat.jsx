@@ -76,7 +76,19 @@ const Chat = (props) => {
         roomName,
         messages: [newMessage],
       }),
-    }).then(toast("cleared all messages from both sides"));
+    }).then(
+      toast((t) => (
+        <span className=" flex gap-2">
+          <p>cleared all messages from both sides</p>
+          <button
+            className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Dismiss
+          </button>
+        </span>
+      ))
+    );
     setMessages([newMessage]);
     socket.emit("send_message", {
       message: `${user.name} cleared all previous messages`,
@@ -126,7 +138,17 @@ const Chat = (props) => {
       if (activeRef.current?.email === data.sender?.email) {
         if (data.sender?.behalf === "linkup-info") {
           setMessages([data]);
-          toast(data.message);
+          toast((t) => (
+            <span className=" flex gap-2">
+              <p>{data.message}</p>
+              <button
+                className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+                onClick={() => toast.dismiss(t.id)}
+              >
+                Dismiss
+              </button>
+            </span>
+          ));
         } else {
           setMessages((prevMessages) => [...prevMessages, data]);
           scrollToBottom(chatMessagesRef, 200);
@@ -134,7 +156,17 @@ const Chat = (props) => {
       }
       if (activeRef.current?.email !== data.sender?.email) {
         if (data.sender?.behalf === "linkup-info") {
-          toast(data.message);
+          toast((t) => (
+            <span className=" flex gap-2">
+              <p>{data.message}</p>
+              <button
+                className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+                onClick={() => toast.dismiss(t.id)}
+              >
+                Dismiss
+              </button>
+            </span>
+          ));
         } else
           toast.custom((t) => (
             <div
@@ -196,7 +228,19 @@ const Chat = (props) => {
         friend,
         updatedFriends,
       }),
-    }).then(toast(`Removed ${friend.name}`));
+    }).then(
+      toast((t) => (
+        <span className=" flex gap-2">
+          <p>Removed {friend.name}</p>
+          <button
+            className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Dismiss
+          </button>
+        </span>
+      ))
+    );
     setActive(null);
   };
 

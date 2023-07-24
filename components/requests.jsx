@@ -22,7 +22,19 @@ const Requests = (props) => {
         updatedRequests,
         sender,
       }),
-    }).then(toast(`Added ${sender.name}`));
+    }).then(
+      toast((t) => (
+        <span className=" flex gap-2">
+          <p>{sender.name} is now your friend</p>
+          <button
+            className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Dismiss
+          </button>
+        </span>
+      ))
+    );
     fetch("/api/chatRooms/create", {
       method: "PUT",
       body: JSON.stringify({
@@ -43,7 +55,19 @@ const Requests = (props) => {
         updatedRequests,
         sender,
       }),
-    }).then(toast(`Deleted request from ${sender.name}`));
+    }).then(
+      toast((t) => (
+        <span className=" flex gap-2">
+          <p>Deleted request from {sender.name}</p>
+          <button
+            className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Dismiss
+          </button>
+        </span>
+      ))
+    );
   };
   const withdrawRequest = async (receiver) => {
     const updatedRequests = await requests.filter(
@@ -57,7 +81,19 @@ const Requests = (props) => {
         updatedRequests,
         sender: receiver,
       }),
-    }).then(toast(`Withdrawn request of ${receiver.name}`));
+    }).then(
+      toast((t) => (
+        <span className=" flex gap-2">
+          <p>Withdrawn request of {receiver.name}</p>
+          <button
+            className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Dismiss
+          </button>
+        </span>
+      ))
+    );
   };
 
   return (

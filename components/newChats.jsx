@@ -18,9 +18,30 @@ const NewChats = (props) => {
       (item) => item?.sender?.email === receiver?.email
     );
     try {
-      if (isDuplicate) toast(`Already requested ${receiver.name}`);
-      else if (alreadyReceived)
-        toast(`${receiver.name} has already sent you request`);
+      if (isDuplicate) {
+        toast((t) => (
+          <span className=" flex gap-2">
+            <p>Already requested {receiver.name}</p>
+            <button
+              className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Dismiss
+            </button>
+          </span>
+        ));
+      } else if (alreadyReceived)
+        toast((t) => (
+          <span className=" flex gap-2">
+            <p>{receiver.name} has already sent you request</p>
+            <button
+              className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Dismiss
+            </button>
+          </span>
+        ));
       else {
         socket.emit("send_request", {
           type: "received",
@@ -40,7 +61,19 @@ const NewChats = (props) => {
             },
             receiver,
           }),
-        }).then(toast(`Request sent to ${receiver.name}`));
+        }).then(
+          toast((t) => (
+            <span className=" flex gap-2">
+              <p>Already requested {receiver.name}</p>
+              <button
+                className=" rounded-lg bg-slate-300 p-2 shadow-xl"
+                onClick={() => toast.dismiss(t.id)}
+              >
+                Dismiss
+              </button>
+            </span>
+          ))
+        );
       }
     } catch (error) {
       toast(`Error: request not sent`);
