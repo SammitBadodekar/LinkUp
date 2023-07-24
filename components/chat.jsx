@@ -11,16 +11,14 @@ import { useState, useEffect, useRef, useContext, Fragment } from "react";
 import { IoIosPeople } from "react-icons/io";
 import { UserContext } from "@/context/userContext";
 import { Dialog, Transition } from "@headlessui/react";
-import { redirect } from "next/navigation";
 
 const Chat = (props) => {
-  const { socket } = props;
+  const { socket, user } = props;
   const [messages, setMessages] = useState([]);
   const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
   const chatMessagesRef = useRef(null);
-  const { active, setActive, user, friends, setFriends } =
-    useContext(UserContext);
+  const { active, setActive, friends, setFriends } = useContext(UserContext);
   const activeRef = useRef(active);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
   const modalRef = useRef(null);
@@ -49,11 +47,12 @@ const Chat = (props) => {
       scrollToBottom(chatMessagesRef, 300);
     } else {
       setMessages([]);
+      console.log(`${user?.email}-${active?.email}`);
       fetch(
         `/api/messages/${
           active.name === "Chat Lounge"
             ? active.name
-            : `${user.email}-${active.email}`
+            : `${user?.email}-${active?.email}`
         }`
       )
         .then((resp) => resp.json())

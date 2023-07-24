@@ -6,8 +6,7 @@ import Loading from "./loading";
 
 const Chatlist = (props) => {
   const { setAddNewChats } = props;
-  const { friends, user, active, setActive, setFriends } =
-    useContext(UserContext);
+  const { friends, active, setActive, setFriends } = useContext(UserContext);
 
   useEffect(() => {
     setFriends(JSON.parse(localStorage.getItem("friends")));
@@ -42,7 +41,7 @@ const Chatlist = (props) => {
             <article
               key={friend?.email}
               className={` relative m-2 flex items-center justify-between rounded-xl  px-4  py-2 hover:bg-blue-300   dark:text-white  ${
-                active === friend
+                active?.email === friend?.email
                   ? " bg-blue-300 dark:bg-blue-500"
                   : "bg-slate-200 dark:bg-DarkButNotBlack"
               }`}

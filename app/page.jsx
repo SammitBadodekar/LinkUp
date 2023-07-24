@@ -170,7 +170,7 @@ export default function Home() {
           active !== null ? "open" : "close"
         }`}
       >
-        <Chat socket={socket} />
+        <Chat socket={socket} user={session.data?.user} />
       </div>
       <NewChats
         addNewChats={addNewChats}
