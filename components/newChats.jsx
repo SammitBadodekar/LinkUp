@@ -15,7 +15,7 @@ const NewChats = (props) => {
   const handleSearch = (searchInput) => {
     const searchResult = [];
     allUsers.map((input) => {
-      if (input.name.toLowerCase().includes(searchInput)) {
+      if (input.name.toLowerCase().includes(searchInput.toLowerCase())) {
         searchResult.push(input);
       }
     });
@@ -124,7 +124,7 @@ const NewChats = (props) => {
   }
   return (
     <div
-      className={`newChats fixed bottom-0 left-0  top-0 z-20 flex w-screen flex-col gap-4 overflow-y-scroll bg-white  dark:bg-darkTheme dark:text-white  ${
+      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex w-screen flex-col gap-4 overflow-y-scroll border-r-2 border-slate-300 bg-white dark:border-slate-600  dark:bg-darkTheme dark:text-white  ${
         addNewChats ? "newChats open" : ""
       }`}
     >
@@ -141,7 +141,7 @@ const NewChats = (props) => {
         <input
           type="text"
           placeholder="search"
-          className=" w-4/5 rounded-lg bg-slate-600 p-2 placeholder:text-slate-300"
+          className=" w-4/5 rounded-lg bg-slate-300 p-2 placeholder:text-darkTheme dark:bg-slate-600 dark:placeholder:text-slate-400"
           onChange={(e) => debounceSearch(e.target.value)}
         />
       </form>
