@@ -47,7 +47,6 @@ const Chat = (props) => {
       scrollToBottom(chatMessagesRef, 300);
     } else {
       setMessages([]);
-      console.log(`${user?.email}-${active?.email}`);
       fetch(
         `/api/messages/${
           active.name === "Chat Lounge"
@@ -189,11 +188,13 @@ const Chat = (props) => {
       (userFriends) => userFriends?.email !== friend?.email
     );
     setFriends(updatedFriends);
+    console.log(updatedFriends);
     fetch("/api/removeFriend", {
       method: "PUT",
       body: JSON.stringify({
         user,
         friend,
+        updatedFriends,
       }),
     }).then(toast(`Removed ${friend.name}`));
     setActive(null);

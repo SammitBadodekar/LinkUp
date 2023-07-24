@@ -6,8 +6,8 @@ import Image from "next/image";
 import Loading from "./loading";
 
 const NewChats = (props) => {
-  const { user, setRequests, requests, friends } = useContext(UserContext);
-  const { addNewChats, setAddNewChats, socket } = props;
+  const { setRequests, requests, friends } = useContext(UserContext);
+  const { addNewChats, setAddNewChats, socket, user } = props;
   const [allUsers, setAllUsers] = useState(null);
 
   const addFriend = (receiver) => {

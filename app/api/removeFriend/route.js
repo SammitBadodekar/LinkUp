@@ -11,15 +11,13 @@ export const PUT = async (req) => {
 
     const updatedUserFriends = {
       $set: {
-        friends: body.user.friends.filter(
-          (friend) => friend.email !== body.friend.email
-        ),
+        friends: body.updatedFriends,
       },
     };
-
+    const friend = await User.findOne(friendFilter);
     const updatedSenderFriends = {
       $set: {
-        friends: body.friend.friends.filter(
+        friends: friend.friends.filter(
           (friend) => friend?.email !== body.user.email
         ),
       },

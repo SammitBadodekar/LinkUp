@@ -43,7 +43,7 @@ const Requests = (props) => {
         updatedRequests,
         sender,
       }),
-    }).then(toast(`Ignored request from ${sender.name}`));
+    }).then(toast(`Deleted request from ${sender.name}`));
   };
   const withdrawRequest = async (receiver) => {
     const updatedRequests = await requests.filter(

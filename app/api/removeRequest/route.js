@@ -18,7 +18,7 @@ export const PUT = async (req) => {
       $set: {
         requests: sender[0]?.requests.filter((req) =>
           req.receiver
-            ? req.receiver.email
+            ? req.receiver.email !== body.user.email
             : req.sender.email !== body.user.email
         ),
       },

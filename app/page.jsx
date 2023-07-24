@@ -176,6 +176,7 @@ export default function Home() {
         addNewChats={addNewChats}
         setAddNewChats={setAddNewChats}
         socket={socket}
+        user={session.data?.user}
       />
 
       <div
