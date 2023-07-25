@@ -119,7 +119,7 @@ const Requests = (props) => {
                   height={40}
                   className=" rounded-full"
                 ></Image>
-                <p>{request.sender.name}</p>
+                <p className=" mr-20">{request.sender.name}</p>
                 <div className="absolute right-2   flex gap-2">
                   <button
                     className="rounded-full bg-slate-400 px-2 text-sm font-bold text-darkTheme"
