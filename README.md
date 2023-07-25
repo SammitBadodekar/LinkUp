@@ -1,10 +1,4 @@
-# This project is currently in development
-
-## Upcoming Features
-- Real time chat
-- create groups
-- Anonymous group
-- more
+## live on: https://linkup-chat.vercel.app/
 
 ## Getting Started
 
