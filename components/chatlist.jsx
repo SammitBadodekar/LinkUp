@@ -40,7 +40,7 @@ const Chatlist = (props) => {
           return (
             <article
               key={friend?.email}
-              className={` relative m-2 flex items-center justify-between rounded-xl  px-4  py-2 hover:bg-blue-300   dark:text-white  ${
+              className={` relative m-2 flex items-center justify-between rounded-xl p-2 hover:bg-blue-300   dark:text-white  ${
                 active?.email === friend?.email
                   ? " bg-blue-300 dark:bg-blue-500"
                   : "bg-slate-200 dark:bg-DarkButNotBlack"
@@ -55,7 +55,7 @@ const Chatlist = (props) => {
                   height={50}
                   className=" rounded-full"
                 ></Image>
-                <p className=" py-2">{friend.name}</p>
+                <p>{friend.name}</p>
               </div>
             </article>
           );

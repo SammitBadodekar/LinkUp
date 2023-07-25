@@ -80,7 +80,7 @@ const NewChats = (props) => {
         }).then(
           toast((t) => (
             <span className=" flex gap-2">
-              <p>Already requested {receiver.name}</p>
+              <p>Request sent to {receiver.name}</p>
               <button
                 className=" rounded-lg bg-slate-300 p-2 shadow-xl"
                 onClick={() => toast.dismiss(t.id)}
@@ -141,7 +141,7 @@ const NewChats = (props) => {
         <input
           type="text"
           placeholder="search"
-          className=" w-4/5 rounded-lg bg-slate-300 p-2 placeholder:text-darkTheme dark:bg-slate-600 dark:placeholder:text-slate-400"
+          className=" w-4/5 rounded-lg bg-slate-300 p-2 dark:bg-slate-600 dark:placeholder:text-slate-400"
           onChange={(e) => debounceSearch(e.target.value)}
         />
       </form>
