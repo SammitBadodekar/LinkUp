@@ -97,6 +97,8 @@ const NewChats = (props) => {
   };
 
   useEffect(() => {
+    setAllUsers(JSON.parse(localStorage.getItem("allUsers")));
+    setSearchUsers(JSON.parse(localStorage.getItem("allUsers")));
     fetch(
       ` https://linkup-backend-2uhh.onrender.com/getAllUsers `
     ) /*http://localhost:3001/getAllUsers*/
@@ -104,6 +106,7 @@ const NewChats = (props) => {
       .then((data) => {
         setAllUsers(Object.values(data));
         setSearchUsers(Object.values(data));
+        localStorage.setItem("allUsers", JSON.stringify(Object.values(data)));
       });
   }, []);
   if (!allUsers && addNewChats) {
