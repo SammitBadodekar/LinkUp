@@ -1,4 +1,4 @@
-## live on: https://linkup-chat.vercel.app/
+## live on: https://linkup-messenger.vercel.app
 
 ## Getting Started
 
