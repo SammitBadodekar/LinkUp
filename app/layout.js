@@ -10,6 +10,7 @@ export const metadata = {
   title: "LinkUp",
   description:
     "The real-time chat app with Google login, custom rooms, and seamless connections. Join, chat, and collaborate effortlessly with like-minded individuals in a secure and engaging environment. Stay connected and build meaningful connections with LinkUp.",
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }) {
