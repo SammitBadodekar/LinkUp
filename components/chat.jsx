@@ -286,7 +286,7 @@ const Chat = (props) => {
             <IoIosPeople />
           </span>
           <p className=" p-2">
-            {active?.name.length > 10
+            {active?.name.length > 20
               ? active?.name.split(" ")[0]
               : active?.name}
           </p>
