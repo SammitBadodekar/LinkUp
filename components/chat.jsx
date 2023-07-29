@@ -268,7 +268,7 @@ const Chat = (props) => {
         >
           <BiArrowBack />
         </div>
-        <div className=" flex gap-2">
+        <div className=" flex items-center gap-2">
           <Image
             src={active?.image || "/PngItem_307416.png"}
             alt=""
@@ -285,7 +285,7 @@ const Chat = (props) => {
           >
             <IoIosPeople />
           </span>
-          <p className=" p-2">
+          <p className=" p-2 text-sm sm:text-base">
             {active?.name.length > 20
               ? active?.name.split(" ")[0]
               : active?.name}
@@ -464,7 +464,7 @@ const Chat = (props) => {
         <div ref={chatMessagesRef} />
       </div>
       <form
-        className=" sticky bottom-0 flex h-14 justify-between gap-2 bg-white p-2 dark:bg-darkTheme"
+        className=" sticky bottom-0 flex justify-between gap-2 bg-white p-2 dark:bg-darkTheme"
         onSubmit={(e) => sendMessage(e)}
       >
         <input

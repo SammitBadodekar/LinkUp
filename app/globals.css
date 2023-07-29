@@ -114,7 +114,6 @@
     width: 100%;
   }
   .chat-messages {
-    height: calc(100vh- 7rem);
     width: 100%;
   }
 }
