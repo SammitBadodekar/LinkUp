@@ -285,7 +285,11 @@ const Chat = (props) => {
           >
             <IoIosPeople />
           </span>
-          <p className=" p-2">{active?.name}</p>
+          <p className=" p-2">
+            {active?.name.length > 10
+              ? active?.name.split(" ")[0]
+              : active?.name}
+          </p>
         </div>
         <div
           className={`ml-auto px-4 ${
