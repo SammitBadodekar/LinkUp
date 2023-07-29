@@ -298,7 +298,7 @@ const Chat = (props) => {
           {removeFriendBTN && (
             <div
               className=" absolute right-2 top-10 z-50 grid w-40 rounded-lg
-             bg-slate-100 p-2 dark:bg-gray-600"
+             bg-slate-100 p-2 shadow-xl dark:bg-gray-600"
             >
               <button
                 className=" p-2 text-left"
