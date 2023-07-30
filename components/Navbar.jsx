@@ -1,13 +1,12 @@
 "use client";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import Profile from "./profile";
 import { useTheme } from "next-themes";
 
 const Navbar = (props) => {
-  const { user } = props;
-  const [isClicked, setIsClicked] = useState(false);
+  const { user, isClicked, setIsClicked } = props;
   const { theme, setTheme } = useTheme();
   const modalRef = useRef(null);
 

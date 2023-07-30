@@ -46,8 +46,16 @@ export default function Home() {
   const session = useSession();
   const [section, setSection] = useState("chat");
   const [addNewChats, setAddNewChats] = useState(false);
-  const { user, setUser, requests, setRequests, setFriends, friends, active } =
-    useContext(UserContext);
+  const [isClickedProfile, setIsClickedProfile] = useState(false);
+  const {
+    user,
+    setUser,
+    requests,
+    setRequests,
+    setFriends,
+    active,
+    setActive,
+  } = useContext(UserContext);
   const [initialLoadingPhrase, setInitialLoadingPhrase] = useState([
     "setting up your account...",
     "loading your profile...",
@@ -68,6 +76,19 @@ export default function Home() {
       fetchUserInfo();
     }
   }, [session.data?.user]);
+
+  useEffect(() => {
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+      window.history.go(1);
+    };
+    window.addEventListener("popstate", () => {
+      setAddNewChats(false);
+      setSection("chat");
+      setIsClickedProfile(false);
+      setActive(null);
+    });
+  });
 
   useEffect(() => {
     socket.on("receive_request", (data) => {
@@ -123,7 +144,11 @@ export default function Home() {
   return (
     <main>
       <div className=" overflow-hidden shadow-lg sm:w-1/3">
-        <Navbar user={session.data?.user} />
+        <Navbar
+          user={session.data?.user}
+          isClicked={isClickedProfile}
+          setIsClicked={setIsClickedProfile}
+        />
       </div>
       <div></div>
       <div className="grid w-full grid-cols-2 gap-2 px-2 sm:w-1/3">
