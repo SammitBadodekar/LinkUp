@@ -98,7 +98,7 @@ const NewChats = (props) => {
 
   useEffect(() => {
     fetch(
-      ` https://linkup-backend-2uhh.onrender.com/getAllUsers `
+      ` https://linkup-backend.vercel.app/getAllUsers `
     ) /*http://localhost:3001/getAllUsers*/
       .then((resp) => resp.json())
       .then((data) => {
