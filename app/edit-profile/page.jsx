@@ -16,7 +16,7 @@ const Page = () => {
   useEffect(() => {
     setNameInput(localStorage.getItem("name") || session?.user?.name);
     setBioInput(localStorage.getItem("bio") || "");
-  });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
