@@ -4,16 +4,19 @@ import ToggleButton from "@/components/toggleButton";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { BiArrowBack } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Page = () => {
   const { data: session, update } = useSession();
-  const [nameInput, setNameInput] = useState(
-    localStorage.getItem("name") || session?.user?.name
-  );
-  const [bioInput, setBioInput] = useState(localStorage.getItem("bio") || "");
+  const [nameInput, setNameInput] = useState("");
+  const [bioInput, setBioInput] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    setNameInput(localStorage.getItem("name") || session?.user?.name);
+    setBioInput(localStorage.getItem("bio") || "");
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
