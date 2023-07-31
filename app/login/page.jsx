@@ -3,26 +3,22 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
 
 const Page = () => {
-  const session = useSession();
-  const { setUser } = useContext(UserContext);
+  const { data: session } = useSession();
   useEffect(() => {
-    if (session.data?.user) {
-      setUser(session.data.user);
+    if (session?.user) {
       fetch("/api/users/create", {
         method: "PUT",
         body: JSON.stringify({
-          name: session.data?.user?.name,
-          email: session.data?.user?.email,
-          image: session.data?.user?.image,
+          name: session?.user?.name,
+          email: session?.user?.email,
+          image: session?.user?.image,
         }),
       });
       redirect("/edit-profile");
     }
-  }, [session.data]);
+  }, [session]);
   return (
     <div className="loginPage flex h-screen w-screen items-center justify-center bg-cover">
       <div className="flex h-screen w-full flex-col items-center justify-center gap-8 bg-white pt-40 text-center dark:bg-darkTheme dark:text-white sm:mx-20 sm:h-80 sm:rounded-2xl sm:pt-0 md:mx-40 xl:mx-60 2xl:mx-96">

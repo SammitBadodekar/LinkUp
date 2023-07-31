@@ -43,7 +43,7 @@ const Requests = dynamic(() => import("@/components/requests"), {
 });
 
 export default function Home() {
-  const session = useSession();
+  const { data: session, status, update } = useSession();
   const [section, setSection] = useState("chat");
   const [addNewChats, setAddNewChats] = useState(false);
   const [isClickedProfile, setIsClickedProfile] = useState(false);
@@ -64,18 +64,18 @@ export default function Home() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      socket.emit("join_self", { email: session.data.user?.email });
-      const userInfo = await fetch(`/api/users/${session.data.user?.email}`);
+      socket.emit("join_self", { email: session.user?.email });
+      const userInfo = await fetch(`/api/users/${session.user?.email}`);
       const result = await userInfo.json();
       setUser(result[0]);
       setRequests(result[0].requests);
       setFriends(result[0].friends);
       localStorage.setItem("friends", JSON.stringify(result[0].friends));
     };
-    if (session.data?.user) {
+    if (session?.user) {
       fetchUserInfo();
     }
-  }, [session.data?.user]);
+  }, [session?.user]);
 
   useEffect(() => {
     window.history.pushState(null, null, window.location.href);
@@ -132,7 +132,7 @@ export default function Home() {
     });
   }, [socket]);
 
-  if (session.status === "unauthenticated") {
+  if (status === "unauthenticated") {
     redirect("/login");
   }
   if (!user) {
@@ -145,7 +145,7 @@ export default function Home() {
     <main>
       <div className=" overflow-hidden shadow-lg sm:w-1/3">
         <Navbar
-          user={session.data?.user}
+          user={session?.user}
           isClicked={isClickedProfile}
           setIsClicked={setIsClickedProfile}
         />
@@ -195,18 +195,18 @@ export default function Home() {
           active !== null ? "open" : "close"
         }`}
       >
-        <Chat socket={socket} user={session.data?.user} />
+        <Chat socket={socket} user={session?.user} />
       </div>
       <NewChats
         addNewChats={addNewChats}
         setAddNewChats={setAddNewChats}
         socket={socket}
-        user={session.data?.user}
+        user={session?.user}
       />
 
       <div
         className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-slate-200 p-10 duration-700 ease-out dark:bg-darkTheme ${
-          !session.data ? "z-50 opacity-100 " : " -z-50 opacity-0"
+          !session?.user ? "z-50 opacity-100 " : " -z-50 opacity-0"
         }`}
       >
         <p>{initialLoadingPhrase[0]}</p>

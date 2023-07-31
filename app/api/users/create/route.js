@@ -17,6 +17,6 @@ export const PUT = async (req) => {
     await createUser.save();
     return new NextResponse("created");
   } else {
-    return new NextResponse(user);
+    return new NextResponse(JSON.stringify("Already Exists"));
   }
 };

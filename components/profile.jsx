@@ -8,7 +8,6 @@ import Link from "next/link";
 const Profile = (props) => {
   const { open, setOpen } = props;
   const { user } = useContext(UserContext);
-  console.log(user);
 
   return (
     <div
@@ -17,9 +16,10 @@ const Profile = (props) => {
       }`}
     >
       <section className="flex flex-col gap-2 p-8">
-        <button className="absolute  right-4 top-20 z-50 rounded-lg bg-slate-400 p-2 text-darkTheme ">
-          <Link href="/edit-profile">
+        <button className="absolute right-4 top-20 z-50 rounded-lg bg-slate-400 p-1 text-darkTheme ">
+          <Link href="/edit-profile" className=" flex items-center gap-2 px-2">
             <BiEditAlt />
+            <p>Edit</p>
           </Link>
         </button>
         <h1
