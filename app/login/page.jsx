@@ -3,11 +3,15 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 const Page = () => {
   const session = useSession();
+  const { setUser } = useContext(UserContext);
   useEffect(() => {
     if (session.data?.user) {
+      setUser(session.data.user);
       fetch("/api/users/create", {
         method: "PUT",
         body: JSON.stringify({
@@ -16,7 +20,7 @@ const Page = () => {
           image: session.data?.user?.image,
         }),
       });
-      redirect("/");
+      redirect("/edit-profile");
     }
   }, [session.data]);
   return (

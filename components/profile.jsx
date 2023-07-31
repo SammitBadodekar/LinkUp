@@ -1,9 +1,15 @@
 import Image from "next/image";
-import { BiArrowBack } from "react-icons/bi";
+import { BiArrowBack, BiEditAlt } from "react-icons/bi";
 import { signOut } from "next-auth/react";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
+import Link from "next/link";
 
 const Profile = (props) => {
-  const { user, open, setOpen } = props;
+  const { open, setOpen } = props;
+  const { user } = useContext(UserContext);
+  console.log(user);
+
   return (
     <div
       className={`profile fixed bottom-0 left-0 top-0 flex flex-col justify-between gap-2 overflow-y-scroll bg-white dark:bg-darkTheme dark:text-white ${
@@ -11,6 +17,11 @@ const Profile = (props) => {
       }`}
     >
       <section className="flex flex-col gap-2 p-8">
+        <button className="absolute  right-4 top-20 z-50 rounded-lg bg-slate-400 p-2 text-darkTheme ">
+          <Link href="/edit-profile">
+            <BiEditAlt />
+          </Link>
+        </button>
         <h1
           className="fixed top-0 z-50 -ml-8 flex w-full items-center gap-4 bg-slate-100 p-4 text-xl font-bold shadow-lg dark:bg-DarkButNotBlack"
           onClick={() => {
@@ -31,6 +42,8 @@ const Profile = (props) => {
         <p>{user?.name}</p>
         <p className=" text-slate-400">Your Email</p>
         <p>{user?.email}</p>
+        <p className=" text-slate-400">{user?.bio === "" ? "" : "bio"}</p>
+        <p>{user?.bio}</p>
       </section>
 
       <button
