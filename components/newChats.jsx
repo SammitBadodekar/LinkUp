@@ -154,6 +154,7 @@ const NewChats = (props) => {
       </p>
       <div className=" mt-0 px-2">
         {searchUsers?.map((singleUser) => {
+          const userTag = singleUser.email.split("@")[0];
           const isFriend = friends?.some(
             (item) => item?.email === singleUser?.email
           );
@@ -162,16 +163,22 @@ const NewChats = (props) => {
           return (
             <article
               key={singleUser.email}
-              className=" relative flex w-full items-center gap-2 p-4"
+              className=" relative w-full items-center p-4"
             >
-              <Image
-                src={singleUser?.image || "/PngItem_307416.png"}
-                width={50}
-                height={50}
-                alt="profile"
-                className=" aspect-square rounded-full object-cover"
-              />
-              <p>{singleUser?.name}</p>
+              <div className=" flex gap-2">
+                <Image
+                  src={singleUser?.image || "/PngItem_307416.png"}
+                  width={50}
+                  height={50}
+                  alt="profile"
+                  className=" aspect-square rounded-full object-cover"
+                />
+                <div>
+                  <p>{singleUser?.name}</p>
+                  <p className=" text-xs text-slate-400">@{userTag}</p>
+                </div>
+              </div>
+
               <button
                 className=" absolute right-4 top-6 rounded-xl bg-slate-400 p-1 text-sm font-bold text-darkTheme"
                 onClick={() => addFriend(singleUser)}

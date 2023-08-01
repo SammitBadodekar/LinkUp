@@ -139,7 +139,9 @@ export default function Home() {
     setInterval(() => {
       setInitialLoadingPhrase((prev) => [prev[1], prev[2], prev[0]]);
     }, 1500);
+    console.log("from loading phrase");
   }
+  console.log("from home");
 
   return (
     <main>
