@@ -17,8 +17,14 @@ export const PUT = async (req) => {
         bio: body.bio,
       },
     };
+    const imgUpdate = {
+      $set: {
+        image: body.image,
+      },
+    };
     await User.updateOne(user, nameUpdate);
     await User.updateOne(user, bioUpdate);
+    await User.updateOne(user, imgUpdate);
     return new NextResponse("updated");
   } catch (error) {
     return new NextResponse(error);

@@ -3,9 +3,12 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Profile from "./profile";
 import ToggleButton from "./toggleButton";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 const Navbar = (props) => {
-  const { user, isClicked, setIsClicked } = props;
+  const { isClicked, setIsClicked } = props;
+  const { user } = useContext(UserContext);
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const Navbar = (props) => {
         width={50}
         height={50}
         alt="profile"
-        className=" cursor-pointer rounded-full object-cover"
+        className=" aspect-square cursor-pointer rounded-full object-cover"
         onClick={() => setIsClicked(!isClicked)}
       />
       <ToggleButton />

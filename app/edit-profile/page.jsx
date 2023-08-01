@@ -6,17 +6,30 @@ import { useRouter } from "next/navigation";
 import { BiArrowBack } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
+/* uploadthing imports */
+import "@uploadthing/react/styles.css";
+import { UploadButton } from "@uploadthing/react";
 
 const Page = () => {
-  const { data: session, update } = useSession();
+  const { data: session, status } = useSession();
   const [nameInput, setNameInput] = useState("");
   const [bioInput, setBioInput] = useState("");
+  const [imgInput, setImgInput] = useState("");
+  const [imgKey, setImgKey] = useState("");
   const router = useRouter();
 
   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+
     setNameInput(localStorage.getItem("name") || session?.user?.name);
     setBioInput(localStorage.getItem("bio") || "");
-  }, []);
+    setImgInput(session?.user?.image);
+    setImgInput(localStorage.getItem("image") || session?.user?.image);
+  }, [status]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +42,7 @@ const Page = () => {
             name: nameInput,
             bio: bioInput,
             email: session.user.email,
+            image: imgInput,
           }),
         }),
         {
@@ -39,6 +53,7 @@ const Page = () => {
       );
       localStorage.setItem("bio", bioInput);
       localStorage.setItem("name", nameInput);
+      localStorage.setItem("image", imgInput);
       setTimeout(() => {
         router.push("/");
       }, 1000);
@@ -46,7 +61,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex w-screen justify-center sm:h-screen sm:items-center">
+    <div className="flex h-screen w-screen justify-center overflow-y-scroll sm:items-center">
       <button className=" absolute right-4 top-8 sm:top-4">
         <ToggleButton />
       </button>
@@ -57,35 +72,73 @@ const Page = () => {
         <BiArrowBack /> <p>Home</p>
       </Link>
       <form
-        className="m-2 mt-20 flex h-fit w-full flex-col gap-2 rounded-2xl bg-slate-200 p-6 shadow-2xl dark:bg-DarkButNotBlack sm:mt-4 sm:w-fit sm:px-10 "
+        className="m-2 mt-20 flex h-fit w-full flex-col gap-2 overflow-y-scroll rounded-2xl bg-slate-200 p-6 shadow-2xl dark:bg-DarkButNotBlack sm:mt-4 sm:grid sm:w-fit sm:grid-cols-2 sm:gap-4 sm:px-10 "
         onSubmit={handleSubmit}
       >
-        <h1 className=" text-center text-xl font-extrabold">Edit Profile</h1>
-        <label htmlFor="">Name</label>
-        <input
-          type="text"
-          value={nameInput}
-          className=" fo rounded-md bg-slate-300 p-1 px-2 text-sm dark:bg-slate-600"
-          onChange={(e) => setNameInput(e.target.value)}
-        />
-        <label htmlFor="">Email</label>
-        <p className=" rounded-md bg-slate-300 p-2 text-xs text-slate-500 dark:bg-slate-600 dark:text-slate-400">
-          {session?.user.email}
-        </p>
-        <label htmlFor="">Bio</label>
-        <textarea
-          name=""
-          id=""
-          cols="3"
-          rows="3"
-          value={bioInput}
-          className=" rounded-md bg-slate-300 p-2 placeholder:text-sm placeholder:text-darkTheme dark:bg-slate-600 dark:placeholder:text-slate-300"
-          placeholder="Anything about yourself !!"
-          onChange={(e) => setBioInput(e.target.value)}
-        ></textarea>
+        <h1 className=" col-start-1 col-end-3 text-center text-xl font-extrabold">
+          Edit Profile
+        </h1>
+
+        <div className=" col-start-1 flex flex-col items-center justify-center gap-3">
+          <Image
+            src={imgInput}
+            width={100}
+            height={100}
+            alt="profile"
+            className=" aspect-square rounded-full"
+          />
+          <UploadButton
+            endpoint="imageUploader"
+            onClientUploadComplete={async (res) => {
+              // Do something with the response
+              await fetch("/api/delete-img", {
+                method: "PUT",
+                body: JSON.stringify(imgKey),
+              });
+              console.log(imgKey);
+              setImgInput(res[0].fileUrl);
+              setImgKey(res[0].fileKey);
+              localStorage.setItem("image-key", res[0].fileKey);
+              toast.success("successfully uploaded image");
+            }}
+            onUploadError={(error) => {
+              // Do something with the error.
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
+          <p className=" -mt-8 bg-slate-200 p-1 text-xs dark:bg-DarkButNotBlack">
+            max size: 4 MB
+          </p>
+        </div>
+
+        <div className=" flex w-full flex-col  justify-center gap-2">
+          <label htmlFor="">Name</label>
+          <input
+            type="text"
+            value={nameInput}
+            className=" w-full rounded-md bg-slate-300 p-1 px-2 text-sm dark:bg-slate-600"
+            onChange={(e) => setNameInput(e.target.value)}
+          />
+          <label htmlFor="">Email</label>
+          <p className="w-full rounded-md bg-slate-300 p-2 text-xs text-slate-500 dark:bg-slate-600 dark:text-slate-400">
+            {session?.user.email}
+          </p>
+          <label htmlFor="">Bio</label>
+          <textarea
+            name=""
+            id=""
+            cols="3"
+            rows="3"
+            value={bioInput}
+            className="w-full rounded-md bg-slate-300 p-2 placeholder:text-sm placeholder:text-darkTheme dark:bg-slate-600 dark:placeholder:text-slate-300"
+            placeholder="Anything about yourself !!"
+            onChange={(e) => setBioInput(e.target.value)}
+          ></textarea>
+        </div>
+
         <button
           type="submit"
-          className=" rounded-md bg-slate-400 p-1 dark:bg-slate-300 dark:text-darkTheme"
+          className="col-start-1 col-end-3 rounded-md bg-slate-400 p-1 dark:bg-slate-300 dark:text-darkTheme"
         >
           Save
         </button>
