@@ -220,7 +220,6 @@ const Chat = (props) => {
       (userFriends) => userFriends?.email !== friend?.email
     );
     setFriends(updatedFriends);
-    console.log(updatedFriends);
     fetch("/api/removeFriend", {
       method: "PUT",
       body: JSON.stringify({
