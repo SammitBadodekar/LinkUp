@@ -98,7 +98,7 @@ const Page = () => {
               setImgInput(res[0].fileUrl);
               setImgKey(res[0].fileKey);
               localStorage.setItem("image-key", res[0].fileKey);
-              toast.success("successfully uploaded image");
+              toast("Image Uploaded");
             }}
             onUploadError={(error) => {
               // Do something with the error.

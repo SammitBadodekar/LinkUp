@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 export const PUT = async (req) => {
   const img = await req.json();
+  console.log(img);
   try {
     await utapi.deleteFiles(img);
     return new NextResponse(JSON.stringify("deleted"));
