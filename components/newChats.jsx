@@ -15,7 +15,10 @@ const NewChats = (props) => {
   const handleSearch = (searchInput) => {
     const searchResult = [];
     allUsers.map((input) => {
-      if (input.name.toLowerCase().includes(searchInput.toLowerCase())) {
+      if (
+        input.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        input.email.toLowerCase().includes(searchInput.toLowerCase())
+      ) {
         searchResult.push(input);
       }
     });

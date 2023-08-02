@@ -17,7 +17,10 @@ const Profile = (props) => {
     >
       <section className="flex flex-col gap-2 p-8">
         <button className="absolute right-4 top-20 z-50 rounded-lg bg-slate-400 p-1 text-darkTheme ">
-          <Link href="/edit-profile" className=" flex items-center gap-2 px-2">
+          <Link
+            href={`/edit-profile?name=${user?.name}&image=${user?.image}&imageKey=${user?.imageKey}&bio=${user?.bio}`}
+            className=" flex items-center gap-2 px-2"
+          >
             <BiEditAlt />
             <p>Edit</p>
           </Link>
@@ -41,7 +44,7 @@ const Profile = (props) => {
         <p className=" text-slate-400">Your Name</p>
         <p>{user?.name}</p>
         <p className=" text-slate-400">Your Email</p>
-        <p>{user?.email}</p>
+        <p className=" text-sm">{user?.email}</p>
         <p className=" text-slate-400">{user?.bio === "" ? "" : "bio"}</p>
         <p>{user?.bio}</p>
       </section>

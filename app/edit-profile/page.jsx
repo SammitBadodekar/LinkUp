@@ -7,28 +7,30 @@ import { BiArrowBack } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 /* uploadthing imports */
 import "@uploadthing/react/styles.css";
 import { UploadButton } from "@uploadthing/react";
 
 const Page = () => {
+  const searchParams = useSearchParams();
+
+  const name = searchParams.get("name");
+  const image = searchParams.get("image");
+  const imageKey = searchParams.get("imageKey");
+  const bio = searchParams.get("bio");
   const { data: session, status } = useSession();
-  const [nameInput, setNameInput] = useState("");
-  const [bioInput, setBioInput] = useState("");
-  const [imgInput, setImgInput] = useState("");
-  const [imgKey, setImgKey] = useState("");
+  const [nameInput, setNameInput] = useState(name);
+  const [bioInput, setBioInput] = useState(bio);
+  const [imgInput, setImgInput] = useState(image);
+  const [imgKey, setImgKey] = useState(imageKey);
   const router = useRouter();
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
-
-    setNameInput(localStorage.getItem("name") || session?.user?.name);
-    setBioInput(localStorage.getItem("bio") || "");
-    setImgInput(session?.user?.image);
-    setImgInput(localStorage.getItem("image") || session?.user?.image);
   }, [status]);
 
   const handleSubmit = async (e) => {
@@ -43,6 +45,7 @@ const Page = () => {
             bio: bioInput,
             email: session.user.email,
             image: imgInput,
+            imageKey: imgKey,
           }),
         }),
         {
@@ -51,9 +54,6 @@ const Page = () => {
           error: "Something went wrong",
         }
       );
-      localStorage.setItem("bio", bioInput);
-      localStorage.setItem("name", nameInput);
-      localStorage.setItem("image", imgInput);
       setTimeout(() => {
         router.push("/");
       }, 1000);

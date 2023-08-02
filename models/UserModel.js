@@ -15,6 +15,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  imageKey: {
+    type: String,
+  },
   bio: {
     type: String,
   },

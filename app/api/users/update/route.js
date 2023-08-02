@@ -7,24 +7,15 @@ export const PUT = async (req) => {
   await connect();
   try {
     const user = { email: body.email };
-    const nameUpdate = {
+    const Update = {
       $set: {
         name: body.name,
-      },
-    };
-    const bioUpdate = {
-      $set: {
         bio: body.bio,
-      },
-    };
-    const imgUpdate = {
-      $set: {
         image: body.image,
+        imageKey: body.imageKey,
       },
     };
-    await User.updateOne(user, nameUpdate);
-    await User.updateOne(user, bioUpdate);
-    await User.updateOne(user, imgUpdate);
+    await User.updateOne(user, Update);
     return new NextResponse("updated");
   } catch (error) {
     return new NextResponse(error);

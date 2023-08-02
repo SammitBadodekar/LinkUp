@@ -1,11 +1,12 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   useEffect(() => {
     if (session?.user) {
       fetch("/api/users/create", {
@@ -15,8 +16,14 @@ const Page = () => {
           email: session?.user?.email,
           image: session?.user?.image,
         }),
-      });
-      redirect("/edit-profile");
+      })
+        .then((resp) => resp.json())
+        .then((user) => {
+          console.log(user);
+          router.push(
+            `/edit-profile?name=${user[0].name}&image=${user[0].image}&imageKey=${user[0].imageKey}&bio=${user[0].bio}`
+          );
+        });
     }
   }, [session]);
   return (
