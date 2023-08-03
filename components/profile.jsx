@@ -44,7 +44,7 @@ const Profile = (props) => {
         <p className=" text-slate-400">Your Name</p>
         <p>{user?.name}</p>
         <p className=" text-slate-400">Your Email</p>
-        <p className=" text-xs">{user?.email}</p>
+        <p className=" text-sm">{user?.email}</p>
         <p className=" text-slate-400">{user?.bio === "" ? "" : "bio"}</p>
         <p>{user?.bio}</p>
       </section>

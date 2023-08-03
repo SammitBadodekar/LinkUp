@@ -3,27 +3,35 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
   const { data: session } = useSession();
   const router = useRouter();
   useEffect(() => {
     if (session?.user) {
-      fetch("/api/users/create", {
-        method: "PUT",
-        body: JSON.stringify({
-          name: session?.user?.name,
-          email: session?.user?.email,
-          image: session?.user?.image,
-        }),
-      })
-        .then((resp) => resp.json())
-        .then((user) => {
-          console.log(user);
-          router.push(
-            `/edit-profile?name=${user[0].name}&image=${user[0].image}&imageKey=${user[0].imageKey}&bio=${user[0].bio}`
-          );
-        });
+      toast.promise(
+        fetch("/api/users/create", {
+          method: "PUT",
+          body: JSON.stringify({
+            name: session?.user?.name,
+            email: session?.user?.email,
+            image: session?.user?.image,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((user) => {
+            console.log(user);
+            router.push(
+              `/edit-profile?name=${user[0].name}&image=${user[0].image}&imageKey=${user[0].imageKey}&bio=${user[0].bio}`
+            );
+          }),
+        {
+          loading: "loading your details",
+          success: <b>Loaded your details</b>,
+          error: <b>Could not load your details</b>,
+        }
+      );
     }
   }, [session]);
   return (

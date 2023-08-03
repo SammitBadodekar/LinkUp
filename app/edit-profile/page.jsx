@@ -98,7 +98,17 @@ const Page = () => {
               setImgInput(res[0].fileUrl);
               setImgKey(res[0].fileKey);
               localStorage.setItem("image-key", res[0].fileKey);
-              toast("Image Uploaded");
+              fetch("/api/users/update", {
+                method: "PUT",
+                body: JSON.stringify({
+                  name: nameInput,
+                  bio: bioInput,
+                  email: session.user.email,
+                  image: res[0].fileUrl,
+                  imageKey: res[0].fileKey,
+                }),
+              }),
+                toast.success("Successfully Uploaded Image");
             }}
             onUploadError={(error) => {
               // Do something with the error.
