@@ -111,8 +111,7 @@ const Page = () => {
                 toast.success("Successfully Uploaded Image");
             }}
             onUploadError={(error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
+              toast.error(`File size should be less than 4 MB`);
             }}
           />
           <p className=" -mt-8 bg-slate-200 p-1 text-xs dark:bg-DarkButNotBlack">
