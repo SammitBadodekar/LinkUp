@@ -23,7 +23,7 @@ const Page = () => {
           .then((user) => {
             console.log(user);
             router.push(
-              `/edit-profile?name=${user[0].name}&image=${user[0].image}&imageKey=${user[0].imageKey}&bio=${user[0].bio}`
+              `/edit-profile?name=${user.name}&image=${user.image}&imageKey=${user.imageKey}&bio=${user.bio}`
             );
           }),
         {

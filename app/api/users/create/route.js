@@ -17,6 +17,6 @@ export const PUT = async (req) => {
     await createUser.save();
     return new NextResponse(JSON.stringify(user));
   } else {
-    return new NextResponse(JSON.stringify(existingUser));
+    return new NextResponse(JSON.stringify(existingUser[0]));
   }
 };

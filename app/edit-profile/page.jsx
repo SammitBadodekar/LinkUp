@@ -22,7 +22,7 @@ const Page = () => {
   const bio = searchParams.get("bio");
   const { data: session, status } = useSession();
   const [nameInput, setNameInput] = useState(name);
-  const [bioInput, setBioInput] = useState(bio);
+  const [bioInput, setBioInput] = useState(bio !== undefined ? bio : "");
   const [imgInput, setImgInput] = useState(image);
   const [imgKey, setImgKey] = useState(imageKey);
   const router = useRouter();
