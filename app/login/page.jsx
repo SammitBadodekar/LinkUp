@@ -21,15 +21,14 @@ const Page = () => {
         })
           .then((resp) => resp.json())
           .then((user) => {
-            console.log(user);
             router.push(
               `/edit-profile?name=${user.name}&image=${user.image}&imageKey=${user.imageKey}&bio=${user.bio}`
             );
           }),
         {
-          loading: "loading your details",
-          success: <b>Loaded your details</b>,
-          error: <b>Could not load your details</b>,
+          loading: "Setting up your profile",
+          success: <p>Welcome {session?.user.name.split(" ")[0]}</p>,
+          error: <p>Could not load your profile</p>,
         }
       );
     }

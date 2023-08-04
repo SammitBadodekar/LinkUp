@@ -20,11 +20,14 @@ const Page = () => {
   const image = searchParams.get("image");
   const imageKey = searchParams.get("imageKey");
   const bio = searchParams.get("bio");
+
   const { data: session, status } = useSession();
+
   const [nameInput, setNameInput] = useState(name);
-  const [bioInput, setBioInput] = useState(bio !== undefined ? bio : "");
+  const [bioInput, setBioInput] = useState(bio !== "undefined" ? bio : "");
   const [imgInput, setImgInput] = useState(image);
   const [imgKey, setImgKey] = useState(imageKey);
+
   const router = useRouter();
 
   useEffect(() => {
