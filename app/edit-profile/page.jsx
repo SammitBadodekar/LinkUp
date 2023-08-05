@@ -88,7 +88,7 @@ const Page = () => {
             width={100}
             height={100}
             alt="profile"
-            className=" aspect-square rounded-full"
+            className=" aspect-square rounded-full bg-black object-cover"
           />
           <UploadButton
             endpoint="imageUploader"

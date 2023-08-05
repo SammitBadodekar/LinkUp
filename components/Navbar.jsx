@@ -46,7 +46,7 @@ const Navbar = (props) => {
         width={50}
         height={50}
         alt="profile"
-        className=" aspect-square cursor-pointer rounded-full object-cover"
+        className=" aspect-square cursor-pointer rounded-full bg-black object-cover"
         onClick={() => setIsClicked(!isClicked)}
       />
       <ToggleButton />
