@@ -403,7 +403,7 @@ const Chat = (props) => {
         </Dialog>
       </Transition>
 
-      <div className="chat-messages flex w-screen flex-col  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
+      <div className="chat-messages flex w-screen flex-col-reverse  overflow-x-hidden overflow-y-scroll bg-white text-left dark:bg-darkTheme">
         <div
           className={`${
             messages?.length == 0

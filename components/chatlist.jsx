@@ -9,7 +9,11 @@ const Chatlist = (props) => {
   const { friends, active, setActive, setFriends } = useContext(UserContext);
 
   useEffect(() => {
-    setFriends(JSON.parse(localStorage.getItem("friends")));
+    setFriends(
+      localStorage.getItem("friends") !== "undefined"
+        ? JSON.parse(localStorage.getItem("friends"))
+        : []
+    );
   }, []);
 
   const setActiveFriend = useCallback((friend) => {

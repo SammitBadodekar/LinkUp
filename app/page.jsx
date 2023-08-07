@@ -70,7 +70,6 @@ export default function Home() {
       const result = await userInfo.json();
       setUser(result[0]);
       setRequests(result[0].requests);
-      setFriends(result[0].friends);
 
       const updatedFriends = allUsers?.filter(
         (user) =>
@@ -78,7 +77,9 @@ export default function Home() {
             .length > 0
       );
       setFriends(updatedFriends?.reverse());
-      localStorage.setItem("friends", JSON.stringify(updatedFriends));
+      if (updatedFriends !== undefined) {
+        localStorage.setItem("friends", JSON.stringify(updatedFriends));
+      }
     };
     if (session?.user) {
       fetchUserInfo();
