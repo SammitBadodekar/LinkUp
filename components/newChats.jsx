@@ -7,17 +7,9 @@ import Loading from "./loading";
 import debounce from "lodash.debounce";
 
 const NewChats = (props) => {
-  const {
-    setRequests,
-    requests,
-    friends,
-    user,
-    addNewChats,
-    setAddNewChats,
-    allUsers,
-    setAllUsers,
-  } = useContext(UserContext);
-  const { socket } = props;
+  const { setRequests, requests, friends, user, allUsers, setAllUsers } =
+    useContext(UserContext);
+  const { socket, addNewChats, setAddNewChats } = props;
 
   const [searchUsers, setSearchUsers] = useState([]);
 

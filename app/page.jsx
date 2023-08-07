@@ -46,6 +46,7 @@ export default function Home() {
   const { data: session, status, update } = useSession();
   const [section, setSection] = useState("chat");
   const [isClickedProfile, setIsClickedProfile] = useState(false);
+  const [addNewChats, setAddNewChats] = useState(false);
   const {
     user,
     setUser,
@@ -54,6 +55,7 @@ export default function Home() {
     setFriends,
     active,
     setActive,
+    allUsers,
   } = useContext(UserContext);
   const [initialLoadingPhrase, setInitialLoadingPhrase] = useState([
     "setting up your account...",
@@ -69,12 +71,19 @@ export default function Home() {
       setUser(result[0]);
       setRequests(result[0].requests);
       setFriends(result[0].friends);
-      localStorage.setItem("friends", JSON.stringify(result[0].friends));
+
+      const updatedFriends = allUsers?.filter(
+        (user) =>
+          result[0].friends.filter((friend) => friend.email === user.email)
+            .length > 0
+      );
+      setFriends(updatedFriends?.reverse());
+      localStorage.setItem("friends", JSON.stringify(updatedFriends));
     };
     if (session?.user) {
       fetchUserInfo();
     }
-  }, [session?.user]);
+  }, [session?.user, allUsers]);
 
   useEffect(() => {
     window.history.pushState(null, null, window.location.href);
@@ -183,7 +192,12 @@ export default function Home() {
             : " -translate-x-full opacity-0"
         } `}
       >
-        <Chatlist socket={socket} backendURL={backendURL} />
+        <Chatlist
+          socket={socket}
+          backendURL={backendURL}
+          addNewChats={addNewChats}
+          setAddNewChats={setAddNewChats}
+        />
       </div>
 
       <Requests section={section} />
@@ -194,7 +208,11 @@ export default function Home() {
       >
         <Chat socket={socket} user={session?.user} />
       </div>
-      <NewChats socket={socket} />
+      <NewChats
+        socket={socket}
+        addNewChats={addNewChats}
+        setAddNewChats={setAddNewChats}
+      />
 
       <div
         className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-slate-200 p-10 duration-700 ease-out dark:bg-darkTheme ${

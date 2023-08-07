@@ -4,18 +4,13 @@ import Image from "next/image";
 import { IoIosPeople } from "react-icons/io";
 import Loading from "./loading";
 
-const Chatlist = () => {
-  const { friends, active, setActive, setFriends, setAddNewChats, allUsers } =
-    useContext(UserContext);
+const Chatlist = (props) => {
+  const { setAddNewChats } = props;
+  const { friends, active, setActive, setFriends } = useContext(UserContext);
 
   useEffect(() => {
-    const localFriends = JSON.parse(localStorage.getItem("friends"));
-    const updatedFriends = allUsers?.filter(
-      (user) =>
-        localFriends.filter((friend) => friend.email === user.email).length > 0
-    );
-    setFriends(updatedFriends?.reverse());
-  }, [allUsers]);
+    setFriends(JSON.parse(localStorage.getItem("friends")));
+  }, []);
 
   const setActiveFriend = useCallback((friend) => {
     setActive(friend);
