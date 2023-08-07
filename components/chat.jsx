@@ -15,6 +15,7 @@ import { Dialog, Transition } from "@headlessui/react";
 const Chat = (props) => {
   const { socket } = props;
   const [messages, setMessages] = useState([]);
+  const [allMessages, setAllMessages] = useState([]);
   const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
   const chatMessagesRef = useRef(null);
@@ -59,7 +60,8 @@ const Chat = (props) => {
         .then((data) => {
           if (data) {
             setRoomName(data?.roomName);
-            setMessages(data?.messages);
+            setAllMessages(data?.messages);
+            showMessages(20, data?.messages);
           }
         })
         .then(() => scrollToBottom(chatMessagesRef, 400));
@@ -112,12 +114,12 @@ const Chat = (props) => {
         method: "PUT",
         body: JSON.stringify({
           roomName,
-          messages: [...messages, { message: newMessage, sender }],
+          messages: [{ message: newMessage, sender }, ...messages],
         }),
       });
       setMessages((prevMessages) => [
-        ...prevMessages,
         { message: newMessage, sender },
+        ...prevMessages,
       ]);
       setInput("");
       socket.emit("send_message", {
@@ -128,6 +130,11 @@ const Chat = (props) => {
       scrollToBottom(chatMessagesRef, 200);
     }
   };
+
+  const showMessages = (range, allMessages) => {
+    setMessages(allMessages.slice(0, range).reverse());
+  };
+
   useEffect(() => {
     socket.on("broadcast", (data) => {
       if (activeRef.current?.name === "Chat Lounge") {
@@ -151,7 +158,7 @@ const Chat = (props) => {
             </span>
           ));
         } else {
-          setMessages((prevMessages) => [...prevMessages, data]);
+          setMessages((prevMessages) => [data, ...prevMessages]);
           scrollToBottom(chatMessagesRef, 200);
         }
       }
@@ -413,7 +420,7 @@ const Chat = (props) => {
         >
           <Loading />
         </div>
-
+        <div ref={chatMessagesRef} />
         {messages
           ? messages.map((message) => {
               if (
@@ -422,7 +429,7 @@ const Chat = (props) => {
               ) {
                 return (
                   <div
-                    className="max-w-4/5 m-2 mx-6 flex h-fit w-fit items-start justify-center self-center rounded-lg bg-slate-400 p-2 text-center text-xs text-white dark:text-darkTheme sm:mx-2"
+                    className="max-w-4/5 m-2 mx-6 flex h-fit w-fit items-end justify-center self-center rounded-lg bg-slate-400 p-2 text-center text-xs text-white dark:text-darkTheme sm:mx-2"
                     key={uuidv4()}
                   >
                     <p>{message?.message}</p>
@@ -461,7 +468,6 @@ const Chat = (props) => {
               );
             })
           : ""}
-        <div ref={chatMessagesRef} />
       </div>
       <form
         className=" sticky bottom-0 flex justify-between gap-2 bg-white p-2 dark:bg-darkTheme"
