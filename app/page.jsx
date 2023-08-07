@@ -71,14 +71,16 @@ export default function Home() {
       setUser(result[0]);
       setRequests(result[0].requests);
 
-      const updatedFriends = allUsers?.filter(
-        (user) =>
-          result[0].friends.filter((friend) => friend.email === user.email)
-            .length > 0
-      );
-      setFriends(updatedFriends?.reverse());
-      if (updatedFriends !== undefined) {
-        localStorage.setItem("friends", JSON.stringify(updatedFriends));
+      if (allUsers) {
+        const updatedFriends = allUsers?.filter(
+          (user) =>
+            result[0].friends.filter((friend) => friend.email === user.email)
+              .length > 0
+        );
+        setFriends(updatedFriends?.reverse());
+        if (updatedFriends !== undefined) {
+          localStorage.setItem("friends", JSON.stringify(updatedFriends));
+        }
       }
     };
     if (session?.user) {

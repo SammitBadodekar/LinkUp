@@ -39,7 +39,7 @@ const Profile = (props) => {
           alt=""
           width={100}
           height={100}
-          className="mt-20 aspect-square self-center rounded-full bg-black object-cover"
+          className="mt-20 aspect-square self-center rounded-full object-cover"
         />
         <p className=" text-slate-400">Your Name</p>
         <p>{user?.name}</p>

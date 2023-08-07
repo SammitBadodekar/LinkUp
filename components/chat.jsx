@@ -79,7 +79,7 @@ const Chat = (props) => {
       method: "PUT",
       body: JSON.stringify({
         roomName,
-        messages: [newMessage],
+        message: newMessage,
       }),
     }).then(
       toast((t) => (
@@ -94,6 +94,8 @@ const Chat = (props) => {
         </span>
       ))
     );
+
+    setAllMessages([newMessage]);
     setMessages([newMessage]);
     socket.emit("send_message", {
       message: `${user.name} cleared all previous messages`,
@@ -116,7 +118,7 @@ const Chat = (props) => {
         method: "PUT",
         body: JSON.stringify({
           roomName,
-          messages: [{ message: newMessage, sender }, ...messages],
+          message: { message: newMessage, sender },
         }),
       });
       setMessages((prevMessages) => [
@@ -426,8 +428,8 @@ const Chat = (props) => {
         {messages
           ? messages.map((message) => {
               if (
-                message.sender === "linkup-info" ||
-                message.sender?.behalf === "linkup-info"
+                message?.sender === "linkup-info" ||
+                message?.sender?.behalf === "linkup-info"
               ) {
                 return (
                   <div
@@ -438,7 +440,7 @@ const Chat = (props) => {
                   </div>
                 );
               }
-              if (message.sender?.email === user?.email) {
+              if (message?.sender?.email === user?.email) {
                 return (
                   <div
                     className="max-w-4/5 m-1 ml-8 mr-2 flex h-fit w-fit items-start justify-center self-end rounded-3xl rounded-tr-sm bg-blue-300 p-2 px-4 dark:bg-green-600"
@@ -474,6 +476,7 @@ const Chat = (props) => {
           onClick={() => {
             setLoadMessagesCounter((prev) => prev + 20);
             showMessages(loadMessagesCounter + 20, allMessages);
+            console.log(allMessages.length, loadMessagesCounter);
           }}
           className={` m-1 w-fit self-center rounded-md bg-slate-400 p-1 ${
             allMessages.length <= loadMessagesCounter ||

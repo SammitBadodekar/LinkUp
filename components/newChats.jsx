@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { UserContext } from "@/context/userContext";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -12,6 +13,11 @@ const NewChats = (props) => {
   const { socket, addNewChats, setAddNewChats } = props;
 
   const [searchUsers, setSearchUsers] = useState([]);
+  const [pageCounter, setPageCounter] = useState(21);
+
+  const showUsers = (pageStart, pageEnd, allUsers) => {
+    setSearchUsers(allUsers?.slice(pageStart, pageEnd));
+  };
 
   const handleSearch = (searchInput) => {
     const searchResult = [];
@@ -107,7 +113,7 @@ const NewChats = (props) => {
       .then((resp) => resp.json())
       .then((data) => {
         setAllUsers(Object.values(data));
-        setSearchUsers(Object.values(data));
+        showUsers(0, 21, Object.values(data));
       });
   }, []);
   if (!allUsers && addNewChats) {
@@ -128,12 +134,12 @@ const NewChats = (props) => {
   }
   return (
     <div
-      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex w-screen flex-col gap-4 overflow-y-scroll border-r-2 border-slate-300 bg-white dark:border-slate-600  dark:bg-darkTheme dark:text-white  ${
+      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex w-screen flex-col overflow-y-scroll border-r-2 border-slate-300 bg-white dark:border-slate-600  dark:bg-darkTheme dark:text-white  ${
         addNewChats ? "newChats open" : ""
       }`}
     >
       <h1
-        className="z-20 flex w-full items-center gap-4 bg-slate-100  p-4 text-xl font-bold shadow-lg dark:bg-DarkButNotBlack"
+        className="z-20 flex w-full items-center gap-4 bg-slate-100  p-4 text-xl font-bold dark:bg-DarkButNotBlack"
         onClick={() => {
           setAddNewChats(false);
         }}
@@ -141,13 +147,16 @@ const NewChats = (props) => {
         <BiArrowBack />
         New Chats
       </h1>
-      <div className=" flex items-center justify-center">
+      <div className=" relative flex items-center justify-between bg-slate-100 p-2 px-4 shadow-lg dark:bg-DarkButNotBlack">
         <input
           type="text"
           placeholder="search"
-          className=" w-4/5 rounded-lg bg-slate-300 p-2 dark:bg-slate-600 dark:placeholder:text-slate-400"
+          className="w-full rounded-2xl border-2  bg-slate-300 p-2 focus:border-transparent  dark:bg-darkTheme dark:placeholder:text-slate-300"
           onChange={(e) => debounceSearch(e.target.value)}
         />
+        <button className=" absolute right-8 ">
+          <HiOutlineMagnifyingGlass />
+        </button>
       </div>
       <p
         className={`${
@@ -156,13 +165,23 @@ const NewChats = (props) => {
       >
         No User With That Name
       </p>
-      <div className=" mt-0 px-2">
+      <div className=" mt-0 overflow-y-scroll px-2">
+        <p
+          className={` p-2 text-center ${
+            searchUsers.length < 20 ? "hidden" : ""
+          }`}
+        >
+          Showing result {pageCounter - 20}-
+          {pageCounter >= allUsers?.length ? allUsers?.length : pageCounter - 1}{" "}
+          out of {allUsers?.length}{" "}
+        </p>
         {searchUsers?.map((singleUser) => {
           const userTag = singleUser.email.split("@")[0];
           const isFriend = friends?.some(
             (item) => item?.email === singleUser?.email
           );
-          if (user?.email === singleUser?.email || isFriend) return;
+          let isSelf = false;
+          if (user?.email === singleUser?.email) isSelf = true;
 
           return (
             <article
@@ -184,14 +203,48 @@ const NewChats = (props) => {
               </div>
 
               <button
-                className=" absolute right-4 top-6 rounded-xl bg-slate-400 p-1 text-sm font-bold text-darkTheme"
-                onClick={() => addFriend(singleUser)}
+                className={`absolute right-4 top-6 rounded-xl p-1 text-sm  ${
+                  !isSelf && !isFriend
+                    ? "bg-slate-400 font-bold text-darkTheme"
+                    : "text-center"
+                }`}
+                onClick={() => {
+                  if (!isSelf && !isFriend) {
+                    addFriend(singleUser);
+                  }
+                }}
               >
-                Add
+                {isSelf ? "you" : isFriend ? "Friend" : "Add"}
               </button>
             </article>
           );
         })}
+        <div className=" flex items-center  justify-between border-t-2 p-4 text-darkTheme dark:border-slate-600">
+          <button
+            onClick={() => {
+              setPageCounter((prev) => prev - 20);
+              console.log(pageCounter);
+              showUsers(pageCounter - 40, pageCounter - 20, allUsers);
+            }}
+            className={`${
+              pageCounter <= 21 ? " invisible" : ""
+            } rounded-md bg-slate-400 p-1`}
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => {
+              setPageCounter((prev) => prev + 20);
+              console.log(pageCounter);
+              showUsers(pageCounter, pageCounter + 20, allUsers);
+            }}
+            className={`${
+              pageCounter >= allUsers?.length ? " invisible" : ""
+            } rounded-md bg-slate-400 p-1`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

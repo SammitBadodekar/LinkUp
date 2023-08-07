@@ -4,15 +4,31 @@ import Message from "@/models/MessageModel";
 
 export const PUT = async (req) => {
   const body = await req.json();
-  const messages = body.messages;
+  const message = body.message;
   try {
     await connect();
-    const newMessages = {
-      $set: {
-        messages: [...messages],
-      },
-    };
-    await Message.updateOne({ roomName: body.roomName }, newMessages);
+    const allMessages = await Message.findOne(
+      { roomName: body.roomName },
+      { messages: 1 }
+    );
+    if (message.sender === "linkup-info") {
+      await Message.updateOne(
+        { roomName: body.roomName },
+        {
+          $set: {
+            messages: [message],
+          },
+        }
+      );
+    } else {
+      const newMessages = {
+        $set: {
+          messages: [message, ...allMessages.messages],
+        },
+      };
+      await Message.updateOne({ roomName: body.roomName }, newMessages);
+    }
+
     return new NextResponse("sent");
   } catch (error) {
     console.log(error);
