@@ -26,6 +26,7 @@ const Chat = (props) => {
   const modalRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [modalText, setModalText] = useState([]);
+  const [loadMessagesCounter, setLoadMessagesCounter] = useState(20);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -45,6 +46,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     activeRef.current = active;
+    setLoadMessagesCounter(20);
     if (!active) {
       scrollToBottom(chatMessagesRef, 300);
     } else {
@@ -132,7 +134,7 @@ const Chat = (props) => {
   };
 
   const showMessages = (range, allMessages) => {
-    setMessages(allMessages.slice(0, range).reverse());
+    setMessages(allMessages.slice(0, range));
   };
 
   useEffect(() => {
@@ -468,6 +470,20 @@ const Chat = (props) => {
               );
             })
           : ""}
+        <button
+          onClick={() => {
+            setLoadMessagesCounter((prev) => prev + 20);
+            showMessages(loadMessagesCounter + 20, allMessages);
+          }}
+          className={` m-1 w-fit self-center rounded-md bg-slate-400 p-1 ${
+            allMessages.length <= loadMessagesCounter ||
+            allMessages.length <= 20
+              ? "hidden"
+              : ""
+          }`}
+        >
+          Load More
+        </button>
       </div>
       <form
         className=" sticky bottom-0 flex justify-between gap-2 bg-white p-2 dark:bg-darkTheme"
