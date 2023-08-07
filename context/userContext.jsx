@@ -8,6 +8,8 @@ export const UserProvider = ({ children }) => {
   const [requests, setRequests] = useState([]);
   const [friends, setFriends] = useState(null);
   const [active, setActive] = useState(null);
+  const [addNewChats, setAddNewChats] = useState(false);
+  const [allUsers, setAllUsers] = useState(null);
   return (
     <UserContext.Provider
       value={{
@@ -19,6 +21,10 @@ export const UserProvider = ({ children }) => {
         setFriends,
         active,
         setActive,
+        addNewChats,
+        setAddNewChats,
+        allUsers,
+        setAllUsers,
       }}
     >
       {children}

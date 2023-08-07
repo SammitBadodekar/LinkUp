@@ -7,9 +7,18 @@ import Loading from "./loading";
 import debounce from "lodash.debounce";
 
 const NewChats = (props) => {
-  const { setRequests, requests, friends } = useContext(UserContext);
-  const { addNewChats, setAddNewChats, socket, user } = props;
-  const [allUsers, setAllUsers] = useState(null);
+  const {
+    setRequests,
+    requests,
+    friends,
+    user,
+    addNewChats,
+    setAddNewChats,
+    allUsers,
+    setAllUsers,
+  } = useContext(UserContext);
+  const { socket } = props;
+
   const [searchUsers, setSearchUsers] = useState([]);
 
   const handleSearch = (searchInput) => {
@@ -140,14 +149,14 @@ const NewChats = (props) => {
         <BiArrowBack />
         New Chats
       </h1>
-      <form className=" flex items-center justify-center">
+      <div className=" flex items-center justify-center">
         <input
           type="text"
           placeholder="search"
           className=" w-4/5 rounded-lg bg-slate-300 p-2 dark:bg-slate-600 dark:placeholder:text-slate-400"
           onChange={(e) => debounceSearch(e.target.value)}
         />
-      </form>
+      </div>
       <p
         className={`${
           searchUsers.length !== 0 ? "hidden" : ""

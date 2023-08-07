@@ -13,12 +13,13 @@ import { UserContext } from "@/context/userContext";
 import { Dialog, Transition } from "@headlessui/react";
 
 const Chat = (props) => {
-  const { socket, user } = props;
+  const { socket } = props;
   const [messages, setMessages] = useState([]);
   const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
   const chatMessagesRef = useRef(null);
-  const { active, setActive, friends, setFriends } = useContext(UserContext);
+  const { active, setActive, friends, setFriends, user } =
+    useContext(UserContext);
   const activeRef = useRef(active);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
   const modalRef = useRef(null);
@@ -273,7 +274,7 @@ const Chat = (props) => {
             alt=""
             width={50}
             height={50}
-            className={`self-start rounded-full ${
+            className={`aspect-square self-start rounded-full object-cover ${
               active?.name === "Chat Lounge" ? "hidden" : ""
             }`}
           ></Image>

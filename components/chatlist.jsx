@@ -4,13 +4,18 @@ import Image from "next/image";
 import { IoIosPeople } from "react-icons/io";
 import Loading from "./loading";
 
-const Chatlist = (props) => {
-  const { setAddNewChats } = props;
-  const { friends, active, setActive, setFriends } = useContext(UserContext);
+const Chatlist = () => {
+  const { friends, active, setActive, setFriends, setAddNewChats, allUsers } =
+    useContext(UserContext);
 
   useEffect(() => {
-    setFriends(JSON.parse(localStorage.getItem("friends")));
-  }, []);
+    const localFriends = JSON.parse(localStorage.getItem("friends"));
+    const updatedFriends = allUsers?.filter(
+      (user) =>
+        localFriends.filter((friend) => friend.email === user.email).length > 0
+    );
+    setFriends(updatedFriends?.reverse());
+  }, [allUsers]);
 
   const setActiveFriend = useCallback((friend) => {
     setActive(friend);
@@ -53,7 +58,7 @@ const Chatlist = (props) => {
                   alt=""
                   width={50}
                   height={50}
-                  className=" rounded-full"
+                  className=" aspect-square rounded-full object-cover"
                 ></Image>
                 <p>{friend.name}</p>
               </div>

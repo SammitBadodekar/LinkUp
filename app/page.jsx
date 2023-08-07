@@ -45,7 +45,6 @@ const Requests = dynamic(() => import("@/components/requests"), {
 export default function Home() {
   const { data: session, status, update } = useSession();
   const [section, setSection] = useState("chat");
-  const [addNewChats, setAddNewChats] = useState(false);
   const [isClickedProfile, setIsClickedProfile] = useState(false);
   const {
     user,
@@ -104,6 +103,9 @@ export default function Home() {
             className="w-0 flex-1 p-4"
             onClick={() => {
               setSection("request");
+              setAddNewChats(false);
+              setIsClickedProfile(false);
+              setActive(null);
               toast.dismiss(t.id);
             }}
           >
@@ -181,12 +183,7 @@ export default function Home() {
             : " -translate-x-full opacity-0"
         } `}
       >
-        <Chatlist
-          socket={socket}
-          backendURL={backendURL}
-          addNewChats={addNewChats}
-          setAddNewChats={setAddNewChats}
-        />
+        <Chatlist socket={socket} backendURL={backendURL} />
       </div>
 
       <Requests section={section} />
@@ -197,12 +194,7 @@ export default function Home() {
       >
         <Chat socket={socket} user={session?.user} />
       </div>
-      <NewChats
-        addNewChats={addNewChats}
-        setAddNewChats={setAddNewChats}
-        socket={socket}
-        user={session?.user}
-      />
+      <NewChats socket={socket} />
 
       <div
         className={` absolute bottom-0 left-0 right-0 top-0 flex h-screen flex-col items-center justify-center gap-4 bg-slate-200 p-10 duration-700 ease-out dark:bg-darkTheme ${
