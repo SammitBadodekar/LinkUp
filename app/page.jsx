@@ -2,7 +2,7 @@
 import { UserContext } from "@/context/userContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Fragment } from "react";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import Loading from "../components/loading";
@@ -11,6 +11,7 @@ import Navbar from "@/components/Navbar";
 import NewChats from "@/components/newChats";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Dialog, Transition } from "@headlessui/react";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -57,6 +58,9 @@ export default function Home() {
     active,
     setActive,
     allUsers,
+    profileModalText,
+    isModalOpen,
+    setIsModalOpen,
   } = useContext(UserContext);
   const [initialLoadingPhrase, setInitialLoadingPhrase] = useState([
     "setting up your account...",
@@ -158,10 +162,11 @@ export default function Home() {
 
   return (
     <motion.main
-      initial={{ y: 25, opacity: 0.5 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
+      exit={{ y: "-100%", opacity: 0 }}
       transition={{
-        duration: 0.5,
+        duration: 0.75,
       }}
     >
       <div className=" overflow-hidden shadow-lg sm:w-1/3">
@@ -232,6 +237,74 @@ export default function Home() {
         <p>{initialLoadingPhrase[0]}</p>
         <span className="initialLoader "></span>
       </div>
+      <Transition appear show={isModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsModalOpen((prev) => !prev)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-300 p-6 text-left align-middle shadow-xl transition-all dark:bg-darkTheme">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-center text-lg font-extrabold leading-6 text-gray-900 dark:text-slate-300"
+                  >
+                    Profile
+                  </Dialog.Title>
+                  <div className=" flex w-full flex-col items-center justify-center p-4">
+                    <Image
+                      width={150}
+                      height={150}
+                      src={profileModalText[0] || "/PngItem_307416.png"}
+                      className=" aspect-square rounded-full object-cover"
+                    ></Image>
+                    <p className=" text-darkTheme dark:text-slate-200">
+                      {profileModalText[1]}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-slate-400">
+                      @{profileModalText[2]?.split("@")[0]}
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className=" inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={() => {
+                        setIsModalOpen((prev) => !prev);
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </motion.main>
   );
 }

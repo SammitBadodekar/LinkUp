@@ -19,8 +19,15 @@ const Chat = (props) => {
   const [roomName, setRoomName] = useState([]);
   const [input, setInput] = useState("");
   const chatMessagesRef = useRef(null);
-  const { active, setActive, friends, setFriends, user } =
-    useContext(UserContext);
+  const {
+    active,
+    setActive,
+    friends,
+    setFriends,
+    user,
+    setIsModalOpen,
+    setProfileModalText,
+  } = useContext(UserContext);
   const activeRef = useRef(active);
   const [removeFriendBTN, setRemoveFriendBTN] = useState(false);
   const modalRef = useRef(null);
@@ -279,7 +286,17 @@ const Chat = (props) => {
         >
           <BiArrowBack />
         </div>
-        <div className=" flex items-center gap-2">
+        <div
+          className=" flex items-center gap-2"
+          onClick={() => {
+            setIsModalOpen((prev) => !prev);
+            setProfileModalText([
+              `${active?.image}`,
+              `${active?.name}`,
+              `${active?.email}`,
+            ]);
+          }}
+        >
           <Image
             src={active?.image || "/PngItem_307416.png"}
             alt=""
@@ -478,7 +495,7 @@ const Chat = (props) => {
             showMessages(loadMessagesCounter + 20, allMessages);
             console.log(allMessages.length, loadMessagesCounter);
           }}
-          className={` m-1 w-fit self-center rounded-md bg-slate-400 p-1 ${
+          className={` m-1 w-fit self-center rounded-md bg-slate-400 p-1 font-bold text-darkTheme ${
             allMessages.length <= loadMessagesCounter ||
             allMessages.length <= 20
               ? "hidden"

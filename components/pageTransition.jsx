@@ -6,7 +6,7 @@ const PageTransition = () => {
       initial={{ y: 0 }}
       animate={{ y: "-150%" }}
       transition={{
-        duration: 0.5,
+        duration: 0.75,
         delay: 0.5,
       }}
       className=" absolute top-0 z-40 grid h-screen w-screen gap-8 bg-slate-300 dark:bg-slate-700 dark:text-slate-300"

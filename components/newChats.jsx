@@ -8,8 +8,16 @@ import Loading from "./loading";
 import debounce from "lodash.debounce";
 
 const NewChats = (props) => {
-  const { setRequests, requests, friends, user, allUsers, setAllUsers } =
-    useContext(UserContext);
+  const {
+    setRequests,
+    requests,
+    friends,
+    user,
+    allUsers,
+    setAllUsers,
+    setIsModalOpen,
+    setProfileModalText,
+  } = useContext(UserContext);
   const { socket, addNewChats, setAddNewChats } = props;
 
   const [searchUsers, setSearchUsers] = useState([]);
@@ -126,7 +134,7 @@ const NewChats = (props) => {
           }}
         >
           <BiArrowBack />
-          New Chats
+          Users
         </h1>
         <Loading />
       </div>
@@ -134,20 +142,20 @@ const NewChats = (props) => {
   }
   return (
     <div
-      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex w-screen flex-col overflow-y-scroll border-r-2 border-slate-300 bg-white dark:border-slate-600  dark:bg-darkTheme dark:text-white  ${
+      className={`newChats fixed bottom-0 left-0 top-0 z-20 flex w-screen flex-col border-r-2 border-slate-300 bg-white dark:border-slate-600  dark:bg-darkTheme dark:text-white  ${
         addNewChats ? "newChats open" : ""
       }`}
     >
       <h1
-        className="z-20 flex w-full items-center gap-4 bg-slate-100  p-4 text-xl font-bold dark:bg-DarkButNotBlack"
+        className="z-20 flex w-full items-center gap-4 bg-slate-100  p-2 px-4 text-xl font-bold dark:bg-DarkButNotBlack"
         onClick={() => {
           setAddNewChats(false);
         }}
       >
         <BiArrowBack />
-        New Chats
+        Users
       </h1>
-      <div className=" relative flex items-center justify-between bg-slate-100 p-2 px-4 shadow-lg dark:bg-DarkButNotBlack">
+      <div className=" relative -mt-2 flex items-center justify-between bg-slate-100 p-2 px-4 shadow-lg dark:bg-DarkButNotBlack">
         <input
           type="text"
           placeholder="search"
@@ -166,11 +174,7 @@ const NewChats = (props) => {
         No User With That Name
       </p>
       <div className=" mt-0 overflow-y-scroll px-2">
-        <p
-          className={` p-2 text-center ${
-            searchUsers.length < 20 ? "hidden" : ""
-          }`}
-        >
+        <p className={` p-2 text-center text-slate-400 `}>
           Showing result {pageCounter - 20}-
           {pageCounter >= allUsers?.length ? allUsers?.length : pageCounter - 1}{" "}
           out of {allUsers?.length}{" "}
@@ -182,11 +186,19 @@ const NewChats = (props) => {
           );
           let isSelf = false;
           if (user?.email === singleUser?.email) isSelf = true;
-
           return (
             <article
               key={singleUser.email}
               className=" relative w-full items-center p-4"
+              onClick={() => {
+                setIsModalOpen((prev) => !prev);
+                setProfileModalText([
+                  `${singleUser?.image}`,
+                  `${singleUser?.name}`,
+                  `${singleUser?.email}`,
+                ]);
+                setAddNewChats(false);
+              }}
             >
               <div className=" flex gap-2">
                 <Image
@@ -232,6 +244,12 @@ const NewChats = (props) => {
           >
             Previous
           </button>
+          <p className=" text-slate-400">
+            {pageCounter - 20}-
+            {pageCounter >= allUsers?.length
+              ? allUsers?.length
+              : pageCounter - 1}
+          </p>
           <button
             onClick={() => {
               setPageCounter((prev) => prev + 20);
