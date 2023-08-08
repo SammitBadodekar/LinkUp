@@ -10,6 +10,7 @@ import { io } from "socket.io-client";
 import Navbar from "@/components/Navbar";
 import NewChats from "@/components/newChats";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const backendURL =
   "https://linkup-backend-2uhh.onrender.com"; /* ("http://localhost:3001"); */
@@ -156,7 +157,13 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <motion.main
+      initial={{ y: 25, opacity: 0.5 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{
+        duration: 0.5,
+      }}
+    >
       <div className=" overflow-hidden shadow-lg sm:w-1/3">
         <Navbar
           user={session?.user}
@@ -225,6 +232,6 @@ export default function Home() {
         <p>{initialLoadingPhrase[0]}</p>
         <span className="initialLoader "></span>
       </div>
-    </main>
+    </motion.main>
   );
 }

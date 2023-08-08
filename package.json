@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.7.15",
     "@uploadthing/react": "^5.2.0",
     "autoprefixer": "10.4.14",
+    "framer-motion": "^10.15.1",
     "lodash.debounce": "^4.0.8",
     "mongoose": "^7.3.1",
     "next": "13.4.6",

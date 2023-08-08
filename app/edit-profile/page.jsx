@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import PageTransition from "@/components/pageTransition";
 
 /* uploadthing imports */
 import "@uploadthing/react/styles.css";
@@ -65,6 +66,7 @@ const Page = () => {
 
   return (
     <div className="flex h-screen w-screen justify-center overflow-y-scroll sm:items-center">
+      <PageTransition />
       <button className=" absolute right-4 top-8 sm:top-4">
         <ToggleButton />
       </button>
