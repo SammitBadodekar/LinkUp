@@ -11,6 +11,7 @@ import { useState, useEffect, useRef, useContext, Fragment } from "react";
 import { IoIosPeople } from "react-icons/io";
 import { UserContext } from "@/context/userContext";
 import { Dialog, Transition } from "@headlessui/react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Chat = (props) => {
   const { socket } = props;
@@ -34,6 +35,7 @@ const Chat = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalText, setModalText] = useState([]);
   const [loadMessagesCounter, setLoadMessagesCounter] = useState(20);
+  const [parent, enableAnimations] = useAutoAnimate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -441,7 +443,7 @@ const Chat = (props) => {
         >
           <Loading />
         </div>
-        <div ref={chatMessagesRef} />
+        <div ref={parent} />
         {messages
           ? messages.map((message) => {
               if (

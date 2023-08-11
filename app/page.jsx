@@ -196,15 +196,15 @@ export default function Home() {
               : ""
           }`}
         >
-          Requests &#40;{requests?.length || 0}&#41;
+          Requests&#40;{requests?.length || 0}&#41;
         </button>
       </div>
 
       <div
         className={` duration-300 ease-in ${
           section === "chat"
-            ? " sm:chatList-container w-screen translate-x-0 sm:static sm:w-1/3"
-            : " -translate-x-full opacity-0"
+            ? " sm:chatList-container w-full translate-x-0 sm:static sm:w-1/3"
+            : " -translate-x-full opacity-0 sm:w-1/3"
         } `}
       >
         <Chatlist

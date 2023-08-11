@@ -82,7 +82,7 @@
 
 .chatList,
 .request {
-  height: calc(100vh - 7rem);
+  height: calc(100dvh - 7rem);
 }
 .request {
   width: 33%;
@@ -91,7 +91,7 @@
   width: 34%;
 }
 .chat-messages {
-  height: calc(100dvh - 7rem);
+  height: calc(100dvh - 7.5rem);
   width: 100%;
 }
 

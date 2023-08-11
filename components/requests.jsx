@@ -1,12 +1,15 @@
 import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { UserContext } from "@/context/userContext";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Requests = (props) => {
   const { section } = props;
   const { user, requests, setRequests, setFriends, friends } =
     useContext(UserContext);
+  const [parent, enableAnimations] = useAutoAnimate();
+
   const addFriend = (sender) => {
     const updatedFriends = [sender, ...friends];
     const updatedRequests = requests.filter(
@@ -104,7 +107,7 @@ const Requests = (props) => {
     >
       <div className="">
         <h1 className=" text-xl font-extrabold">Received :</h1>
-        <div className=" relative  mt-2">
+        <div className=" relative  mt-2" ref={parent}>
           {requests.map((request) => {
             if (request.type !== "received") return;
             return (
@@ -141,7 +144,7 @@ const Requests = (props) => {
       </div>
       <div className=" my-8">
         <h1 className=" text-xl font-extrabold">Sent :</h1>
-        <div className=" mt-2">
+        <div className=" mt-2" ref={parent}>
           {requests.map((request) => {
             if (request.type !== "sent") return;
             return (

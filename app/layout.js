@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-white text-darkTheme dark:bg-darkTheme dark:text-white sm:overflow-hidden`}
+        className={`${inter.className} overflow-x-hidden bg-white text-darkTheme dark:bg-darkTheme dark:text-slate-200 sm:overflow-hidden`}
       >
         <UserProvider>
           <AuthProvider>
