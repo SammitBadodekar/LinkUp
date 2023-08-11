@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import PageTransition from "@/components/pageTransition";
+import { motion } from "framer-motion";
 
 /* uploadthing imports */
 import "@uploadthing/react/styles.css";
@@ -65,8 +65,14 @@ const Page = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen justify-center overflow-y-scroll sm:items-center">
-      <PageTransition />
+    <motion.div
+      initial={{ x: "-100%" }}
+      animate={{ x: 0 }}
+      transition={{
+        duration: 0.3,
+      }}
+      className="flex h-screen w-screen justify-center overflow-y-scroll sm:items-center"
+    >
       <button className=" absolute right-4 top-8 sm:top-4">
         <ToggleButton />
       </button>
@@ -129,7 +135,7 @@ const Page = () => {
           <input
             type="text"
             value={nameInput}
-            className=" w-full rounded-md bg-slate-300 p-1 px-2 text-sm dark:bg-slate-600"
+            className=" w-full rounded-md bg-slate-300 p-2 text-sm dark:bg-slate-600"
             onChange={(e) => setNameInput(e.target.value)}
           />
           <label htmlFor="">Email</label>
@@ -156,7 +162,7 @@ const Page = () => {
           Save
         </button>
       </form>
-    </div>
+    </motion.div>
   );
 };
 export default Page;

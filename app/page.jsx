@@ -68,6 +68,8 @@ export default function Home() {
     "finishing your setup...",
   ]);
 
+  console.log(profileModalText[0]?.split("_"));
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       socket.emit("join_self", { email: session.user?.email });
@@ -240,7 +242,7 @@ export default function Home() {
       <Transition appear show={isModalOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-50"
           onClose={() => setIsModalOpen((prev) => !prev)}
         >
           <Transition.Child
@@ -255,8 +257,8 @@ export default function Home() {
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="z-50 flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -266,7 +268,7 @@ export default function Home() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-300 p-6 text-left align-middle shadow-xl transition-all dark:bg-darkTheme">
+                <Dialog.Panel className="z-50 w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-200 p-6 text-left align-middle shadow-xl transition-all dark:bg-DarkButNotBlack">
                   <Dialog.Title
                     as="h3"
                     className="text-center text-lg font-extrabold leading-6 text-gray-900 dark:text-slate-300"
@@ -277,7 +279,14 @@ export default function Home() {
                     <Image
                       width={150}
                       height={150}
-                      src={profileModalText[0] || "/PngItem_307416.png"}
+                      src={
+                        profileModalText[0]
+                          ?.split("_")[0]
+                          .includes("https://loremflickr")
+                          ? "/PngItem_307416.png"
+                          : profileModalText[0]
+                      }
+                      alt="profile"
                       className=" aspect-square rounded-full object-cover"
                     ></Image>
                     <p className=" text-darkTheme dark:text-slate-200">
@@ -291,7 +300,7 @@ export default function Home() {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className=" inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className=" inline-flex w-full justify-center rounded-md border border-transparent bg-blue-300 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => {
                         setIsModalOpen((prev) => !prev);
                       }}

@@ -42,7 +42,7 @@ const Navbar = (props) => {
       className={`z-50 flex justify-between bg-slate-100 p-2 px-4 shadow-2xl dark:bg-DarkButNotBlack`}
     >
       <Image
-        src={user?.image || ""}
+        src={user?.image || "/PngItem_307416.png"}
         width={50}
         height={50}
         alt="profile"

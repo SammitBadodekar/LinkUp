@@ -21,6 +21,7 @@ const NewChats = (props) => {
   const { socket, addNewChats, setAddNewChats } = props;
 
   const [searchUsers, setSearchUsers] = useState([]);
+  const [input, setInput] = useState("");
   const [pageCounter, setPageCounter] = useState(21);
 
   const showUsers = (pageStart, pageEnd, allUsers) => {
@@ -42,6 +43,10 @@ const NewChats = (props) => {
 
   const debounceSearch = debounce((searchInput) => {
     handleSearch(searchInput);
+    setInput(searchInput);
+    if (searchInput.length === 0) {
+      showUsers(pageCounter - 20, pageCounter, allUsers);
+    }
   }, 500);
 
   const addFriend = (receiver) => {
@@ -174,7 +179,11 @@ const NewChats = (props) => {
         No User With That Name
       </p>
       <div className=" mt-0 overflow-y-scroll px-2">
-        <p className={` p-2 text-center text-slate-400 `}>
+        <p
+          className={` p-2 text-center text-slate-400 ${
+            input.length > 0 ? "hidden" : ""
+          }`}
+        >
           Showing result {pageCounter - 20}-
           {pageCounter >= allUsers?.length ? allUsers?.length : pageCounter - 1}{" "}
           out of {allUsers?.length}{" "}
@@ -190,17 +199,19 @@ const NewChats = (props) => {
             <article
               key={singleUser.email}
               className=" relative w-full items-center p-4"
-              onClick={() => {
-                setIsModalOpen((prev) => !prev);
-                setProfileModalText([
-                  `${singleUser?.image}`,
-                  `${singleUser?.name}`,
-                  `${singleUser?.email}`,
-                ]);
-                setAddNewChats(false);
-              }}
             >
-              <div className=" flex gap-2">
+              <div
+                className=" flex gap-2"
+                onClick={() => {
+                  setIsModalOpen((prev) => !prev);
+                  setProfileModalText([
+                    `${singleUser?.image}`,
+                    `${singleUser?.name}`,
+                    `${singleUser?.email}`,
+                  ]);
+                  setAddNewChats(false);
+                }}
+              >
                 <Image
                   src={singleUser?.image || "/PngItem_307416.png"}
                   width={50}
@@ -231,11 +242,14 @@ const NewChats = (props) => {
             </article>
           );
         })}
-        <div className=" flex items-center  justify-between border-t-2 p-4 text-darkTheme dark:border-slate-600">
+        <div
+          className={`flex items-center  justify-between border-t-2 p-4 text-darkTheme dark:border-slate-600 ${
+            input.length > 0 ? "hidden" : ""
+          }`}
+        >
           <button
             onClick={() => {
               setPageCounter((prev) => prev - 20);
-              console.log(pageCounter);
               showUsers(pageCounter - 40, pageCounter - 20, allUsers);
             }}
             className={`${
@@ -253,7 +267,6 @@ const NewChats = (props) => {
           <button
             onClick={() => {
               setPageCounter((prev) => prev + 20);
-              console.log(pageCounter);
               showUsers(pageCounter, pageCounter + 20, allUsers);
             }}
             className={`${
