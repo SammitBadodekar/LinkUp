@@ -113,7 +113,7 @@ const Requests = (props) => {
                 className=" flex items-center gap-2 rounded-xl bg-slate-200 p-2  dark:bg-DarkButNotBlack"
               >
                 <Image
-                  src={request.sender.image || "/PngItem_307416.png"}
+                  src={request.sender.image || "/PngItem_307416.webp"}
                   alt=""
                   width={40}
                   height={40}
@@ -151,7 +151,7 @@ const Requests = (props) => {
               >
                 <div className=" mr-20 flex items-center gap-2 text-sm">
                   <Image
-                    src={request.receiver.image || "/PngItem_307416.png"}
+                    src={request.receiver.image || "/PngItem_307416.webp"}
                     alt=""
                     width={40}
                     height={40}

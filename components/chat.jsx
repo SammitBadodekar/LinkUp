@@ -204,7 +204,7 @@ const Chat = (props) => {
                   <div className="flex-shrink-0 pt-0.5">
                     <Image
                       src={data.sender?.image}
-                      alt="/PngItem_307416.png"
+                      alt="/PngItem_307416.webp"
                       width={50}
                       height={50}
                       className=" rounded-full"
@@ -298,7 +298,7 @@ const Chat = (props) => {
           }}
         >
           <Image
-            src={active?.image || "/PngItem_307416.png"}
+            src={active?.image || "/PngItem_307416.webp"}
             alt=""
             width={50}
             height={50}
@@ -473,7 +473,7 @@ const Chat = (props) => {
                   key={uuidv4()}
                 >
                   <Image
-                    src={message?.sender?.image || "/PngItem_307416.png"}
+                    src={message?.sender?.image || "/PngItem_307416.webp"}
                     alt=""
                     width={30}
                     height={30}
@@ -493,7 +493,6 @@ const Chat = (props) => {
           onClick={() => {
             setLoadMessagesCounter((prev) => prev + 20);
             showMessages(loadMessagesCounter + 20, allMessages);
-            console.log(allMessages.length, loadMessagesCounter);
           }}
           className={` m-1 w-fit self-center rounded-md bg-slate-400 p-1 font-bold text-darkTheme ${
             allMessages.length <= loadMessagesCounter ||

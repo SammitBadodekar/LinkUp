@@ -68,8 +68,6 @@ export default function Home() {
     "finishing your setup...",
   ]);
 
-  console.log(profileModalText[0]?.split("_"));
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       socket.emit("join_self", { email: session.user?.email });
@@ -132,7 +130,7 @@ export default function Home() {
               <div className="flex-shrink-0 pt-0.5">
                 <Image
                   src={data.sender?.image}
-                  alt="/PngItem_307416.png"
+                  alt="/PngItem_307416.webp"
                   width={50}
                   height={50}
                   className=" rounded-full"
@@ -283,7 +281,7 @@ export default function Home() {
                         profileModalText[0]
                           ?.split("_")[0]
                           .includes("https://loremflickr")
-                          ? "/PngItem_307416.png"
+                          ? "/PngItem_307416.webp"
                           : profileModalText[0]
                       }
                       alt="profile"

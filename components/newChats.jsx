@@ -213,7 +213,7 @@ const NewChats = (props) => {
                 }}
               >
                 <Image
-                  src={singleUser?.image || "/PngItem_307416.png"}
+                  src={singleUser?.image || "/PngItem_307416.webp"}
                   width={50}
                   height={50}
                   alt="profile"

@@ -8,7 +8,7 @@ const Page = async ({ params }) => {
   return (
     <div className="m-2 flex flex-col gap-2 sm:m-auto sm:items-center sm:justify-center">
       <Image
-        src={user[0]?.image || "/PngItem_307416.png"}
+        src={user[0]?.image || "/PngItem_307416.webp"}
         alt="profile"
         width={150}
         height={150}
@@ -34,7 +34,7 @@ const Page = async ({ params }) => {
                 className="m-2 flex items-center gap-2 rounded-lg bg-DarkButNotBlack p-2 px-4"
               >
                 <Image
-                  src={friend?.image || "/PngItem_307416.png"}
+                  src={friend?.image || "/PngItem_307416.webp"}
                   alt=""
                   width={50}
                   height={50}

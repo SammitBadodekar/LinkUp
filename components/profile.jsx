@@ -35,7 +35,7 @@ const Profile = (props) => {
           Profile
         </h1>
         <Image
-          src={user?.image || "/PngItem_307416.png"}
+          src={user?.image || "/PngItem_307416.webp"}
           alt=""
           width={100}
           height={100}

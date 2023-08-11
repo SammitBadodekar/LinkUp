@@ -6,7 +6,14 @@ import Loading from "./loading";
 
 const Chatlist = (props) => {
   const { setAddNewChats } = props;
-  const { friends, active, setActive, setFriends } = useContext(UserContext);
+  const {
+    friends,
+    active,
+    setActive,
+    setFriends,
+    setIsModalOpen,
+    setProfileModalText,
+  } = useContext(UserContext);
 
   useEffect(() => {
     setFriends(JSON.parse(localStorage.getItem("friends")));
@@ -54,6 +61,16 @@ const Chatlist = (props) => {
                   width={50}
                   height={50}
                   className=" aspect-square rounded-full object-cover"
+                  onClick={() => {
+                    setTimeout(() => {
+                      setIsModalOpen((prev) => !prev);
+                      setProfileModalText([
+                        `${friend?.image}`,
+                        `${friend?.name}`,
+                        `${friend?.email}`,
+                      ]);
+                    }, 0.5);
+                  }}
                 ></Image>
                 <p>{friend.name}</p>
               </div>
